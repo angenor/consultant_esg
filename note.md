@@ -13,3 +13,7 @@ Des anneaux pulsants extérieurs qui s'expandent avec la voix
 L'icône micro + timer + label au centre
 Les boutons annuler/envoyer juste en dessous
 Animation d'entrée pop-in (scale bounce) au lieu du slide-up
+
+
+
+docker compose up -d backend

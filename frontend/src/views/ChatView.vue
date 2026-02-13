@@ -6,6 +6,7 @@ import { useEntrepriseStore } from '../stores/entreprise'
 import { useChat } from '../composables/useChat'
 import ChatContainer from '../components/chat/ChatContainer.vue'
 import MessageInput from '../components/chat/MessageInput.vue'
+import ConfirmModal from '../components/common/ConfirmModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -102,7 +103,16 @@ function selectConversation(id: string) {
   router.push(`/chat/${id}`)
 }
 
-async function handleDeleteConversation(id: string) {
+const deleteTargetId = ref<string | null>(null)
+
+function requestDeleteConversation(id: string) {
+  deleteTargetId.value = id
+}
+
+async function confirmDeleteConversation() {
+  const id = deleteTargetId.value
+  if (!id) return
+  deleteTargetId.value = null
   await chatStore.deleteConversation(id)
   if (activeConvId.value === id) {
     router.push('/chat')
@@ -216,7 +226,7 @@ function formatDate(dateStr: string) {
             <button
               class="mt-0.5 shrink-0 rounded p-1 text-gray-300 opacity-0 transition-all hover:bg-red-50 hover:text-red-500 group-hover:opacity-100"
               title="Supprimer"
-              @click.stop="handleDeleteConversation(conv.id)"
+              @click.stop="requestDeleteConversation(conv.id)"
             >
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="3 6 5 6 21 6" />
@@ -233,6 +243,17 @@ function formatDate(dateStr: string) {
       <ChatContainer :messages="messages" @suggest="handleSend" />
       <MessageInput :disabled="isLoading" @send="handleSend" @audio="handleAudio" />
     </div>
+
+    <!-- Delete confirmation modal -->
+    <ConfirmModal
+      v-if="deleteTargetId"
+      title="Supprimer la conversation"
+      message="Cette conversation et tous ses messages seront définitivement supprimés."
+      confirm-label="Supprimer"
+      variant="danger"
+      @confirm="confirmDeleteConversation"
+      @cancel="deleteTargetId = null"
+    />
 
     <!-- Create entreprise modal -->
     <div
