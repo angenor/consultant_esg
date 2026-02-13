@@ -14,7 +14,10 @@ async def update_company_profile(params: dict, context: dict) -> dict:
     Exemples de clés : pratiques_environnementales, certifications, objectifs_declares, risques_identifies.
     """
     db: AsyncSession = context["db"]
-    entreprise_id = params["entreprise_id"]
+    # Auto-inject entreprise_id from context if not in params
+    entreprise_id = params.get("entreprise_id") or context.get("entreprise_id")
+    if not entreprise_id:
+        return {"error": "entreprise_id manquant"}
     updates = params.get("updates", {})
 
     if not updates:

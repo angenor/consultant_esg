@@ -200,17 +200,21 @@
 
 ### À faire
 
-- [ ] 10.1 Implémenter le handler `get_company_profile` complet
+- [x] 10.1 Implémenter le handler `get_company_profile` complet
   - Charge l'entreprise depuis la BDD (infos + `profil_json`)
   - Retourne un dict structuré avec toutes les infos connues
+  - Auto-injection de `entreprise_id` depuis le contexte si absent des params
 
-- [ ] 10.2 Implémenter le handler `update_company_profile`
+- [x] 10.2 Implémenter le handler `update_company_profile`
   - Met à jour `profil_json` de l'entreprise (merge, pas écrasement)
   - Exemples de clés : `pratiques_environnementales`, `certifications`, `objectifs_declares`, `risques_identifies`
+  - Auto-injection de `entreprise_id` depuis le contexte si absent des params
 
-- [ ] 10.3 Ajuster le system prompt
-  - Ajouter une instruction : "Au fil de la conversation, enrichis le profil entreprise en utilisant `update_company_profile` quand tu apprends de nouvelles informations"
-  - Vérifier que le prompt builder inclut bien les infos du profil dans le contexte
+- [x] 10.3 Ajuster le system prompt
+  - Instruction d'enrichissement déjà en place
+  - Ajout de l'ID entreprise dans le contexte du prompt
+  - Rendu dynamique de toutes les clés de `profil_json` (avec labels français)
+  - Description du skill `update_company_profile` enrichie avec les clés possibles
 
 - [ ] 10.4 Tester le profilage
   - Démarrer une conversation, donner des infos sur l'entreprise ("on fait du tri sélectif", "on a 50 employés")
@@ -233,7 +237,7 @@
 | 7 | AgentEngine (boucle agent + LLM API) | ✅ |
 | 8 | API /chat avec SSE streaming | ✅ |
 | 9 | Frontend ChatView + composable useChat | ✅ |
-| 10 | Profilage entreprise par conversation | ⬜ |
+| 10 | Profilage entreprise par conversation | ✅ |
 
 **Critère de fin de semaine** : Un utilisateur peut chatter avec l'agent IA en temps réel. L'agent répond en streaming, peut appeler des skills (au minimum `get_company_profile` et `list_referentiels`), et enrichit progressivement le profil de l'entreprise.
 

@@ -36,6 +36,7 @@ pour les PME africaines francophones.
     if entreprise:
         prompt += f"""
 ## Entreprise actuelle
+- ID : {entreprise.get('id', 'N/A')}
 - Nom : {entreprise.get('nom', 'N/A')}
 - Secteur : {entreprise.get('secteur', 'N/A')}
 - Pays : {entreprise.get('pays', 'N/A')}, Ville : {entreprise.get('ville', 'N/A')}
@@ -43,12 +44,30 @@ pour les PME africaines francophones.
 - CA : {entreprise.get('chiffre_affaires', 'N/A')} {entreprise.get('devise', 'XOF')}
 """
         profil = entreprise.get("profil_json") or {}
-        if profil.get("pratiques_environnementales"):
-            prompt += f"- Pratiques vertes connues : {', '.join(profil['pratiques_environnementales'])}\n"
-        if profil.get("objectifs_declares"):
-            prompt += f"- Objectifs déclarés : {', '.join(profil['objectifs_declares'])}\n"
-        if profil.get("certifications"):
-            prompt += f"- Certifications : {', '.join(profil['certifications'])}\n"
+        if profil:
+            prompt += "\n### Profil enrichi (informations collectées)\n"
+            _profil_labels = {
+                "pratiques_environnementales": "Pratiques environnementales",
+                "certifications": "Certifications",
+                "objectifs_declares": "Objectifs déclarés",
+                "risques_identifies": "Risques identifiés",
+                "pratiques_sociales": "Pratiques sociales",
+                "gouvernance": "Gouvernance",
+                "energie": "Énergie",
+                "dechets": "Gestion des déchets",
+                "eau": "Gestion de l'eau",
+                "biodiversite": "Biodiversité",
+                "chaine_approvisionnement": "Chaîne d'approvisionnement",
+            }
+            for key, value in profil.items():
+                label = _profil_labels.get(key, key.replace("_", " ").capitalize())
+                if isinstance(value, list):
+                    prompt += f"- {label} : {', '.join(str(v) for v in value)}\n"
+                elif isinstance(value, dict):
+                    items = [f"{k}: {v}" for k, v in value.items()]
+                    prompt += f"- {label} : {'; '.join(items)}\n"
+                else:
+                    prompt += f"- {label} : {value}\n"
 
     # --- Partie dynamique : skills disponibles ---
     prompt += """

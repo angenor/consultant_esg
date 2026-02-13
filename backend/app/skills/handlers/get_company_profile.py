@@ -12,7 +12,10 @@ async def get_company_profile(params: dict, context: dict) -> dict:
     avec toutes les infos connues (infos de base + profil_json enrichi).
     """
     db: AsyncSession = context["db"]
-    entreprise_id = params["entreprise_id"]
+    # Auto-inject entreprise_id from context if not in params
+    entreprise_id = params.get("entreprise_id") or context.get("entreprise_id")
+    if not entreprise_id:
+        return {"error": "entreprise_id manquant"}
 
     result = await db.execute(
         select(Entreprise).where(Entreprise.id == entreprise_id)

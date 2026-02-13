@@ -309,7 +309,8 @@ BUILTIN_SKILLS = [
         "nom": "update_company_profile",
         "description": (
             "Met à jour le profil d'une entreprise avec de nouvelles informations "
-            "collectées lors de la conversation."
+            "collectées lors de la conversation. Utilise ce skill dès que l'utilisateur "
+            "mentionne des informations sur son entreprise."
         ),
         "category": "profile",
         "handler_key": "builtin.update_company_profile",
@@ -319,7 +320,15 @@ BUILTIN_SKILLS = [
                 "entreprise_id": {"type": "string", "description": "ID de l'entreprise"},
                 "updates": {
                     "type": "object",
-                    "description": "Champs à mettre à jour (nom, secteur, effectifs, etc.)",
+                    "description": (
+                        "Clés à mettre à jour dans le profil. Clés possibles : "
+                        "pratiques_environnementales (list), certifications (list), "
+                        "objectifs_declares (list), risques_identifies (list), "
+                        "pratiques_sociales (list), gouvernance (dict), "
+                        "energie (dict), dechets (dict), eau (dict), "
+                        "chaine_approvisionnement (dict), effectifs_details (dict), "
+                        "et toute autre clé pertinente."
+                    ),
                 },
             },
             "required": ["entreprise_id", "updates"],
