@@ -4,10 +4,9 @@ Utilisé par l'endpoint /api/chat/conversations/{id}/audio.
 """
 
 import io
-import os
 from typing import BinaryIO
 
-import replicate
+from replicate import Client
 
 from app.config import settings
 
@@ -18,7 +17,7 @@ class STTService:
     SUPPORTED_FORMATS = {"audio/webm", "audio/wav", "audio/mpeg", "audio/ogg", "audio/mp3"}
 
     def __init__(self) -> None:
-        os.environ["REPLICATE_API_TOKEN"] = settings.REPLICATE_API_TOKEN
+        self._client = Client(api_token=settings.REPLICATE_API_TOKEN)
 
     async def transcribe(
         self,
@@ -44,8 +43,8 @@ class STTService:
         audio_file = io.BytesIO(content)
         audio_file.name = filename
 
-        output = await replicate.async_run(
-            "openai/whisper",
+        output = await self._client.async_run(
+            "openai/whisper:8099696689d249cf8b122d833c36ac3f75505c666a395ca40ef26f68e7d3d16e",
             input={
                 "audio": audio_file,
                 "language": language,

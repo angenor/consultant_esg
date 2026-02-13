@@ -22,6 +22,7 @@ services:
       APP_URL: ${APP_URL:-http://localhost:3000}
       JWT_SECRET: ${JWT_SECRET}
       VOYAGE_API_KEY: ${VOYAGE_API_KEY}
+      REPLICATE_API_TOKEN: ${REPLICATE_API_TOKEN}
     depends_on:
       - db
     volumes:

@@ -224,8 +224,8 @@ async def send_audio_message(
     Formats acceptés : webm, wav, mp3, ogg (sortie MediaRecorder).
     Retourne un SSE stream identique à /message, précédé d'un event `transcript`.
     """
-    # Valider le type MIME
-    content_type = audio.content_type or ""
+    # Valider le type MIME (ignorer les paramètres comme ;codecs=opus)
+    content_type = (audio.content_type or "").split(";")[0].strip()
     if content_type not in ALLOWED_AUDIO_TYPES:
         raise HTTPException(
             status_code=400,
