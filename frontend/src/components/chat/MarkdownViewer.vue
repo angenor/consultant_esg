@@ -17,7 +17,12 @@ mermaid.initialize({
   startOnLoad: false,
   theme: 'default',
   securityLevel: 'loose',
-  fontFamily: 'inherit',
+  fontFamily: 'system-ui, -apple-system, sans-serif',
+  flowchart: {
+    useMaxWidth: false,
+    htmlLabels: true,
+    padding: 15,
+  },
 })
 
 let mermaidIdCounter = 0
@@ -523,5 +528,25 @@ onBeforeUnmount(() => {
 .tui-viewer-content .toastui-editor-contents pre.mermaid svg {
   height: auto;
   overflow: visible;
+}
+
+/* Reset TUI styles inside Mermaid SVG foreignObject to prevent text clipping */
+.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject {
+  overflow: visible !important;
+}
+
+.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject div,
+.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject span,
+.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject p {
+  overflow: visible !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
+  font-size: 14px !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  color: #1f2937 !important;
+  background: none !important;
 }
 </style>
