@@ -69,6 +69,8 @@ const props = defineProps<{
 }>()
 
 const containerRef = ref<HTMLElement>()
+const modalOpen = ref(false)
+const modalHtml = ref('')
 let viewer: Viewer | null = null
 let throttleTimer: ReturnType<typeof setTimeout> | null = null
 let retryTimer: ReturnType<typeof setTimeout> | null = null
@@ -138,6 +140,46 @@ function ensureCharts(content: string, attempt = 0) {
   }, delay)
 }
 
+function createExpandButton(targetWrapper: HTMLElement) {
+  const btn = document.createElement('button')
+  btn.className = 'expand-btn'
+  btn.title = 'Agrandir'
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>'
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation()
+    openModal(targetWrapper)
+  })
+  return btn
+}
+
+function openModal(wrapper: HTMLElement) {
+  const clone = wrapper.cloneNode(true) as HTMLElement
+  // Convert canvas elements to images (for charts)
+  const origCanvases = wrapper.querySelectorAll('canvas')
+  const clonedCanvases = clone.querySelectorAll('canvas')
+  clonedCanvases.forEach((canvas, i) => {
+    const orig = origCanvases[i]
+    if (!orig) return
+    try {
+      const img = document.createElement('img')
+      img.src = orig.toDataURL()
+      // No fixed dimensions — let CSS scale them up in the modal
+      canvas.replaceWith(img)
+    } catch { /* ignore cross-origin */ }
+  })
+  // Remove expand buttons from cloned content
+  clone.querySelectorAll('.expand-btn').forEach((b) => b.remove())
+  // Remove scroll-wrapper classes so content isn't constrained
+  clone.classList.remove('table-scroll-wrapper', 'chart-scroll-wrapper')
+  modalHtml.value = clone.innerHTML
+  modalOpen.value = true
+}
+
+function closeModal() {
+  modalOpen.value = false
+  modalHtml.value = ''
+}
+
 function wrapTables() {
   if (!containerRef.value) return
   const tables = containerRef.value.querySelectorAll(
@@ -149,6 +191,7 @@ function wrapTables() {
     wrapper.className = 'table-scroll-wrapper'
     table.parentNode!.insertBefore(wrapper, table)
     wrapper.appendChild(table)
+    wrapper.appendChild(createExpandButton(wrapper))
   })
   // Wrap chart elements in scrollable containers
   const charts = containerRef.value.querySelectorAll(
@@ -160,6 +203,16 @@ function wrapTables() {
     wrapper.className = 'chart-scroll-wrapper'
     chart.parentNode!.insertBefore(wrapper, chart)
     wrapper.appendChild(chart)
+    wrapper.appendChild(createExpandButton(wrapper))
+  })
+  // Add expand buttons to mermaid containers
+  const mermaids = containerRef.value.querySelectorAll(
+    '.mermaid-container:not(.mermaid-expandable)'
+  )
+  mermaids.forEach((container) => {
+    container.classList.add('mermaid-expandable')
+    ;(container as HTMLElement).style.position = 'relative'
+    container.appendChild(createExpandButton(container as HTMLElement))
   })
 }
 
@@ -287,6 +340,44 @@ onBeforeUnmount(() => {
       v-if="isStreaming"
       class="ml-0.5 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-emerald-400"
     />
+
+    <!-- Fullscreen modal -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="modalOpen"
+          class="expand-modal-overlay"
+          @click.self="closeModal"
+        >
+          <Transition
+            enter-active-class="transition duration-200 ease-out"
+            enter-from-class="scale-95 opacity-0"
+            enter-to-class="scale-100 opacity-100"
+            leave-active-class="transition duration-150 ease-in"
+            leave-from-class="scale-100 opacity-100"
+            leave-to-class="scale-95 opacity-0"
+            appear
+          >
+            <div class="expand-modal-content">
+              <button class="expand-modal-close" @click="closeModal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+              <div class="expand-modal-body toastui-editor-contents" v-html="modalHtml" />
+            </div>
+          </Transition>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -364,6 +455,152 @@ onBeforeUnmount(() => {
 .tui-viewer-content .toastui-editor-contents .task-list-item {
   list-style-type: none;
   margin-left: -1.25em;
+}
+
+/* Expand button on wrappers */
+.table-scroll-wrapper,
+.chart-scroll-wrapper,
+.mermaid-container {
+  position: relative;
+}
+
+.expand-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #6b7280;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table-scroll-wrapper:hover .expand-btn,
+.chart-scroll-wrapper:hover .expand-btn,
+.mermaid-container:hover .expand-btn {
+  opacity: 1;
+}
+
+.expand-btn:hover {
+  background: #059669;
+  color: #ffffff;
+}
+
+/* Fullscreen modal */
+.expand-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  padding: 1.5rem;
+}
+
+.expand-modal-content {
+  position: relative;
+  width: 90vw;
+  max-width: 1200px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  overflow: auto;
+  padding: 2rem;
+}
+
+.expand-modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  margin-left: auto;
+}
+
+.expand-modal-close:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.expand-modal-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #1f2937;
+}
+
+/* Tables in modal — full width */
+.expand-modal-body table {
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  width: 100%;
+}
+
+.expand-modal-body th {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75em 1.25em;
+  border: 1px solid #047857;
+}
+
+.expand-modal-body td {
+  padding: 0.65em 1.25em;
+  border: 1px solid #e5e7eb;
+  color: #1f2937 !important;
+  background-color: #ffffff !important;
+}
+
+.expand-modal-body tr:nth-child(even) td {
+  background-color: #f9fafb !important;
+}
+
+/* Charts/images in modal — scale up to fill */
+.expand-modal-body img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.expand-modal-body canvas {
+  width: 100%;
+  height: auto;
+}
+
+/* Mermaid SVGs in modal */
+.expand-modal-body svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Remove nested scroll constraints inside modal */
+.expand-modal-body .toastui-chart-wrapper {
+  width: 100% !important;
+  height: auto !important;
 }
 
 /* Tables — horizontal scroll wrapper */
