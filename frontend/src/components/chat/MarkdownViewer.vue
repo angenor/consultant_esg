@@ -17,7 +17,14 @@ mermaid.initialize({
   startOnLoad: false,
   theme: 'default',
   securityLevel: 'loose',
-  fontFamily: 'inherit',
+  fontFamily: 'sans-serif',
+  flowchart: {
+    padding: 20,
+    useMaxWidth: false,
+  },
+  sequence: {
+    useMaxWidth: false,
+  },
 })
 
 let mermaidIdCounter = 0
@@ -55,19 +62,6 @@ async function renderMermaidDiagrams() {
       const id = el.id || `mermaid-${Date.now()}-${mermaidIdCounter++}`
       const { svg } = await mermaid.render(id + '-svg', code)
       el.innerHTML = svg
-      // Widen the viewBox to prevent text clipping on the right
-      const svgEl = el.querySelector('svg')
-      if (svgEl) {
-        const vb = svgEl.getAttribute('viewBox')
-        if (vb) {
-          const parts = vb.split(/[\s,]+/).map(Number) as [number, number, number, number]
-          if (parts.length === 4 && parts.every((n) => !isNaN(n))) {
-            // Add 50px padding on the right
-            parts[2] += 50
-            svgEl.setAttribute('viewBox', parts.join(' '))
-          }
-        }
-      }
       el.setAttribute('data-mermaid-rendered', 'true')
     } catch {
       el.innerHTML = '<p class="text-red-500 text-sm">Erreur de rendu du diagramme Mermaid</p>'
