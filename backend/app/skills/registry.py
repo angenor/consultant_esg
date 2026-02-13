@@ -39,6 +39,7 @@ class SkillRegistry:
             list_referentiels,
             search_green_funds,
             search_knowledge_base,
+            simulate_funding,
             update_company_profile,
         )
 
@@ -53,13 +54,13 @@ class SkillRegistry:
             "builtin.search_green_funds": search_green_funds,
             "builtin.calculate_carbon": calculate_carbon,
             "builtin.generate_reduction_plan": generate_reduction_plan,
+            "builtin.simulate_funding": simulate_funding,
         }
 
         # Handlers stubs — seront développés en Semaine 3-4
         from app.skills.handlers.stubs import stub_handler
 
         stub_keys = [
-            "builtin.simulate_funding",
             "builtin.calculate_credit_score",
             "builtin.get_sector_benchmark",
             "builtin.manage_action_plan",

@@ -242,14 +242,14 @@
 
 ### À faire
 
-- [ ] 17.1 Implémenter le handler `simulate_funding`
+- [x] 17.1 Implémenter le handler `simulate_funding`
   - Entrées : `entreprise_id`, `fonds_id`, `montant_demande` (optionnel)
   - Charge le fonds et son référentiel associé
   - Récupère le score ESG de l'entreprise selon ce référentiel
   - Vérifie les critères d'éligibilité
   - Calcule : `eligible` (bool), `montant_estime`, `criteres_manquants`, `timeline_estimee`, `roi_vert`
 
-- [ ] 17.2 Tester : "Suis-je éligible au Fonds Vert pour le Climat ? Simule ma candidature"
+- [x] 17.2 Tester : "Suis-je éligible au Fonds Vert pour le Climat ? Simule ma candidature"
 
 ### Comment
 
@@ -292,7 +292,7 @@
 | 14 | Recherche fonds verts (SQL + RAG) | ✅ |
 | 15 | Calculateur empreinte carbone | ✅ |
 | 16 | Plan de réduction carbone | ✅ |
-| 17 | Simulateur de financement | ⬜ |
+| 17 | Simulateur de financement | ✅ |
 | 18 | Benchmarking sectoriel | ⬜ |
 
 **Critère de fin de semaine** : L'agent peut analyser des documents uploadés, calculer un score ESG multi-référentiel, calculer l'empreinte carbone, proposer un plan de réduction, rechercher des fonds verts compatibles, simuler un financement, et comparer avec les moyennes sectorielles — le tout via la conversation.

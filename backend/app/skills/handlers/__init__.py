@@ -19,4 +19,5 @@ __all__ = [
     "list_referentiels",
     "search_green_funds",
     "search_knowledge_base",
+    "simulate_funding",
 ]
