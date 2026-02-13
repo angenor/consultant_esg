@@ -15,7 +15,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://esg:${DB_PASSWORD}@db:5432/esg_advisor
+      DATABASE_URL: postgresql+asyncpg://esg:${DB_PASSWORD}@db:5432/esg_advisor
       LLM_BASE_URL: ${LLM_BASE_URL:-https://openrouter.ai/api/v1}
       LLM_API_KEY: ${LLM_API_KEY}
       LLM_MODEL: ${LLM_MODEL:-anthropic/claude-sonnet-4-5-20250514}
