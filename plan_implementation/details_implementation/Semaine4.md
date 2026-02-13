@@ -76,31 +76,32 @@
 
 ### À faire
 
-- [ ] 21.1 Créer `backend/app/api/notifications.py`
+- [x] 21.1 Créer `backend/app/api/notifications.py`
   - `GET /api/notifications/` — mes notifications (paginées, triées par date)
   - `PUT /api/notifications/{id}/read` — marquer comme lue
+  - `PUT /api/notifications/read-all` — tout marquer comme lu
   - `GET /api/notifications/unread-count` — compteur non lues
 
-- [ ] 21.2 Créer un service de notifications `backend/app/core/notifications.py`
+- [x] 21.2 Créer un service de notifications `backend/app/core/notifications.py`
   - `create_notification(user_id, type, titre, contenu, lien)` — crée une notification en BDD
   - Types : `rappel_action`, `echeance_fonds`, `nouveau_fonds`, `progres_score`, `action_completee`
 
-- [ ] 21.3 Brancher les notifications sur les événements métier
+- [x] 21.3 Brancher les notifications sur les événements métier
   - Quand une action passe à "fait" → notification `action_completee`
   - Quand le score ESG augmente → notification `progres_score`
   - Les échéances de fonds et rappels d'actions seront gérés par un job cron plus tard
 
-- [ ] 21.4 Créer `src/composables/useNotifications.ts`
+- [x] 21.4 Créer `src/composables/useNotifications.ts`
   - Polling régulier de `/api/notifications/unread-count` (toutes les 30s)
   - Ou en même temps que d'autres requêtes
 
-- [ ] 21.5 Créer `src/components/common/NotificationBell.vue`
+- [x] 21.5 Créer `src/components/common/NotificationBell.vue`
   - Icône cloche dans le header
   - Badge avec le nombre de non lues
   - Dropdown avec la liste des notifications récentes
   - Clic → marquer comme lue + naviguer vers le lien
 
-- [ ] 21.6 Créer `src/stores/notifications.ts` — Pinia store
+- [x] 21.6 Créer `src/stores/notifications.ts` — Pinia store
 
 ### Comment
 
@@ -273,7 +274,7 @@
 |---|-------|--------|
 | 19 | Scoring crédit vert alternatif | ✅ |
 | 20 | Plan d'action et suivi | ✅ |
-| 21 | Système de notifications | ⬜ |
+| 21 | Système de notifications | ✅ |
 | 22 | Templates HTML rapports | ⬜ |
 | 23 | Génération PDF (WeasyPrint + charts) | ⬜ |
 | 24 | Frontend : CarbonView + CreditScoreView + ActionPlanView | ⬜ |

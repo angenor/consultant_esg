@@ -13,6 +13,7 @@ from app.api.credit_score import router as credit_score_router
 from app.api.chat import router as chat_router
 from app.api.documents import router as documents_router
 from app.api.entreprises import router as entreprises_router
+from app.api.notifications import router as notifications_router
 from app.config import settings
 from app.core.database import engine
 
@@ -44,6 +45,7 @@ app.include_router(documents_router)
 app.include_router(carbon_router)
 app.include_router(credit_score_router)
 app.include_router(action_plans_router)
+app.include_router(notifications_router)
 app.include_router(benchmark_router)
 
 

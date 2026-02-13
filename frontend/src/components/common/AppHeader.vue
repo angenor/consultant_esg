@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
+import NotificationBell from './NotificationBell.vue'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -28,18 +29,7 @@ const userInitials = computed(() => {
 
     <!-- Right: Notification bell + User avatar -->
     <div class="flex items-center gap-4">
-      <!-- Notification bell placeholder -->
-      <button
-        title="Notifications"
-        class="relative rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
-      >
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-        </svg>
-        <!-- Notification dot -->
-        <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-emerald-500" />
-      </button>
+      <NotificationBell />
 
       <!-- User avatar -->
       <div class="flex items-center gap-3">

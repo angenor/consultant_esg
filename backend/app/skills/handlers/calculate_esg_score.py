@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.esg_score import ESGScore
 from app.models.referentiel_esg import ReferentielESG
+from app.core.notifications import create_notification
 
 logger = logging.getLogger(__name__)
 
@@ -150,6 +151,20 @@ async def calculate_esg_score(params: dict, context: dict) -> dict:
         })
 
     await db.commit()
+
+    # 2b. Notification si score calculé
+    user_id = context.get("user_id")
+    if user_id and resultats:
+        best = max(resultats, key=lambda r: r["score_global"])
+        await create_notification(
+            db,
+            user_id=user_id,
+            type="progres_score",
+            titre=f"Score ESG calculé : {best['score_global']}/100",
+            contenu=f"Votre score ESG sur {best['referentiel']} est de {best['score_global']}/100 ({best['niveau']}).",
+            lien="/dashboard",
+        )
+        await db.commit()
 
     # 3. Identifier les données manquantes
     all_critere_ids: set[str] = set()

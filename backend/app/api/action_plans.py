@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.dependencies import get_current_user
+from app.core.notifications import create_notification
 from app.models.action_plan import ActionItem, ActionPlan
 from app.models.entreprise import Entreprise
 from app.models.user import User
@@ -215,9 +216,22 @@ async def update_item_status(
     # Vérifier la propriété via le plan
     await _verify_plan_ownership(db, item.plan_id, user)
 
+    ancien_statut = item.statut
     item.statut = body.statut
     await db.commit()
     await db.refresh(item)
+
+    # Notification si action complétée
+    if body.statut == "fait" and ancien_statut != "fait":
+        await create_notification(
+            db,
+            user_id=user.id,
+            type="action_completee",
+            titre=f"Action terminée : {item.titre}",
+            contenu=f"L'action \"{item.titre}\" a été marquée comme terminée.",
+            lien=f"/action-plan",
+        )
+        await db.commit()
 
     return ActionItemResponse.model_validate(item)
 
