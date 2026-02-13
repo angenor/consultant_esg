@@ -18,3 +18,7 @@ Pillow
 pytesseract
 # RAG - embeddings
 httpx
+# Rapports PDF
+weasyprint
+matplotlib
+jinja2

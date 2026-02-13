@@ -32,10 +32,12 @@ class SkillRegistry:
         """Enregistre tous les handlers builtin disponibles."""
         from app.skills.handlers import (
             analyze_document,
+            assemble_pdf,
             calculate_carbon,
             calculate_credit_score,
             calculate_esg_score,
             generate_reduction_plan,
+            generate_report_section,
             get_company_profile,
             get_sector_benchmark,
             list_referentiels,
@@ -61,17 +63,9 @@ class SkillRegistry:
             "builtin.get_sector_benchmark": get_sector_benchmark,
             "builtin.calculate_credit_score": calculate_credit_score,
             "builtin.manage_action_plan": manage_action_plan,
+            "builtin.generate_report_section": generate_report_section,
+            "builtin.assemble_pdf": assemble_pdf,
         }
-
-        # Handlers stubs — seront développés en Semaine 4
-        from app.skills.handlers.stubs import stub_handler
-
-        stub_keys = [
-            "builtin.generate_report_section",
-            "builtin.assemble_pdf",
-        ]
-        for key in stub_keys:
-            self.builtin_handlers[key] = stub_handler
 
     async def get_active_tools(self) -> list[dict]:
         """

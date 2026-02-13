@@ -117,16 +117,16 @@
 
 ### À faire
 
-- [ ] 22.1 Créer `backend/app/reports/__init__.py`
+- [x] 22.1 Créer `backend/app/reports/__init__.py`
 
-- [ ] 22.2 Créer les templates Jinja2 HTML/CSS
-  - [ ] `templates/base.html` — template de base (header, footer, styles CSS, mise en page A4)
-  - [ ] `templates/rapport_esg.html` — rapport ESG complet (page de garde, résumé, scores par pilier, détails critères, radar chart, plan d'action)
-  - [ ] `templates/rapport_carbone.html` — rapport empreinte carbone (total, répartition, évolution, plan réduction)
-  - [ ] `templates/dossier_candidature.html` — dossier de candidature fonds vert (profil, scores, plan, budget)
+- [x] 22.2 Créer les templates Jinja2 HTML/CSS
+  - [x] `templates/base.html` — template de base (header, footer, styles CSS, mise en page A4)
+  - [x] `templates/rapport_esg.html` — rapport ESG complet (page de garde, résumé, scores par pilier, détails critères, radar chart, plan d'action)
+  - [x] `templates/rapport_carbone.html` — rapport empreinte carbone (total, répartition, évolution, plan réduction)
+  - [x] `templates/dossier_candidature.html` — dossier de candidature fonds vert (profil, scores, plan, budget)
   - Les rapports doivent inclure la section multi-référentiel (comparaison des scores)
 
-- [ ] 22.3 Seeder les templates dans `report_templates`
+- [x] 22.3 Seeder les templates dans `report_templates`
   - `sections_json` décrit la structure de chaque section (source: db, llm, code)
   - `template_html` contient le HTML Jinja2
 
@@ -144,14 +144,14 @@
 
 ### À faire
 
-- [ ] 23.1 Créer `backend/app/reports/charts.py`
+- [x] 23.1 Créer `backend/app/reports/charts.py`
   - `generate_radar_chart(scores_piliers)` → image base64 ou fichier
   - `generate_bar_chart(data, labels)` → image base64
   - `generate_pie_chart(data, labels)` → image base64
   - `generate_evolution_chart(dates, scores)` → image base64
   - Utilise `matplotlib` avec style personnalisé
 
-- [ ] 23.2 Créer `backend/app/reports/generator.py`
+- [x] 23.2 Créer `backend/app/reports/generator.py`
   - `generate_report(entreprise_id, template_name, db)` → bytes (PDF)
   - Charge le template depuis `report_templates`
   - Pour chaque section : récupère les données (BDD, LLM, charts)
@@ -159,22 +159,22 @@
   - Convertit en PDF avec WeasyPrint
   - Sauvegarde le PDF dans `uploads/reports/`
 
-- [ ] 23.3 Implémenter le handler `generate_report_section`
+- [x] 23.3 Implémenter le handler `generate_report_section`
   - Le LLM génère le texte d'une section de rapport à partir d'un prompt + données contextuelles
   - Utilisé par le générateur pour les sections `source: "llm"`
 
-- [ ] 23.4 Implémenter le handler `assemble_pdf`
+- [x] 23.4 Implémenter le handler `assemble_pdf`
   - Appelé par le LLM quand l'utilisateur demande un rapport
   - Orchestre le générateur de rapports
 
-- [ ] 23.5 Créer `backend/app/api/reports.py`
+- [x] 23.5 Créer `backend/app/api/reports.py`
   - `POST /api/reports/generate` — lance la génération (body: `entreprise_id`, `template_name`)
   - `GET /api/reports/entreprise/{id}` — liste les rapports générés
   - `GET /api/reports/{id}/download` — télécharge le PDF
 
-- [ ] 23.6 Ajouter `weasyprint` et `matplotlib` au `requirements.txt`
+- [x] 23.6 Ajouter `weasyprint` et `matplotlib` au `requirements.txt`
 
-- [ ] 23.7 Tester : "Génère un rapport ESG complet pour mon entreprise" → PDF téléchargeable
+- [x] 23.7 Tester : "Génère un rapport ESG complet pour mon entreprise" → PDF téléchargeable
 
 ### Comment
 
@@ -275,8 +275,8 @@
 | 19 | Scoring crédit vert alternatif | ✅ |
 | 20 | Plan d'action et suivi | ✅ |
 | 21 | Système de notifications | ✅ |
-| 22 | Templates HTML rapports | ⬜ |
-| 23 | Génération PDF (WeasyPrint + charts) | ⬜ |
+| 22 | Templates HTML rapports | ✅ |
+| 23 | Génération PDF (WeasyPrint + charts) | ✅ |
 | 24 | Frontend : CarbonView + CreditScoreView + ActionPlanView | ⬜ |
 | 25 | Dashboard entreprise multi-référentiel | ⬜ |
 

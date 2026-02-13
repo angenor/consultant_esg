@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Rapport Empreinte Carbone{% endblock %}
+
+{% block cover %}
+<div class="cover">
+  <div class="logo">ESG Advisor</div>
+  <div class="subtitle">Plateforme d'accompagnement ESG pour les PME africaines</div>
+  <div class="separator"></div>
+  <div class="report-title">Rapport d'Empreinte Carbone</div>
+  <div class="company-name">{{ entreprise.nom }}</div>
+  <p class="text-muted">Secteur : {{ entreprise.secteur_activite or 'Non renseigné' }}</p>
+  <p class="text-muted">Pays : {{ entreprise.pays or 'Non renseigné' }}</p>
+  <div class="date">Généré le {{ date_generation }}</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- ══════════════ Résumé ══════════════ -->
+<div class="section">
+  <h2>Résumé</h2>
+
+  {% if resume_llm %}
+  <p>{{ resume_llm }}</p>
+  {% endif %}
+
+  {% if empreinte %}
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="label">Empreinte Totale</div>
+      <div class="value">{{ empreinte.total_kg | round(0) }}</div>
+      <div class="max">kg CO₂eq / {{ empreinte.periode or 'an' }}</div>
+    </div>
+    <div class="score-card">
+      <div class="label">Émissions par Employé</div>
+      <div class="value">{{ empreinte.par_employe | round(0) if empreinte.par_employe else '—' }}</div>
+      <div class="max">kg CO₂eq</div>
+    </div>
+    <div class="score-card">
+      <div class="label">Variation vs N-1</div>
+      <div class="value {% if empreinte.variation and empreinte.variation < 0 %}score-excellent{% elif empreinte.variation and empreinte.variation > 0 %}score-low{% endif %}">
+        {% if empreinte.variation is not none %}
+          {{ '%+.1f' | format(empreinte.variation) }}%
+        {% else %}
+          —
+        {% endif %}
+      </div>
+      <div class="max">par rapport à l'année précédente</div>
+    </div>
+  </div>
+  {% else %}
+  <div class="info-box warning">
+    Aucune donnée d'empreinte carbone n'est disponible pour cette entreprise.
+  </div>
+  {% endif %}
+</div>
+
+<!-- ══════════════ Répartition par Source ══════════════ -->
+{% if repartition %}
+<div class="section">
+  <h2>Répartition par Source d'Émission</h2>
+
+  {% if pie_chart %}
+  <div class="chart-container">
+    <img src="data:image/png;base64,{{ pie_chart }}" alt="Répartition émissions" />
+  </div>
+  {% endif %}
+
+  <table>
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>Émissions (kg CO₂eq)</th>
+        <th>Part (%)</th>
+        <th>Scope</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for source in repartition %}
+      <tr>
+        <td><strong>{{ source.categorie }}</strong></td>
+        <td>{{ source.valeur_kg | round(0) }}</td>
+        <td>
+          <div class="progress-bar" style="width: 100px; display: inline-block; vertical-align: middle;">
+            <div class="fill" style="width: {{ source.pourcentage }}%"></div>
+          </div>
+          {{ source.pourcentage | round(1) }}%
+        </td>
+        <td class="text-sm text-muted">{{ source.scope or '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<!-- ══════════════ Détail par Scope ══════════════ -->
+{% if detail_scopes %}
+<div class="section">
+  <h2>Détail par Scope</h2>
+  <div class="score-grid">
+    {% for scope in detail_scopes %}
+    <div class="score-card">
+      <div class="label">{{ scope.nom }}</div>
+      <div class="value">{{ scope.total_kg | round(0) }}</div>
+      <div class="max">kg CO₂eq ({{ scope.pourcentage | round(1) }}%)</div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="info-box text-sm">
+    <strong>Scope 1 :</strong> Émissions directes (combustion, véhicules)<br>
+    <strong>Scope 2 :</strong> Émissions indirectes liées à l'énergie (électricité, chaleur)<br>
+    <strong>Scope 3 :</strong> Autres émissions indirectes (achats, déplacements, déchets)
+  </div>
+</div>
+{% endif %}
+
+<!-- ══════════════ Évolution ══════════════ -->
+{% if evolution_chart %}
+<div class="section section-break">
+  <h2>Évolution de l'Empreinte Carbone</h2>
+  <div class="chart-container">
+    <img src="data:image/png;base64,{{ evolution_chart }}" alt="Évolution empreinte carbone" />
+  </div>
+</div>
+{% endif %}
+
+<!-- ══════════════ Comparaison Sectorielle ══════════════ -->
+{% if benchmark %}
+<div class="section">
+  <h2>Comparaison Sectorielle</h2>
+  <div class="info-box">
+    <strong>Moyenne du secteur {{ benchmark.secteur }} :</strong> {{ benchmark.moyenne_kg | round(0) }} kg CO₂eq<br>
+    <strong>Votre empreinte :</strong>
+    {% if empreinte and empreinte.total_kg <= benchmark.moyenne_kg %}
+      <span class="badge badge-green">En dessous de la moyenne sectorielle</span>
+    {% else %}
+      <span class="badge badge-yellow">Au-dessus de la moyenne sectorielle</span>
+    {% endif %}
+  </div>
+
+  {% if comparison_chart %}
+  <div class="chart-container">
+    <img src="data:image/png;base64,{{ comparison_chart }}" alt="Comparaison sectorielle" />
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- ══════════════ Plan de Réduction ══════════════ -->
+{% if plan_reduction %}
+<div class="section section-break">
+  <h2>Plan de Réduction des Émissions</h2>
+
+  {% if plan_reduction_llm %}
+  <p>{{ plan_reduction_llm }}</p>
+  {% endif %}
+
+  {% for categorie, actions in plan_reduction.items() %}
+  <h3>{{ categorie }}</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:40%">Action</th>
+        <th style="width:20%">Réduction estimée</th>
+        <th style="width:15%">Coût</th>
+        <th style="width:25%">Délai</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for action in actions %}
+      <tr>
+        <td>{{ action.titre }}</td>
+        <td>
+          <span class="badge badge-green">-{{ action.reduction_kg | round(0) }} kg CO₂</span>
+        </td>
+        <td class="text-sm">{{ action.cout or 'Faible' }}</td>
+        <td class="text-sm">{{ action.delai or '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- ══════════════ Méthodologie ══════════════ -->
+<div class="section">
+  <h2>Méthodologie</h2>
+  <div class="info-box text-sm">
+    <p>Ce bilan carbone a été réalisé selon les principes du GHG Protocol. Les facteurs d'émission utilisés proviennent de l'ADEME et sont adaptés au contexte africain lorsque disponibles.</p>
+    <p class="mt-2"><strong>Périmètre :</strong> Scopes 1, 2 et 3 (partiel). Les données sont déclaratives et basées sur les informations fournies par l'entreprise.</p>
+  </div>
+</div>
+{% endblock %}

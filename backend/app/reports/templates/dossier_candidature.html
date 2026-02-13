@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}Dossier de Candidature — Fonds Vert{% endblock %}
+
+{% block extra_styles %}
+<style>
+  .eligibility-grid {
+    display: flex;
+    gap: 10pt;
+    margin: 12pt 0;
+  }
+  .eligibility-item {
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    border-radius: 8pt;
+    padding: 10pt;
+  }
+  .eligibility-item .criterion {
+    font-size: 9pt;
+    color: #64748b;
+    margin-bottom: 4pt;
+  }
+  .eligibility-item .status {
+    font-size: 11pt;
+    font-weight: 600;
+  }
+  .status-ok { color: #059669; }
+  .status-partial { color: #d97706; }
+  .status-ko { color: #dc2626; }
+</style>
+{% endblock %}
+
+{% block cover %}
+<div class="cover">
+  <div class="logo">ESG Advisor</div>
+  <div class="subtitle">Plateforme d'accompagnement ESG pour les PME africaines</div>
+  <div class="separator"></div>
+  <div class="report-title">Dossier de Candidature</div>
+  {% if fonds %}
+  <p style="font-size: 14pt; color: #64748b; margin-bottom: 8pt;">{{ fonds.nom }}</p>
+  {% endif %}
+  <div class="company-name">{{ entreprise.nom }}</div>
+  <p class="text-muted">Secteur : {{ entreprise.secteur_activite or 'Non renseigné' }}</p>
+  <p class="text-muted">Pays : {{ entreprise.pays or 'Non renseigné' }}</p>
+  <div class="date">Généré le {{ date_generation }}</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- ══════════════ Profil de l'Entreprise ══════════════ -->
+<div class="section">
+  <h2>1. Profil de l'Entreprise</h2>
+
+  <table>
+    <tbody>
+      <tr><th style="width:30%">Nom</th><td>{{ entreprise.nom }}</td></tr>
+      <tr><th>Secteur d'activité</th><td>{{ entreprise.secteur_activite or 'Non renseigné' }}</td></tr>
+      <tr><th>Taille</th><td>{{ entreprise.taille or 'Non renseigné' }}</td></tr>
+      <tr><th>Nombre d'employés</th><td>{{ entreprise.nombre_employes or 'Non renseigné' }}</td></tr>
+      <tr><th>Pays</th><td>{{ entreprise.pays or 'Non renseigné' }}</td></tr>
+      <tr><th>Chiffre d'affaires</th><td>{{ entreprise.chiffre_affaires_formatted or 'Non renseigné' }}</td></tr>
+      <tr><th>Date de création</th><td>{{ entreprise.date_creation or 'Non renseigné' }}</td></tr>
+    </tbody>
+  </table>
+
+  {% if profil_llm %}
+  <div class="mt-2">
+    <p>{{ profil_llm }}</p>
+  </div>
+  {% endif %}
+</div>
+
+<!-- ══════════════ Fonds Ciblé ══════════════ -->
+{% if fonds %}
+<div class="section">
+  <h2>2. Fonds Ciblé</h2>
+
+  <table>
+    <tbody>
+      <tr><th style="width:30%">Nom du fonds</th><td>{{ fonds.nom }}</td></tr>
+      <tr><th>Institution</th><td>{{ fonds.institution or '' }}</td></tr>
+      <tr><th>Montant min</th><td>{{ fonds.montant_min_formatted or '' }}</td></tr>
+      <tr><th>Montant max</th><td>{{ fonds.montant_max_formatted or '' }}</td></tr>
+      <tr><th>Secteurs éligibles</th><td>{{ fonds.secteurs_eligibles | join(', ') if fonds.secteurs_eligibles else 'Tous' }}</td></tr>
+      <tr><th>Score ESG minimum</th><td>{{ fonds.score_esg_minimum or 'Non spécifié' }}</td></tr>
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<!-- ══════════════ Scores ESG ══════════════ -->
+{% if score %}
+<div class="section section-break">
+  <h2>3. Performance ESG</h2>
+
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="label">Score Global</div>
+      <div class="value {{ score_class(score.score_global) }}">{{ score.score_global }}<span class="max">/100</span></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Environnement</div>
+      <div class="value {{ score_class(score.score_e) }}">{{ score.score_e }}<span class="max">/100</span></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Social</div>
+      <div class="value {{ score_class(score.score_s) }}">{{ score.score_s }}<span class="max">/100</span></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Gouvernance</div>
+      <div class="value {{ score_class(score.score_g) }}">{{ score.score_g }}<span class="max">/100</span></div>
+    </div>
+  </div>
+
+  {% if radar_chart %}
+  <div class="chart-container">
+    <img src="data:image/png;base64,{{ radar_chart }}" alt="Profil ESG" />
+  </div>
+  {% endif %}
+
+  {% if fonds and fonds.score_esg_minimum %}
+  <div class="info-box {% if score.score_global >= fonds.score_esg_minimum %}{% else %}warning{% endif %}">
+    <strong>Seuil requis par le fonds :</strong> {{ fonds.score_esg_minimum }}/100<br>
+    <strong>Votre score :</strong> {{ score.score_global }}/100
+    {% if score.score_global >= fonds.score_esg_minimum %}
+      — <span class="badge badge-green">Critère atteint</span>
+    {% else %}
+      — <span class="badge badge-red">Critère non atteint (écart : {{ fonds.score_esg_minimum - score.score_global }} points)</span>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- ══════════════ Éligibilité ══════════════ -->
+{% if eligibilite %}
+<div class="section">
+  <h2>4. Analyse d'Éligibilité</h2>
+
+  <div class="eligibility-grid">
+    {% for crit in eligibilite %}
+    <div class="eligibility-item">
+      <div class="criterion">{{ crit.critere }}</div>
+      <div class="status {% if crit.statut == 'ok' %}status-ok{% elif crit.statut == 'partiel' %}status-partial{% else %}status-ko{% endif %}">
+        {% if crit.statut == 'ok' %}&#10003; Conforme{% elif crit.statut == 'partiel' %}&#9888; Partiel{% else %}&#10007; Non conforme{% endif %}
+      </div>
+      <p class="text-sm text-muted mt-2">{{ crit.detail or '' }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if eligibilite_llm %}
+  <p>{{ eligibilite_llm }}</p>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- ══════════════ Score Crédit Vert ══════════════ -->
+{% if credit_score %}
+<div class="section">
+  <h2>5. Score de Crédit Vert</h2>
+
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="label">Score Combiné</div>
+      <div class="value {{ score_class(credit_score.score_combine) }}">{{ credit_score.score_combine }}<span class="max">/100</span></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Solvabilité</div>
+      <div class="value">{{ credit_score.score_solvabilite }}<span class="max">/100</span></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Impact Vert</div>
+      <div class="value">{{ credit_score.score_impact_vert }}<span class="max">/100</span></div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- ══════════════ Plan d'Action ══════════════ -->
+{% if plan_action %}
+<div class="section section-break">
+  <h2>6. Plan d'Action en Cours</h2>
+
+  <div class="info-box">
+    <strong>Progression :</strong> {{ plan_action.pourcentage }}%
+    <div class="progress-bar mt-2">
+      <div class="fill" style="width: {{ plan_action.pourcentage }}%"></div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th>Statut</th>
+        <th>Priorité</th>
+        <th>Impact estimé</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in plan_action.action_items %}
+      <tr>
+        <td>{{ item.titre }}</td>
+        <td>
+          {% if item.statut == 'fait' %}
+            <span class="badge badge-green">Fait</span>
+          {% elif item.statut == 'en_cours' %}
+            <span class="badge badge-blue">En cours</span>
+          {% else %}
+            <span class="badge badge-yellow">À faire</span>
+          {% endif %}
+        </td>
+        <td class="text-sm">{{ item.priorite or '' }}</td>
+        <td class="text-sm">+{{ item.impact_estime }} pts</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<!-- ══════════════ Budget Prévisionnel ══════════════ -->
+{% if budget %}
+<div class="section">
+  <h2>7. Budget Prévisionnel</h2>
+
+  {% if budget_llm %}
+  <p>{{ budget_llm }}</p>
+  {% endif %}
+
+  <table>
+    <thead>
+      <tr>
+        <th>Poste</th>
+        <th>Montant (XOF)</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for poste in budget %}
+      <tr>
+        <td><strong>{{ poste.nom }}</strong></td>
+        <td class="text-right">{{ poste.montant_formatted }}</td>
+        <td class="text-sm text-muted">{{ poste.description or '' }}</td>
+      </tr>
+      {% endfor %}
+      {% if budget_total %}
+      <tr>
+        <td><strong>TOTAL</strong></td>
+        <td class="text-right"><strong>{{ budget_total }}</strong></td>
+        <td></td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<!-- ══════════════ Conclusion ══════════════ -->
+{% if conclusion_llm %}
+<div class="section section-break">
+  <h2>Conclusion</h2>
+  <p>{{ conclusion_llm }}</p>
+</div>
+{% endif %}
+{% endblock %}
