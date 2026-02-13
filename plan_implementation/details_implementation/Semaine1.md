@@ -217,67 +217,62 @@
 
 ### À faire
 
-- [ ] 5.1 Initialiser le projet Vue.js
+- [x] 5.1 Initialiser le projet Vue.js (Vite + vue-ts, vue-router, pinia, tailwindcss v4, @tailwindcss/vite)
   - `npm create vite@latest frontend -- --template vue-ts`
-  - Installer les dépendances : `vue-router`, `pinia`, `tailwindcss`, `axios` ou fetch natif
+  - Installer les dépendances : `vue-router`, `pinia`, `tailwindcss`, `@tailwindcss/vite`
 
-- [ ] 5.2 Configurer TailwindCSS
-  - `npx tailwindcss init -p`
-  - Configurer `content` dans `tailwind.config.js`
-  - Ajouter les directives Tailwind dans `src/assets/styles/main.css`
+- [x] 5.2 Configurer TailwindCSS v4 (plugin Vite, `@import "tailwindcss"` dans main.css)
+  - Tailwind v4 : pas de `tailwind.config.js`, utilise `@tailwindcss/vite` plugin
+  - `src/assets/styles/main.css` avec `@import "tailwindcss"`
 
-- [ ] 5.3 Configurer le router (`src/router/index.ts`)
-  - Routes initiales :
-    - `/login` → `LoginView.vue`
-    - `/register` → `RegisterView.vue`
-    - `/chat` → `ChatView.vue` (protégée)
-    - `/dashboard` → `DashboardView.vue` (protégée)
-    - `/admin/*` → routes admin (protégées + rôle admin)
-  - Guard de navigation : rediriger vers `/login` si pas de token JWT
+- [x] 5.3 Configurer le router (`src/router/index.ts`)
+  - 11 routes lazy-loaded + guard auth + guard admin
+  - `/` → redirect `/chat`, `/login`, `/register`, `/chat`, `/chat/:conversationId`
+  - `/dashboard`, `/documents`, `/carbon`, `/credit-score`, `/action-plan`
+  - `/admin/*` : skills, referentiels, fonds, templates, stats (requiresAdmin)
+  - Guard `beforeEach` : vérifie token localStorage + rôle admin via authStore
 
-- [ ] 5.4 Créer le store auth (`src/stores/auth.ts`)
-  - Pinia store avec : `user`, `token`, `isAuthenticated`, `isAdmin`
-  - Actions : `login(email, password)`, `register(email, password, nom)`, `logout()`, `fetchMe()`
-  - Persister le token dans `localStorage`
+- [x] 5.4 Créer le store auth (`src/stores/auth.ts`)
+  - Pinia composition API (setup store) avec `user`, `token`, `isAuthenticated`, `isAdmin`
+  - Actions : `login`, `register`, `logout`, `fetchMe`, `init`
+  - Token persisté dans `localStorage`, session restaurée au démarrage via `init()`
 
-- [ ] 5.5 Créer le composable API (`src/composables/useApi.ts`)
-  - Wrapper `fetch` qui ajoute automatiquement le header `Authorization: Bearer <token>`
-  - Gestion des erreurs 401 → redirection vers login
-  - Base URL configurable (`/api` en dev, proxifié par Vite)
+- [x] 5.5 Créer le composable API (`src/composables/useApi.ts`)
+  - `get<T>`, `post<T>`, `put<T>`, `del<T>`, `upload<T>` (FormData)
+  - Auto-injection Bearer token, gestion 401 → redirect login
+  - Content-Type auto (JSON sauf FormData)
 
-- [ ] 5.6 Configurer le proxy Vite (`vite.config.ts`)
+- [x] 5.6 Configurer le proxy Vite (`vite.config.ts`) — fait en même temps que 5.2
   - Proxy `/api` → `http://localhost:8000` (backend)
-  - Pour éviter les problèmes CORS en dev
 
-- [ ] 5.7 Créer `LoginView.vue`
-  - Formulaire email + mot de passe
-  - Appel `POST /api/auth/login`
-  - Redirection vers `/chat` après connexion
+- [x] 5.7 Créer `LoginView.vue`
+  - Formulaire email + password, loading state, gestion erreurs
+  - Design emerald/green centré, redirection `/chat` après connexion
 
-- [ ] 5.8 Créer `RegisterView.vue`
-  - Formulaire email + mot de passe + nom complet
-  - Appel `POST /api/auth/register`
-  - Redirection vers `/chat` après inscription
+- [x] 5.8 Créer `RegisterView.vue`
+  - Formulaire nom + email + password + confirmation, validation passwords match (≥6 chars)
+  - Redirection `/chat` après inscription
 
-- [ ] 5.9 Créer le layout principal (`App.vue`)
-  - Sidebar avec liens de navigation (voir [06_frontend.md](../06_frontend.md#structure-des-pages))
-  - Zone principale `<router-view />`
-  - Composant `AppSidebar.vue` + `AppHeader.vue`
-  - Conditionner les liens admin au rôle
+- [x] 5.9 Créer le layout principal (`App.vue` + `AppSidebar.vue` + `AppHeader.vue`)
+  - Sidebar dark (bg-gray-900) : 6 liens nav + section admin conditionnelle + user info + logout
+  - Header : titre page dynamique + cloche notifications + avatar initiales
+  - Layout conditionnel : pages auth sans sidebar, pages app avec sidebar
 
-- [ ] 5.10 Créer des vues placeholder (fichiers vides avec juste le titre)
-  - `ChatView.vue` → "Chat — à implémenter Semaine 2"
-  - `DashboardView.vue` → "Dashboard — à implémenter Semaine 4"
-  - `DocumentsView.vue` → "Documents — à implémenter Semaine 3"
+- [x] 5.10 Créer 15 vues placeholder (6 pages principales + 9 pages admin)
+  - ChatView, DashboardView, DocumentsView, CarbonView, CreditScoreView, ActionPlanView
+  - Admin : AdminLayout, SkillsList/Edit, ReferentielsList/Edit, FondsList/Edit, TemplatesList, Stats
 
-- [ ] 5.11 `Dockerfile` frontend
-  - Stage build : `node:20-alpine`, `npm install`, `npm run build`
-  - Stage serve : `nginx:alpine`, copier le `dist/`
+- [x] 5.11 `Dockerfile` frontend + `nginx.conf`
+  - Multi-stage : `node:20-alpine` (build) → `nginx:alpine` (serve port 3000)
+  - nginx : SPA fallback (`try_files → /index.html`) + proxy `/api` → backend
 
-- [ ] 5.12 Tester le flow complet
-  - `docker compose up` → ouvrir `http://localhost:3000`
-  - S'inscrire → se connecter → voir le layout avec sidebar
-  - Vérifier que les routes protégées redirigent vers login si pas connecté
+- [x] 5.12 Tester le flow complet
+  - `docker compose up` → 3 services (db, backend, frontend) UP
+  - Register via API proxy : JWT + user retournés ✅
+  - Login via API proxy : JWT + user retournés ✅
+  - GET /me avec Bearer token : user data OK ✅
+  - Test navigateur (agent-browser) : inscription → redirection → layout avec sidebar ✅
+  - Navigation entre pages (Chat, Dashboard, etc.) : active-class sidebar OK ✅
 
 ### Comment
 
@@ -298,7 +293,7 @@
 | 2 | Backend FastAPI : config, database, auth | ✅ |
 | 3 | Modèles BDD + migrations Alembic | ✅ |
 | 4 | Seed : skills + référentiels + fonds | ✅ |
-| 5 | Frontend : Vue.js + router + auth | ⬜ |
+| 5 | Frontend : Vue.js + router + auth | ✅ |
 
 **Critère de fin de semaine** : On peut lancer `docker compose up`, s'inscrire/se connecter, voir le layout principal, et la BDD contient toutes les tables + données initiales (skills, référentiels, fonds).
 
