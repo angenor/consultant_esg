@@ -96,19 +96,21 @@ function handleCancel() {
         <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" @click="handleCancel" />
 
         <!-- Widget circulaire -->
-        <div class="relative z-10 animate-pop-in">
-          <!-- Anneaux pulsants extérieurs -->
-          <div
-            class="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-400/5 transition-transform duration-300"
-            :style="{ transform: `translate(-50%, -50%) scale(${1.1 + audioLevel * 0.4})` }"
-          />
-          <div
-            class="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-400/10 transition-transform duration-200"
-            :style="{ transform: `translate(-50%, -50%) scale(${1.05 + audioLevel * 0.3})` }"
-          />
+        <div class="relative z-10 flex flex-col items-center animate-pop-in">
+          <!-- Zone cercle + anneaux -->
+          <div class="relative flex items-center justify-center" style="width: 18rem; height: 18rem;">
+            <!-- Anneaux pulsants extérieurs (centrés via inset-0 + margin auto) -->
+            <div
+              class="absolute inset-0 m-auto rounded-full bg-emerald-400/5 transition-transform duration-300"
+              :style="{ width: '18rem', height: '18rem', transform: `scale(${1.1 + audioLevel * 0.4})` }"
+            />
+            <div
+              class="absolute inset-0 m-auto rounded-full bg-emerald-400/10 transition-transform duration-200"
+              :style="{ width: '16rem', height: '16rem', transform: `scale(${1.05 + audioLevel * 0.3})` }"
+            />
 
-          <!-- Cercle principal -->
-          <div class="relative flex h-56 w-56 flex-col items-center justify-center rounded-full bg-white shadow-2xl ring-1 ring-black/5">
+            <!-- Cercle principal -->
+            <div class="relative flex h-56 w-56 flex-col items-center justify-center rounded-full bg-white shadow-2xl ring-1 ring-black/5">
 
             <!-- Barres radiales autour du cercle -->
             <div class="absolute inset-0">
@@ -155,6 +157,7 @@ function handleCancel() {
                 {{ audioLevel > 0.05 ? 'Écoute...' : 'Parlez' }}
               </p>
             </div>
+          </div>
           </div>
 
           <!-- Boutons d'action sous le cercle -->
