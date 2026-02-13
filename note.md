@@ -1,0 +1,1 @@
+Avant de commencer sache que tu es libre de travailler avec plusieur sous agent en parallele lorsque c'est pertinent

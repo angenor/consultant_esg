@@ -1,0 +1,10 @@
+.env
+__pycache__/
+node_modules/
+uploads/*
+!uploads/.gitkeep
+pgdata/
+.venv/
+*.pyc
+dist/
+.DS_Store
