@@ -71,7 +71,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="scrollContainer"
-    class="relative flex-1 overflow-y-auto px-4 py-6"
+    class="relative flex-1 overflow-y-auto px-6 py-6"
   >
     <!-- Empty state with suggestions -->
     <div
@@ -100,7 +100,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Messages -->
-    <div v-else class="mx-auto max-w-3xl space-y-4">
+    <div v-else class="space-y-4">
       <MessageBubble
         v-for="msg in messages"
         :key="msg.id"
