@@ -152,31 +152,31 @@
 
 ### À faire
 
-- [ ] 9.1 Créer `src/composables/useChat.ts`
+- [x] 9.1 Créer `src/composables/useChat.ts`
   - Gère la connexion SSE vers `/api/chat/conversations/{id}/message`
   - Parse les événements : `text` (ajoute au contenu), `skill_start` (indicateur), `skill_result` (terminé), `done`
   - État réactif : `messages`, `isLoading`, `currentSkills`
   - Fonctions : `sendMessage(text)`, `loadHistory()`
   - Code de référence dans [06_frontend.md](../06_frontend.md#composable-sse-pour-le-chat)
 
-- [ ] 9.2 Créer `src/stores/chat.ts` — Pinia store
+- [x] 9.2 Créer `src/stores/chat.ts` — Pinia store
   - Liste des conversations
   - Conversation active
   - Actions : `createConversation(entrepriseId)`, `loadConversations()`, `deleteConversation(id)`
 
-- [ ] 9.3 Créer `src/stores/entreprise.ts` — Pinia store
+- [x] 9.3 Créer `src/stores/entreprise.ts` — Pinia store
   - Entreprise active
   - Actions : `createEntreprise(data)`, `loadEntreprises()`, `selectEntreprise(id)`
 
-- [ ] 9.4 Créer les composants chat
-  - [ ] `src/components/chat/ChatContainer.vue` — conteneur principal, scroll auto
-  - [ ] `src/components/chat/MessageBubble.vue` — bulle message (user bleu à droite, assistant gris à gauche)
-  - [ ] `src/components/chat/MessageInput.vue` — zone de saisie + bouton envoyer
-  - [ ] `src/components/chat/SkillIndicator.vue` — "Analyse en cours..." / "Terminé"
-  - [ ] `src/components/chat/StreamingText.vue` — texte qui s'affiche progressivement (effet typewriter)
+- [x] 9.4 Créer les composants chat
+  - [x] `src/components/chat/ChatContainer.vue` — conteneur principal, scroll auto
+  - [x] `src/components/chat/MessageBubble.vue` — bulle message (user bleu à droite, assistant gris à gauche)
+  - [x] `src/components/chat/MessageInput.vue` — zone de saisie + bouton envoyer
+  - [x] `src/components/chat/SkillIndicator.vue` — "Analyse en cours..." / "Terminé"
+  - [x] `src/components/chat/StreamingText.vue` — texte qui s'affiche progressivement (effet typewriter)
   - Maquettes dans [06_frontend.md](../06_frontend.md#2-chatview-page-principale)
 
-- [ ] 9.5 Créer `src/views/ChatView.vue`
+- [x] 9.5 Créer `src/views/ChatView.vue`
   - Layout : sidebar conversations à gauche + zone chat à droite
   - Sélecteur d'entreprise si l'utilisateur en a plusieurs
   - Bouton "Nouvelle conversation"
@@ -232,7 +232,7 @@
 | 6 | SkillRegistry + handlers builtin basiques | ✅ |
 | 7 | AgentEngine (boucle agent + LLM API) | ✅ |
 | 8 | API /chat avec SSE streaming | ✅ |
-| 9 | Frontend ChatView + composable useChat | ⬜ |
+| 9 | Frontend ChatView + composable useChat | ✅ |
 | 10 | Profilage entreprise par conversation | ⬜ |
 
 **Critère de fin de semaine** : Un utilisateur peut chatter avec l'agent IA en temps réel. L'agent répond en streaming, peut appeler des skills (au minimum `get_company_profile` et `list_referentiels`), et enrichit progressivement le profil de l'entreprise.
