@@ -55,6 +55,19 @@ async function renderMermaidDiagrams() {
       const id = el.id || `mermaid-${Date.now()}-${mermaidIdCounter++}`
       const { svg } = await mermaid.render(id + '-svg', code)
       el.innerHTML = svg
+      // Widen the viewBox to prevent text clipping on the right
+      const svgEl = el.querySelector('svg')
+      if (svgEl) {
+        const vb = svgEl.getAttribute('viewBox')
+        if (vb) {
+          const parts = vb.split(/[\s,]+/).map(Number) as [number, number, number, number]
+          if (parts.length === 4 && parts.every((n) => !isNaN(n))) {
+            // Add 50px padding on the right
+            parts[2] += 50
+            svgEl.setAttribute('viewBox', parts.join(' '))
+          }
+        }
+      }
       el.setAttribute('data-mermaid-rendered', 'true')
     } catch {
       el.innerHTML = '<p class="text-red-500 text-sm">Erreur de rendu du diagramme Mermaid</p>'
@@ -398,8 +411,6 @@ onBeforeUnmount(() => {
   color: inherit;
   font-family: inherit;
   min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
 }
 
 .tui-viewer-content .toastui-editor-contents p {
@@ -727,7 +738,7 @@ onBeforeUnmount(() => {
 .tui-viewer-content .toastui-editor-contents [data-chart-id] {
   min-height: 320px;
   border-radius: 0.5rem;
-  overflow: hidden;
+  overflow: visible;
   min-width: max-content;
 }
 
@@ -747,17 +758,19 @@ onBeforeUnmount(() => {
   -webkit-overflow-scrolling: touch;
 }
 
-.tui-viewer-content pre.mermaid {
+.tui-viewer-content .toastui-editor-contents pre.mermaid {
   background-color: #ffffff;
+  color: #1f2937;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
-  padding: 1em;
+  padding: 0.5em 0;
   text-align: center;
   overflow-x: auto;
 }
 
-.tui-viewer-content pre.mermaid svg {
+.tui-viewer-content .toastui-editor-contents pre.mermaid svg {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 </style>
