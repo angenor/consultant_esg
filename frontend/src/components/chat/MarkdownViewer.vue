@@ -5,11 +5,63 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight'
 import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell'
 import chart from '@toast-ui/editor-plugin-chart'
 import Prism from 'prismjs'
+import mermaid from 'mermaid'
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css'
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css'
 import '@toast-ui/editor-plugin-table-merged-cell/dist/toastui-editor-plugin-table-merged-cell.css'
 import '@toast-ui/chart/dist/toastui-chart.css'
+
+// Initialize Mermaid with a theme that matches the app
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'default',
+  securityLevel: 'loose',
+  fontFamily: 'inherit',
+})
+
+let mermaidIdCounter = 0
+
+// Custom TOAST UI plugin: renders ```mermaid code blocks as diagrams
+function mermaidPlugin() {
+  return {
+    toHTMLRenderers: {
+      codeBlock(node: any) {
+        if (node.info === 'mermaid') {
+          const id = `mermaid-${Date.now()}-${mermaidIdCounter++}`
+          return [
+            { type: 'openTag', tagName: 'div', classNames: ['mermaid-container'] },
+            { type: 'openTag', tagName: 'pre', classNames: ['mermaid'], attributes: { id } },
+            { type: 'text', content: node.literal || '' },
+            { type: 'closeTag', tagName: 'pre' },
+            { type: 'closeTag', tagName: 'div' },
+          ]
+        }
+        return null
+      },
+    },
+  }
+}
+
+// Render all .mermaid elements inside the container
+async function renderMermaidDiagrams() {
+  if (!containerRef.value) return
+  const els = containerRef.value.querySelectorAll<HTMLElement>('pre.mermaid:not([data-mermaid-rendered])')
+  if (els.length === 0) return
+
+  for (const el of els) {
+    try {
+      const code = el.textContent || ''
+      const id = el.id || `mermaid-${Date.now()}-${mermaidIdCounter++}`
+      const { svg } = await mermaid.render(id + '-svg', code)
+      el.innerHTML = svg
+      el.setAttribute('data-mermaid-rendered', 'true')
+    } catch {
+      el.innerHTML = '<p class="text-red-500 text-sm">Erreur de rendu du diagramme Mermaid</p>'
+      el.setAttribute('data-mermaid-rendered', 'true')
+    }
+  }
+}
 
 const props = defineProps<{
   content: string
@@ -48,6 +100,7 @@ function createViewer(content?: string) {
       [codeSyntaxHighlight, { highlighter: Prism }],
       tableMergedCell,
       [chart, chartPluginOptions],
+      mermaidPlugin,
     ],
     usageStatistics: false,
   })
@@ -76,8 +129,11 @@ function ensureCharts(content: string, attempt = 0) {
         ensureCharts(content, attempt + 1)
       })
     } else {
-      // All charts rendered or max retries reached — just wrap tables
-      nextTick(wrapTables)
+      // All charts rendered or max retries reached — wrap tables + render mermaid
+      nextTick(() => {
+        wrapTables()
+        renderMermaidDiagrams()
+      })
     }
   }, delay)
 }
@@ -100,6 +156,10 @@ function wrapTables() {
 // repeated chart creation/destruction which causes flickering.
 // Complete blocks ($$chart...$$) are replaced by a text placeholder.
 // Incomplete blocks ($$chart without closing $$) are shown as-is.
+function hasMermaidBlocks(md: string): boolean {
+  return /```mermaid\n[\s\S]*?\n```/.test(md)
+}
+
 function sanitizeForStreaming(markdown: string): string {
   // Replace complete $$chart...$ blocks with a placeholder
   let result = markdown.replace(
@@ -115,6 +175,19 @@ function sanitizeForStreaming(markdown: string): string {
       result = result.substring(0, lastOpen) + '\n> *Graphique en cours de chargement...*'
     }
   }
+  // Replace complete ```mermaid...``` blocks with a placeholder during streaming
+  result = result.replace(
+    /```mermaid\n[\s\S]*?\n```/g,
+    '\n> *Diagramme en cours de chargement...*\n'
+  )
+  // If there's an incomplete ```mermaid block (opened but not closed), show placeholder
+  const lastMermaidOpen = result.lastIndexOf('```mermaid')
+  if (lastMermaidOpen !== -1) {
+    const afterMermaid = result.indexOf('\n```', lastMermaidOpen + 10)
+    if (afterMermaid === -1) {
+      result = result.substring(0, lastMermaidOpen) + '\n> *Diagramme en cours de chargement...*'
+    }
+  }
   return result
 }
 
@@ -123,7 +196,12 @@ function updateContent(markdown: string, streaming = false) {
   const toRender = streaming ? sanitizeForStreaming(markdown) : markdown
   viewer.setMarkdown(toRender)
   lastRendered = markdown
-  nextTick(wrapTables)
+  nextTick(() => {
+    wrapTables()
+    if (!streaming && hasMermaidBlocks(markdown)) {
+      renderMermaidDiagrams()
+    }
+  })
 }
 
 // Throttled update during streaming to avoid excessive re-renders
@@ -175,7 +253,12 @@ onMounted(() => {
     }, 100)
   } else {
     createViewer(content)
-    nextTick(wrapTables)
+    nextTick(() => {
+      wrapTables()
+      if (hasMermaidBlocks(content)) {
+        renderMermaidDiagrams()
+      }
+    })
   }
 })
 
@@ -388,5 +471,26 @@ onBeforeUnmount(() => {
 .tui-viewer-content .toastui-editor-contents canvas {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+}
+
+/* Mermaid diagrams */
+.tui-viewer-content .mermaid-container {
+  margin: 0.75em 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tui-viewer-content pre.mermaid {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1em;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.tui-viewer-content pre.mermaid svg {
+  max-width: 100%;
+  height: auto;
 }
 </style>

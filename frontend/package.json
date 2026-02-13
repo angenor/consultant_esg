@@ -19,6 +19,7 @@
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
     "@toast-ui/editor-plugin-table-merged-cell": "^3.1.0",
     "chart.js": "^4.5.1",
+    "mermaid": "^11.12.2",
     "pinia": "^3.0.4",
     "prismjs": "^1.30.0",
     "vue": "^3.5.25",
