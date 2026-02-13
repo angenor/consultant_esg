@@ -71,7 +71,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="scrollContainer"
-    class="relative flex-1 overflow-y-auto px-6 py-6"
+    class="relative flex-1 overflow-y-auto px-4 py-6"
   >
     <!-- Empty state with suggestions -->
     <div

@@ -17,12 +17,7 @@ mermaid.initialize({
   startOnLoad: false,
   theme: 'default',
   securityLevel: 'loose',
-  fontFamily: 'system-ui, -apple-system, sans-serif',
-  flowchart: {
-    useMaxWidth: false,
-    htmlLabels: true,
-    padding: 15,
-  },
+  fontFamily: 'inherit',
 })
 
 let mermaidIdCounter = 0
@@ -60,23 +55,6 @@ async function renderMermaidDiagrams() {
       const id = el.id || `mermaid-${Date.now()}-${mermaidIdCounter++}`
       const { svg } = await mermaid.render(id + '-svg', code)
       el.innerHTML = svg
-
-      // Remove Mermaid's inline max-width which clips the diagram
-      const svgEl = el.querySelector('svg')
-      if (svgEl) {
-        svgEl.style.maxWidth = 'none'
-        svgEl.removeAttribute('width')
-        // Add tooltips to all nodes so full text shows on hover
-        svgEl.querySelectorAll('.node, .nodeLabel').forEach((node) => {
-          const text = node.textContent?.trim()
-          if (text) {
-            const titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'title')
-            titleEl.textContent = text
-            node.prepend(titleEl)
-          }
-        })
-      }
-
       el.setAttribute('data-mermaid-rendered', 'true')
     } catch {
       el.innerHTML = '<p class="text-red-500 text-sm">Erreur de rendu du diagramme Mermaid</p>'
@@ -171,6 +149,17 @@ function wrapTables() {
     wrapper.className = 'table-scroll-wrapper'
     table.parentNode!.insertBefore(wrapper, table)
     wrapper.appendChild(table)
+  })
+  // Wrap chart elements in scrollable containers
+  const charts = containerRef.value.querySelectorAll(
+    '.toastui-editor-contents > [data-chart-id]:not(.chart-wrapped)'
+  )
+  charts.forEach((chart) => {
+    chart.classList.add('chart-wrapped')
+    const wrapper = document.createElement('div')
+    wrapper.className = 'chart-scroll-wrapper'
+    chart.parentNode!.insertBefore(wrapper, chart)
+    wrapper.appendChild(chart)
   })
 }
 
@@ -317,6 +306,9 @@ onBeforeUnmount(() => {
   line-height: 1.625;
   color: inherit;
   font-family: inherit;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .tui-viewer-content .toastui-editor-contents p {
@@ -478,12 +470,28 @@ onBeforeUnmount(() => {
   text-underline-offset: 2px;
 }
 
-/* Charts */
+/* Charts — horizontal scroll wrapper */
+.tui-viewer-content .chart-scroll-wrapper {
+  overflow-x: auto;
+  margin: 0.75em -0.5em;
+  padding: 0 0.5em;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tui-viewer-content .chart-scroll-wrapper::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tui-viewer-content .chart-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+}
+
 .tui-viewer-content .toastui-editor-contents [data-chart-id] {
-  margin: 0.75em 0;
   min-height: 320px;
   border-radius: 0.5rem;
   overflow: hidden;
+  min-width: max-content;
 }
 
 .tui-viewer-content .toastui-editor-contents .toastui-chart-wrapper {
@@ -495,58 +503,24 @@ onBeforeUnmount(() => {
   image-rendering: crisp-edges;
 }
 
-/* Mermaid diagrams — higher specificity to override generic pre styles */
-.tui-viewer-content .toastui-editor-contents .mermaid-container {
+/* Mermaid diagrams */
+.tui-viewer-content .mermaid-container {
   margin: 0.75em 0;
   overflow-x: auto;
-  max-width: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
-.tui-viewer-content .toastui-editor-contents .mermaid-container::-webkit-scrollbar {
-  height: 4px;
-}
-
-.tui-viewer-content .toastui-editor-contents .mermaid-container::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 2px;
-}
-
-.tui-viewer-content .toastui-editor-contents pre.mermaid {
-  background-color: #ffffff !important;
-  color: #1f2937 !important;
+.tui-viewer-content pre.mermaid {
+  background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   padding: 1em;
-  margin: 0;
   text-align: center;
-  width: max-content;
-  min-width: 100%;
-  overflow: visible;
+  overflow-x: auto;
 }
 
-.tui-viewer-content .toastui-editor-contents pre.mermaid svg {
+.tui-viewer-content pre.mermaid svg {
+  max-width: 100%;
   height: auto;
-  overflow: visible;
-}
-
-/* Reset TUI styles inside Mermaid SVG foreignObject to prevent text clipping */
-.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject {
-  overflow: visible !important;
-}
-
-.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject div,
-.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject span,
-.tui-viewer-content .toastui-editor-contents pre.mermaid foreignObject p {
-  overflow: visible !important;
-  white-space: normal !important;
-  word-break: normal !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.4 !important;
-  font-size: 14px !important;
-  font-family: system-ui, -apple-system, sans-serif !important;
-  color: #1f2937 !important;
-  background: none !important;
 }
 </style>

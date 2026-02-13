@@ -25,7 +25,7 @@ defineProps<{
       :class="
         message.role === 'user'
           ? 'max-w-[75%] rounded-2xl bg-emerald-600 px-4 py-3 text-sm leading-relaxed text-white'
-          : 'min-w-0 flex-1 rounded-2xl bg-white px-5 py-4 text-sm leading-relaxed text-gray-800 shadow-sm ring-1 ring-gray-100'
+          : 'min-w-0 flex-1 overflow-hidden rounded-2xl bg-white px-5 py-4 text-sm leading-relaxed text-gray-800 shadow-sm ring-1 ring-gray-100'
       "
     >
       <!-- Skill indicators (assistant only) -->
