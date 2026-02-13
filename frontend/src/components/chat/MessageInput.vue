@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import AudioRecordButton from './AudioRecordButton.vue'
 
 const props = defineProps<{
   disabled?: boolean
@@ -7,6 +8,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   send: [message: string]
+  audio: [blob: Blob]
 }>()
 
 const text = ref('')
@@ -24,19 +26,24 @@ function handleKeydown(e: KeyboardEvent) {
     handleSend()
   }
 }
+
+function handleAudio(blob: Blob) {
+  emit('audio', blob)
+}
 </script>
 
 <template>
   <div class="border-t border-gray-200 bg-white px-4 py-3">
-    <div class="flex items-end gap-3">
+    <div class="flex items-end gap-2">
       <textarea
         v-model="text"
         :disabled="disabled"
         rows="1"
-        placeholder="Tapez votre message..."
+        placeholder="Tapez votre message ou utilisez le micro..."
         class="max-h-32 min-h-[42px] flex-1 resize-none rounded-xl border border-gray-300 px-4 py-2.5 text-sm outline-none transition-colors focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 disabled:bg-gray-50 disabled:text-gray-400"
         @keydown="handleKeydown"
       />
+      <AudioRecordButton :disabled="disabled" @audio="handleAudio" />
       <button
         :disabled="disabled || !text.trim()"
         class="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white transition-colors hover:bg-emerald-700 disabled:bg-gray-300 disabled:text-gray-400"

@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     # Embeddings (Voyage AI)
     VOYAGE_API_KEY: str = ""
 
+    # Speech-to-Text (Whisper API)
+    OPENAI_API_KEY: str = ""
+
     model_config = {"env_file": ".env", "extra": "ignore"}
 
 

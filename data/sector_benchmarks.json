@@ -82,5 +82,113 @@
     "carbone_moyen_tco2e": 920.0,
     "nombre_entreprises": 18,
     "periode": "2025_Q1"
+  },
+  {
+    "secteur": "textile",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 32.0,
+    "score_s_moyen": 35.0,
+    "score_g_moyen": 30.0,
+    "score_global_moyen": 32.5,
+    "carbone_moyen_tco2e": 680.0,
+    "nombre_entreprises": 15,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "textile",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 30.0,
+    "score_s_moyen": 33.0,
+    "score_g_moyen": 28.0,
+    "score_global_moyen": 30.5,
+    "carbone_moyen_tco2e": 720.0,
+    "nombre_entreprises": 10,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "BTP",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 28.0,
+    "score_s_moyen": 42.0,
+    "score_g_moyen": 45.0,
+    "score_global_moyen": 37.0,
+    "carbone_moyen_tco2e": 1500.0,
+    "nombre_entreprises": 40,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "BTP",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 26.0,
+    "score_s_moyen": 40.0,
+    "score_g_moyen": 43.0,
+    "score_global_moyen": 35.2,
+    "carbone_moyen_tco2e": 1600.0,
+    "nombre_entreprises": 32,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "services",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 55.0,
+    "score_s_moyen": 52.0,
+    "score_g_moyen": 58.0,
+    "score_global_moyen": 54.8,
+    "carbone_moyen_tco2e": 45.0,
+    "nombre_entreprises": 60,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "services",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 52.0,
+    "score_s_moyen": 50.0,
+    "score_g_moyen": 55.0,
+    "score_global_moyen": 52.0,
+    "carbone_moyen_tco2e": 50.0,
+    "nombre_entreprises": 48,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "recyclage",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 62.0,
+    "score_s_moyen": 40.0,
+    "score_g_moyen": 38.0,
+    "score_global_moyen": 48.0,
+    "carbone_moyen_tco2e": 135.0,
+    "nombre_entreprises": 8,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "agroalimentaire",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 38.0,
+    "score_s_moyen": 42.0,
+    "score_g_moyen": 40.0,
+    "score_global_moyen": 39.8,
+    "carbone_moyen_tco2e": 420.0,
+    "nombre_entreprises": 25,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "transport",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 28.0,
+    "score_s_moyen": 38.0,
+    "score_g_moyen": 36.0,
+    "score_global_moyen": 33.5,
+    "carbone_moyen_tco2e": 1350.0,
+    "nombre_entreprises": 20,
+    "periode": "2025_Q1"
   }
 ]

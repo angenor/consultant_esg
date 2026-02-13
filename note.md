@@ -2,5 +2,6 @@ Avant de commencer sache que tu es libre de travailler avec plusieur sous agent 
 
 agent-browser --headed 
 
-test@test.com
-test1234
+Admin : demo@esgadvisor.ai / demo1234 (role admin)
+
+user simple : test@test.com / test1234

@@ -1,0 +1,140 @@
+TAXONOMIE VERTE BCEAO — CLASSIFICATION DES ACTIVITÉS DURABLES
+
+=== Présentation ===
+
+La Taxonomie Verte BCEAO est un système de classification des activités économiques selon leur contribution aux objectifs environnementaux de l'UEMOA. Elle sert de référence pour les établissements financiers qui souhaitent orienter leurs financements vers des projets verts.
+
+La taxonomie est organisée autour de 6 objectifs environnementaux :
+1. Atténuation du changement climatique
+2. Adaptation au changement climatique
+3. Utilisation durable des ressources en eau
+4. Transition vers l'économie circulaire
+5. Prévention et contrôle de la pollution
+6. Protection de la biodiversité et des écosystèmes
+
+=== Objectif 1 : Atténuation du changement climatique ===
+
+Activités substantiellement contributrices :
+
+Énergie renouvelable :
+- Production d'électricité solaire photovoltaïque (seuil : < 100g CO2e/kWh)
+- Production d'électricité éolienne
+- Production de biomasse durable (résidus agricoles, déchets organiques)
+- Mini-hydroélectricité (< 20 MW, sans barrage majeur)
+- Installations solaires thermiques
+
+Efficacité énergétique :
+- Rénovation énergétique des bâtiments (amélioration > 30%)
+- Installation d'équipements industriels à haute efficacité
+- Systèmes de gestion intelligente de l'énergie
+- LED et éclairage efficace à grande échelle
+
+Transport durable :
+- Véhicules électriques et infrastructures de recharge
+- Transport en commun propre (bus GNV, électrique)
+- Logistique optimisée (réduction > 20% des émissions)
+- Mobilité douce (vélos, trottinettes électriques)
+
+Agriculture bas-carbone :
+- Agroforesterie et séquestration de carbone
+- Agriculture de conservation (semis direct, couverture)
+- Riziculture à faibles émissions (gestion de l'eau alternée)
+- Biodigesteurs pour la valorisation des résidus
+
+=== Objectif 2 : Adaptation au changement climatique ===
+
+Activités contributrices :
+
+Agriculture résiliente :
+- Variétés résistantes à la sécheresse et aux inondations
+- Systèmes d'irrigation efficaces (goutte-à-goutte, micro-aspersion)
+- Assurance agricole indicielle (index climatique)
+- Systèmes d'alerte précoce pour les agriculteurs
+
+Infrastructure résiliente :
+- Bâtiments résistants aux événements climatiques extrêmes
+- Systèmes de drainage et de gestion des eaux pluviales
+- Infrastructure routière adaptée (matériaux résistants à la chaleur)
+- Protection côtière et lutte contre l'érosion
+
+Gestion de l'eau :
+- Systèmes de récupération et stockage des eaux de pluie
+- Réhabilitation de forages et de puits
+- Traitement et réutilisation des eaux usées
+- Dessalement solaire à petite échelle
+
+=== Objectif 3 : Utilisation durable des ressources en eau ===
+
+- Irrigation efficiente (réduction > 40% de la consommation)
+- Traitement des eaux usées industrielles
+- Technologies de recyclage de l'eau en circuit fermé
+- Monitoring et comptage intelligent de l'eau
+
+=== Objectif 4 : Économie circulaire ===
+
+- Collecte et tri des déchets (plastique, métal, verre, papier)
+- Recyclage et transformation des déchets
+- Compostage des déchets organiques
+- Éco-conception de produits (durabilité, réparabilité)
+- Valorisation énergétique des déchets (biogaz, incinération avec récupération)
+
+=== Objectif 5 : Prévention et contrôle de la pollution ===
+
+- Traitement des effluents industriels avant rejet
+- Réduction des émissions atmosphériques (filtres, scrubbers)
+- Gestion sécurisée des déchets dangereux
+- Substitution de substances chimiques dangereuses
+- Décontamination de sites pollués
+
+=== Objectif 6 : Biodiversité et écosystèmes ===
+
+- Reforestation et restauration d'écosystèmes dégradés
+- Aires protégées communautaires
+- Apiculture et pollinisation
+- Aquaculture durable
+- Écotourisme respectueux
+
+=== Critères DNSH (Do No Significant Harm) ===
+
+Pour être classée « verte », une activité ne doit causer aucun préjudice significatif aux autres objectifs environnementaux. Exemples :
+- Un projet solaire ne doit pas détruire de forêts (objectif 6)
+- Un projet de recyclage ne doit pas polluer l'eau (objectif 3)
+- Un projet d'irrigation ne doit pas surexploiter les aquifères (objectif 3)
+
+=== Seuils et indicateurs par secteur ===
+
+Agriculture :
+- Intensité carbone : < 2 tCO2e/ha/an pour être « vert »
+- Consommation d'eau : < 5000 m³/ha/an en irrigation
+- Biodiversité : pas de conversion de forêts ou zones humides
+
+Industrie :
+- Émissions : réduction > 30% par rapport au scénario de référence
+- Déchets : taux de recyclage > 50%
+- Eau : consommation < moyenne sectorielle
+
+Bâtiment :
+- Performance énergétique : DPE A ou B (équivalent local)
+- Matériaux : > 20% de matériaux locaux ou recyclés
+- Eau : réduction > 30% par rapport au standard
+
+Transport :
+- Émissions directes : < 50g CO2/km (véhicules légers)
+- Transport public : < 25g CO2/passager-km
+- Logistique : réduction > 20% des émissions par tonne-km
+
+=== Application aux PME de l'UEMOA ===
+
+La taxonomie s'applique de manière proportionnée selon la taille de l'entreprise :
+- Micro-entreprises (< 5 employés) : déclaration simplifiée sur l'activité principale
+- Petites entreprises (5-50 employés) : auto-évaluation guidée avec critères essentiels
+- Moyennes entreprises (50-250 employés) : évaluation complète avec indicateurs chiffrés
+- Grandes entreprises (> 250 employés) : reporting taxonomique complet avec vérification externe
+
+=== Avantages de la conformité taxonomique ===
+
+1. Accès privilégié au refinancement BCEAO à taux bonifié
+2. Éligibilité aux fonds verts internationaux (GCF, BAD, IFC)
+3. Meilleure notation par les agences de crédit
+4. Réduction des exigences de garantie pour les crédits bancaires
+5. Visibilité accrue auprès des investisseurs ESG

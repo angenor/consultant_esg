@@ -132,13 +132,13 @@
 
 ### À faire
 
-- [ ] 28.1 Créer `backend/app/core/stt.py` — service Speech-to-Text
+- [x] 28.1 Créer `backend/app/core/stt.py` — service Speech-to-Text
   - `transcribe(audio_file, language="fr")` → str
   - Option 1 : Whisper API (OpenAI) — simple, payant
   - Option 2 : Google Cloud Speech — gratuit (quota), plus de config
   - Configurable via `.env` : `STT_PROVIDER`, `OPENAI_API_KEY` ou `GOOGLE_STT_CREDENTIALS`
 
-- [ ] 28.2 Créer l'endpoint `POST /api/chat/conversations/{id}/audio`
+- [x] 28.2 Créer l'endpoint `POST /api/chat/conversations/{id}/audio`
   - Accepte un fichier audio (webm, wav, mp3, ogg)
   - Transcrit via le service STT
   - Injecte le texte transcrit dans la boucle agent (comme un message texte)
@@ -146,24 +146,24 @@
   - Envoie d'abord un événement `transcript` avec le texte transcrit
   - Code dans [05_api_endpoints.md](../05_api_endpoints.md#endpoint-audio-stt)
 
-- [ ] 28.3 Créer `src/composables/useAudioRecorder.ts`
+- [x] 28.3 Créer `src/composables/useAudioRecorder.ts`
   - Utilise l'API `MediaRecorder` du navigateur
   - `startRecording()` — demande la permission micro + commence l'enregistrement
   - `stopRecording()` → Blob audio
   - Gestion des erreurs (permission refusée, pas de micro)
   - Format de sortie : webm (default MediaRecorder)
 
-- [ ] 28.4 Créer `src/components/chat/AudioRecordButton.vue`
+- [x] 28.4 Créer `src/components/chat/AudioRecordButton.vue`
   - Bouton micro dans la zone de saisie
   - États : inactif → enregistrement (animation pulse) → envoi
   - Au clic : commence l'enregistrement
   - Au relâchement (ou re-clic) : arrête + envoie au backend
   - Affiche la transcription reçue dans le message utilisateur
 
-- [ ] 28.5 Intégrer dans `MessageInput.vue`
+- [x] 28.5 Intégrer dans `MessageInput.vue`
   - Ajouter le bouton AudioRecord à côté du bouton envoyer
 
-- [ ] 28.6 Tester le flow vocal complet
+- [x] 28.6 Tester le flow vocal complet avec 'agent-browser --headed'
   - Cliquer sur le micro → parler → relâcher → voir la transcription → voir la réponse de l'agent
 
 ### Comment
@@ -181,30 +181,32 @@
 
 ### À faire
 
-- [ ] 29.1 Enrichir les référentiels ESG
+- [x] 29.1 Enrichir les référentiels ESG
   - Compléter les grilles avec tous les critères réalistes (pas juste 2-3)
-  - BCEAO : ~12 critères, pondération E:40 S:30 G:30
-  - GCF : ~8 critères, pondération E:60 S:25 G:15
-  - IFC : ~15 critères, pondération E:35 S:40 G:25
+  - BCEAO : 16 critères (5E+6S+5G), pondération E:40 S:30 G:30
+  - GCF : 8 critères (4E+2S+2G), pondération E:60 S:25 G:15
+  - IFC : 17 critères (6E+8S+3G), pondération E:35 S:40 G:25
 
-- [ ] 29.2 Enrichir les fonds verts
-  - Ajouter 5-10 fonds réalistes avec des données complètes
+- [x] 29.2 Enrichir les fonds verts
+  - 10 fonds réalistes (5 existants + 5 ajoutés : BCEAO, SUNREF/AFD, FIDA, BEI-Proparco, SREP/CIF)
   - Montants, secteurs, pays, critères, dates, URLs sources
-  - Créer des chunks détaillés pour chaque fonds (procédures, FAQ, formulaires)
+  - 30 descriptions chunks détaillées (éligibilité, critères, processus) pour chaque fonds
 
-- [ ] 29.3 Enrichir les benchmarks sectoriels
-  - Données estimées mais plausibles pour 5-8 secteurs
+- [x] 29.3 Enrichir les benchmarks sectoriels
+  - 16 benchmarks pour 8 secteurs × 2 pays (CIV + SEN)
   - Agriculture, énergie, recyclage, agroalimentaire, transport, textile, BTP, services
 
-- [ ] 29.4 Enrichir la base de connaissances (`data/knowledge_base/`)
-  - Documents sur la réglementation UEMOA/BCEAO
-  - Guide ESG pour PME africaines
-  - Taxonomie verte BCEAO
-  - Créer les chunks + embeddings dans `fonds_chunks` ou une table knowledge_chunks
+- [x] 29.4 Enrichir la base de connaissances (`data/knowledge_base/`)
+  - Réglementation UEMOA/BCEAO (directive finance durable, cadre réglementaire, incitations)
+  - Guide ESG pour PME africaines (actions pratiques par pilier, recommandations sectorielles)
+  - Taxonomie verte BCEAO (6 objectifs, activités éligibles, critères DNSH, seuils)
 
-- [ ] 29.5 Créer un compte admin de démo et une entreprise de démo avec données pré-remplies
-  - Score ESG existant, empreinte carbone, plan d'action en cours
-  - Pour que la démo soit impressionnante dès le départ
+- [x] 29.5 Créer un compte admin de démo et une entreprise de démo avec données pré-remplies
+  - Admin : demo@esgadvisor.ai / demo1234 (role admin)
+  - Entreprise : AgroVert Côte d'Ivoire (agroalimentaire, 85 employés, 450M FCFA CA)
+  - 2 scores ESG (initial 38.5 → actuel 52.0, +13.5 pts en 6 mois)
+  - 5 empreintes carbone mensuelles (oct 2024 → fév 2025, tendance baisse)
+  - Plan d'action 9 items (3 faits, 4 en cours, 2 à faire)
 
 ### Comment
 
@@ -247,7 +249,7 @@
   - [ ] Test du store auth (login/logout)
   - Utiliser `vitest` + `@vue/test-utils`
 
-- [ ] 30.6 Test de bout en bout
+- [ ] 30.6 Test de bout en bout avec 'agent-browser --headed'
   - Scénario complet : inscription → profil entreprise → chat → score ESG → empreinte carbone → fonds verts → rapport PDF
   - Vérifier que tout fonctionne de bout en bout
 
@@ -330,8 +332,8 @@
 |---|-------|--------|
 | 26 | Admin CRUD skills | ✅ |
 | 27 | Admin CRUD référentiels ESG | ✅ |
-| 28 | Support vocal (STT) | ⬜ |
-| 29 | Seed données réalistes | ⬜ |
+| 28 | Support vocal (STT) | ✅ |
+| 29 | Seed données réalistes | ✅ |
 | 30 | UX/UI polish + tests | ⬜ |
 | 31 | Vidéo pitch + deck | ⬜ |
 | 32 | Déploiement démo | ⬜ |

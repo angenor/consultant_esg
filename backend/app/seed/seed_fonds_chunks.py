@@ -216,6 +216,214 @@ FONDS_DESCRIPTIONS: dict[str, list[dict[str, str]]] = {
             ),
         },
     ],
+    "Fonds Climat BCEAO": [
+        {
+            "type_info": "eligibilite",
+            "contenu": (
+                "Le Fonds Climat BCEAO est une ligne de refinancement à taux bonifié mise en place "
+                "par la Banque Centrale des États de l'Afrique de l'Ouest. Montants entre 25 millions "
+                "et 1 milliard de FCFA. Taux préférentiel de 3,5% à 5,5% selon la notation ESG de "
+                "l'entreprise (contre 8-14% pour un crédit classique). Durée de 3 à 8 ans avec "
+                "possibilité de différé de 18 mois. La BCEAO refinance les banques commerciales "
+                "qui accordent des prêts verts conformes à sa directive sur la finance durable."
+            ),
+        },
+        {
+            "type_info": "criteres",
+            "contenu": (
+                "Critères d'éligibilité Fonds Climat BCEAO : "
+                "1. Score ESG minimum de 35/100 selon le référentiel BCEAO Finance Durable 2024. "
+                "2. Entreprise enregistrée dans un pays UEMOA avec au moins 6 mois d'activité. "
+                "3. Tous les secteurs sont éligibles (agriculture, énergie, recyclage, agroalimentaire, "
+                "BTP vert, transport propre, services). "
+                "4. Projet d'investissement vert identifié et chiffré. "
+                "5. Chiffre d'affaires minimum : 5 millions FCFA/an. "
+                "6. Compte bancaire actif dans une banque partenaire de l'UEMOA. "
+                "7. Pas d'incidents de paiement non régularisés à la Centrale des Risques."
+            ),
+        },
+        {
+            "type_info": "processus",
+            "contenu": (
+                "Processus de candidature Fonds Climat BCEAO : "
+                "1. L'entreprise contacte sa banque commerciale habituelle. "
+                "2. La banque évalue le dossier de crédit classique + profil ESG. "
+                "3. La banque soumet la demande de refinancement à la BCEAO. "
+                "4. La BCEAO valide l'éligibilité verte du projet (2-3 semaines). "
+                "5. La banque accorde le prêt au taux bonifié BCEAO. "
+                "Délai total estimé : 3 à 6 semaines. "
+                "Avantage clé : le taux de refinancement BCEAO est inférieur au taux directeur, "
+                "permettant aux banques d'offrir des conditions très compétitives."
+            ),
+        },
+    ],
+    "Programme SUNREF Afrique de l'Ouest": [
+        {
+            "type_info": "eligibilite",
+            "contenu": (
+                "Le Programme SUNREF (Sustainable Use of Natural Resources and Energy Finance) "
+                "de l'Agence Française de Développement (AFD) offre des prêts verts via des "
+                "banques locales partenaires. Montants entre 10 millions et 750 millions FCFA. "
+                "Le programme inclut une prime d'investissement de 10 à 15% remboursée après "
+                "réalisation du projet, ainsi qu'un audit énergétique gratuit réalisé par des "
+                "experts certifiés. Focus sur l'efficacité énergétique et les énergies renouvelables."
+            ),
+        },
+        {
+            "type_info": "criteres",
+            "contenu": (
+                "Critères d'éligibilité Programme SUNREF : "
+                "1. Score ESG minimum de 30/100 selon le référentiel BCEAO. "
+                "2. Pays éligibles : Côte d'Ivoire, Sénégal, Cameroun, Burkina Faso. "
+                "3. Secteurs prioritaires : efficacité énergétique dans l'industrie et le bâtiment, "
+                "énergie solaire et biomasse, froid commercial et climatisation performante, "
+                "agroalimentaire (séchage solaire, froid solaire). "
+                "4. Investissement minimum : 10 millions FCFA. "
+                "5. Réduction d'énergie ou d'émissions démontrable par l'audit. "
+                "6. Entreprise formelle avec au moins 2 ans d'existence."
+            ),
+        },
+        {
+            "type_info": "processus",
+            "contenu": (
+                "Processus de candidature SUNREF : "
+                "1. Contact avec une banque partenaire SUNREF (Société Générale, Ecobank, BICICI). "
+                "2. Audit énergétique gratuit réalisé par un expert SUNREF agréé. "
+                "3. L'expert identifie les investissements éligibles et le potentiel d'économies. "
+                "4. La banque monte le dossier de crédit avec le rapport d'audit. "
+                "5. Accord de prêt aux conditions SUNREF. "
+                "6. Après réalisation : vérification et versement de la prime (10-15%). "
+                "Délai : 4 à 10 semaines selon la complexité de l'audit. "
+                "La prime d'investissement peut couvrir une partie significative de l'apport personnel."
+            ),
+        },
+    ],
+    "Fonds Paysan Résilient FIDA": [
+        {
+            "type_info": "eligibilite",
+            "contenu": (
+                "Le Fonds Paysan Résilient du FIDA (Fonds International de Développement Agricole) "
+                "offre des subventions de 50 000 à 2 000 000 USD pour renforcer la résilience "
+                "climatique des petits producteurs agricoles en Afrique de l'Ouest. Subvention "
+                "non remboursable couvrant jusqu'à 80% du coût du projet. Priorité aux coopératives "
+                "agricoles, aux femmes entrepreneures et aux jeunes agriculteurs. "
+                "Durée des projets : 2 à 5 ans."
+            ),
+        },
+        {
+            "type_info": "criteres",
+            "contenu": (
+                "Critères d'éligibilité Fonds Paysan Résilient FIDA : "
+                "1. Score ESG minimum de 25/100 selon les standards GCF. "
+                "2. Pays UEMOA éligibles : tous les 8 pays membres. "
+                "3. Secteurs : agriculture résiliente, agroalimentaire, gestion de l'eau agricole. "
+                "4. Au moins 40% des bénéficiaires doivent être des femmes. "
+                "5. Projet démontrant un impact sur l'adaptation climatique des exploitations. "
+                "6. Statut juridique : coopérative, GIE, PME agricole, ou organisation paysanne. "
+                "7. Apport propre minimum de 20% (en nature ou numéraire). "
+                "8. Engagement de formation des bénéficiaires en pratiques agricoles durables."
+            ),
+        },
+        {
+            "type_info": "processus",
+            "contenu": (
+                "Processus de candidature FIDA Paysan Résilient : "
+                "1. Appel à propositions publié sur le site FIDA (2 fenêtres par an : avril et octobre). "
+                "2. Soumission d'une note conceptuelle (3-5 pages) via le portail en ligne. "
+                "3. Présélection et invitation à soumettre une proposition complète. "
+                "4. Atelier de formulation avec l'équipe FIDA pays. "
+                "5. Évaluation technique et approbation par le comité régional. "
+                "6. Signature de la convention de subvention. "
+                "Délai total : 3 à 6 mois. "
+                "Suivi : rapports trimestriels + mission de supervision FIDA annuelle."
+            ),
+        },
+    ],
+    "Ligne Verte BEI-Proparco": [
+        {
+            "type_info": "eligibilite",
+            "contenu": (
+                "La Ligne Verte BEI-Proparco est un co-financement de la Banque Européenne "
+                "d'Investissement et de Proparco (filiale de l'AFD) pour les PME en croissance "
+                "engagées dans la transition climatique. Prêts de 500 000 à 5 000 000 EUR "
+                "à moyen-long terme (5-12 ans). Possibilité de conversion en devises locales "
+                "(FCFA) pour limiter le risque de change. Composante d'assistance technique "
+                "gratuite pour l'accompagnement ESG et la structuration de projet."
+            ),
+        },
+        {
+            "type_info": "criteres",
+            "contenu": (
+                "Critères d'éligibilité Ligne Verte BEI-Proparco : "
+                "1. Score ESG minimum de 40/100 selon les IFC Performance Standards. "
+                "2. Pays éligibles : Côte d'Ivoire, Sénégal, Cameroun, Ghana, Kenya, Tanzanie. "
+                "3. Secteurs : énergie renouvelable, transport durable, industrie propre, "
+                "bâtiments verts et efficacité énergétique, services à valeur ajoutée. "
+                "4. Chiffre d'affaires annuel entre 500 000 et 50 000 000 EUR. "
+                "5. Effectif : 10 à 500 employés (définition PME européenne). "
+                "6. Projet d'investissement vert identifié avec business plan. "
+                "7. États financiers audités des 2 derniers exercices. "
+                "8. Engagement de reporting ESG annuel pendant la durée du prêt."
+            ),
+        },
+        {
+            "type_info": "processus",
+            "contenu": (
+                "Processus de candidature BEI-Proparco : "
+                "1. Expression d'intérêt via le portail BEI ou contact Proparco local. "
+                "2. Diagnostic ESG préliminaire (gratuit, réalisé par un consultant BEI). "
+                "3. Soumission du dossier complet : business plan + plan d'investissement vert. "
+                "4. Due diligence financière et environnementale (4-6 semaines). "
+                "5. Comité d'investissement BEI/Proparco. "
+                "6. Négociation des termes et signature. "
+                "Délai : 2 à 4 mois selon la taille du projet. "
+                "L'assistance technique inclut : conseil en management ESG, formation équipe, "
+                "mise en place d'un système de reporting."
+            ),
+        },
+    ],
+    "Programme SREP - Énergie Renouvelable": [
+        {
+            "type_info": "eligibilite",
+            "contenu": (
+                "Le Programme SREP (Scaling Up Renewable Energy Program) des Climate Investment "
+                "Funds (CIF) finance la mise à échelle des énergies renouvelables dans les pays "
+                "à faible revenu. Subventions et prêts concessionnels de 200 000 à 8 000 000 USD. "
+                "Focus exclusif sur les projets d'énergie renouvelable : solaire photovoltaïque, "
+                "solaire thermique, éolien, biomasse, mini-hydroélectricité. "
+                "Le SREP combine subventions (jusqu'à 50%) et prêts à taux très bas (1-3%)."
+            ),
+        },
+        {
+            "type_info": "criteres",
+            "contenu": (
+                "Critères d'éligibilité Programme SREP : "
+                "1. Score ESG minimum de 35/100 selon les standards GCF. "
+                "2. Pays éligibles SREP en Afrique : Mali, Burkina Faso, Niger, Éthiopie, "
+                "Kenya, Tanzanie, Ghana (pays pilotes SREP). "
+                "3. Projet 100% énergie renouvelable (solaire, éolien, biomasse, mini-hydro). "
+                "4. Impact démontrable : nombre de personnes/entreprises ayant accès à l'énergie. "
+                "5. Viabilité financière du projet démontrée sur 10 ans minimum. "
+                "6. Partenariat avec une entité locale (gouvernement, ONG, coopérative). "
+                "7. Plan de maintenance et de durabilité post-projet."
+            ),
+        },
+        {
+            "type_info": "processus",
+            "contenu": (
+                "Processus de candidature SREP : "
+                "1. Le projet doit s'inscrire dans le Plan d'Investissement SREP du pays. "
+                "2. Soumission via une Banque Multilatérale de Développement partenaire "
+                "(Banque Mondiale, BAD, BID, BERD). "
+                "3. Évaluation technique par les experts CIF (6-8 semaines). "
+                "4. Validation par le sous-comité SREP (réunion semestrielle). "
+                "5. Approbation finale par la BMD partenaire. "
+                "Délai total : 6 à 12 mois. "
+                "Reporting : rapports semestriels de performance incluant la production "
+                "d'énergie, les réductions d'émissions et le nombre de bénéficiaires."
+            ),
+        },
+    ],
 }
 
 

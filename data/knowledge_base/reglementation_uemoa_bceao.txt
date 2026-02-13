@@ -1,0 +1,79 @@
+RÉGLEMENTATION FINANCE DURABLE UEMOA/BCEAO
+
+=== Directive BCEAO sur la Finance Durable (2024) ===
+
+La Banque Centrale des États de l'Afrique de l'Ouest (BCEAO) a publié en 2024 sa Directive sur la finance durable, applicable à l'ensemble des établissements de crédit et des systèmes financiers décentralisés de l'UEMOA. Cette directive s'inscrit dans le cadre de la Stratégie Régionale d'Inclusion Financière et du Plan Stratégique 2024-2028 de la BCEAO.
+
+Objectifs principaux :
+- Intégrer les risques environnementaux, sociaux et de gouvernance (ESG) dans la gestion des risques des établissements financiers
+- Favoriser le financement de projets contribuant à la transition écologique dans l'UEMOA
+- Mettre en place un cadre de reporting ESG harmonisé pour les institutions financières de la zone
+- Encourager l'émission d'obligations vertes et de produits financiers durables
+
+Principales dispositions :
+1. Les banques doivent évaluer le risque ESG de leurs portefeuilles de crédit
+2. Un référentiel d'évaluation ESG standardisé est recommandé pour les PME
+3. Les établissements financiers doivent publier un rapport ESG annuel
+4. La BCEAO met en place un mécanisme de refinancement à taux préférentiel pour les crédits verts
+5. Les SFD (Systèmes Financiers Décentralisés) sont encouragés à proposer des produits verts
+
+=== Cadre réglementaire des pays de l'UEMOA ===
+
+L'UEMOA (Union Économique et Monétaire Ouest Africaine) comprend 8 pays membres : Bénin, Burkina Faso, Côte d'Ivoire, Guinée-Bissau, Mali, Niger, Sénégal, Togo.
+
+Réglementation environnementale commune :
+- Code de l'environnement harmonisé UEMOA (Directive 01/2017)
+- Études d'impact environnemental obligatoires pour les projets d'envergure
+- Normes de rejets industriels harmonisées
+- Convention UEMOA sur la gestion des déchets dangereux
+
+Réglementation sociale :
+- Code du travail harmonisé : salaire minimum, durée du travail, protection sociale
+- Convention UEMOA sur la protection sociale des travailleurs
+- Directive sur l'égalité professionnelle hommes-femmes
+- Normes de santé et sécurité au travail
+
+Gouvernance des entreprises :
+- Acte uniforme OHADA sur les sociétés commerciales et les GIE
+- Obligations de transparence financière (états financiers SYSCOHADA)
+- Réglementation anti-blanchiment (CENTIF)
+- Code de bonne gouvernance pour les sociétés cotées (BRVM)
+
+=== Taxonomie Verte de l'UEMOA (en cours de développement) ===
+
+La BCEAO, en collaboration avec la BAD et la SFI, développe une taxonomie verte pour l'UEMOA qui classifiera les activités économiques selon leur contribution à :
+1. L'atténuation du changement climatique
+2. L'adaptation au changement climatique
+3. La protection de la biodiversité
+4. La prévention de la pollution
+5. L'économie circulaire
+6. La gestion durable des ressources en eau
+
+Secteurs prioritaires identifiés :
+- Agriculture durable et agroforesterie
+- Énergie renouvelable (solaire, biomasse, éolien)
+- Transport durable (véhicules électriques, transport en commun)
+- Bâtiments verts et efficacité énergétique
+- Gestion des déchets et recyclage
+- Gestion durable de l'eau
+
+=== Obligations de reporting ESG ===
+
+Pour les entreprises de l'UEMOA, les obligations de reporting varient selon la taille :
+- Grandes entreprises (CA > 1 milliard FCFA) : rapport ESG annuel recommandé
+- PME (CA > 100 millions FCFA) : auto-évaluation ESG encouragée
+- Micro-entreprises : sensibilisation via les SFD
+
+Les indicateurs clés recommandés par la BCEAO :
+- Environnement : émissions GES, consommation d'eau, gestion des déchets, énergie renouvelable
+- Social : effectifs, formation, santé-sécurité, égalité genre, impact communautaire
+- Gouvernance : structure de gouvernance, éthique, conformité, gestion des risques
+
+=== Incitations fiscales et financières ===
+
+Plusieurs pays de l'UEMOA ont mis en place des incitations pour les entreprises vertes :
+- Côte d'Ivoire : Code des investissements 2018 avec avantages pour les projets verts
+- Sénégal : Exonérations fiscales pour les équipements solaires et éco-énergétiques
+- Burkina Faso : Fonds d'appui aux initiatives vertes
+- Mali : Programme de soutien à l'agriculture climato-intelligente
+- Togo : Zone économique spéciale verte (PIA)

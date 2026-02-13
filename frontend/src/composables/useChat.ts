@@ -145,6 +145,135 @@ export function useChat(conversationId: () => string | undefined) {
     }
   }
 
+  async function sendAudioMessage(audioBlob: Blob) {
+    const convId = conversationId()
+    if (!convId) return
+
+    error.value = null
+
+    // Prepare assistant bubble (empty, streaming)
+    messages.value.push({
+      id: crypto.randomUUID(),
+      role: 'assistant',
+      content: '',
+      skills: [],
+      isStreaming: true,
+    })
+    const assistantMsg = messages.value[messages.value.length - 1]!
+    isLoading.value = true
+
+    try {
+      const token = localStorage.getItem('token')
+      const formData = new FormData()
+      formData.append('audio', audioBlob, 'audio.webm')
+
+      const response = await fetch(
+        `/api/chat/conversations/${convId}/audio`,
+        {
+          method: 'POST',
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: formData,
+        },
+      )
+
+      if (!response.ok) {
+        throw new Error(`Erreur ${response.status}`)
+      }
+
+      const reader = response.body!.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+
+        let currentEventType = ''
+
+        for (const line of lines) {
+          if (line.startsWith('event: ')) {
+            currentEventType = line.slice(7).trim()
+            continue
+          }
+
+          if (line.startsWith('data: ')) {
+            const raw = line.slice(6)
+            if (!raw) continue
+
+            let data: Record<string, unknown>
+            try {
+              data = JSON.parse(raw)
+            } catch {
+              continue
+            }
+
+            const eventType = (data.type as string) || currentEventType
+
+            switch (eventType) {
+              case 'transcript':
+                // Ajouter le message utilisateur avec la transcription
+                messages.value.splice(messages.value.length - 1, 0, {
+                  id: crypto.randomUUID(),
+                  role: 'user',
+                  content: `🎤 ${data.text as string}`,
+                })
+                break
+
+              case 'text':
+                assistantMsg.content += data.content as string
+                break
+
+              case 'skill_start':
+                assistantMsg.skills!.push({
+                  name: data.skill as string,
+                  status: 'running',
+                  params: data.params as Record<string, unknown> | undefined,
+                })
+                break
+
+              case 'skill_result': {
+                const skill = assistantMsg.skills!.find(
+                  (s) => s.name === (data.skill as string) && s.status === 'running',
+                )
+                if (skill) skill.status = 'done'
+                break
+              }
+
+              case 'done':
+                assistantMsg.isStreaming = false
+                isLoading.value = false
+                break
+
+              case 'error':
+                assistantMsg.content += '\n\nUne erreur est survenue.'
+                assistantMsg.isStreaming = false
+                isLoading.value = false
+                error.value = (data.content as string) || 'Erreur inconnue'
+                break
+            }
+          }
+        }
+      }
+
+      // Safety: ensure streaming ends
+      if (assistantMsg.isStreaming) {
+        assistantMsg.isStreaming = false
+        isLoading.value = false
+      }
+    } catch (err) {
+      assistantMsg.content += '\n\nImpossible de contacter le serveur.'
+      assistantMsg.isStreaming = false
+      isLoading.value = false
+      error.value = err instanceof Error ? err.message : 'Erreur inconnue'
+    }
+  }
+
   async function loadHistory() {
     const convId = conversationId()
     if (!convId) return
@@ -178,6 +307,7 @@ export function useChat(conversationId: () => string | undefined) {
     isLoading,
     error,
     sendMessage,
+    sendAudioMessage,
     loadHistory,
     clearMessages,
   }

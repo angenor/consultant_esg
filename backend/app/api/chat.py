@@ -6,7 +6,7 @@ Endpoints : CRUD conversations + envoi de message avec streaming SSE.
 import json
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sse_starlette.sse import EventSourceResponse
@@ -14,6 +14,7 @@ from sse_starlette.sse import EventSourceResponse
 from app.agent.engine import AgentEngine
 from app.core.database import get_db
 from app.core.dependencies import get_current_user
+from app.core.stt import STTService, get_stt_service
 from app.models.conversation import Conversation
 from app.models.entreprise import Entreprise
 from app.models.message import Message
@@ -181,6 +182,90 @@ async def send_message(
             async for event in engine.run(
                 conversation_id=str(conversation_id),
                 user_message=body.message,
+                entreprise=entreprise_dict,
+            ):
+                yield {
+                    "event": event["type"],
+                    "data": json.dumps(event, ensure_ascii=False, default=str),
+                }
+        except Exception as e:
+            yield {
+                "event": "error",
+                "data": json.dumps({"type": "error", "content": str(e)}),
+            }
+
+    return EventSourceResponse(event_generator())
+
+
+ALLOWED_AUDIO_TYPES = {
+    "audio/webm",
+    "audio/wav",
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/mp3",
+    "audio/x-m4a",
+    "audio/mp4",
+    "video/webm",  # MediaRecorder peut produire video/webm avec codec audio
+}
+
+
+@router.post("/conversations/{conversation_id}/audio")
+async def send_audio_message(
+    conversation_id: uuid.UUID,
+    audio: UploadFile,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+    stt: STTService = Depends(get_stt_service),
+):
+    """
+    Reçoit un fichier audio, le transcrit via Whisper (STT),
+    puis injecte le texte dans la boucle agent comme un message classique.
+
+    Formats acceptés : webm, wav, mp3, ogg (sortie MediaRecorder).
+    Retourne un SSE stream identique à /message, précédé d'un event `transcript`.
+    """
+    # Valider le type MIME
+    content_type = audio.content_type or ""
+    if content_type not in ALLOWED_AUDIO_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Format audio non supporté : {content_type}. "
+            f"Formats acceptés : webm, wav, mp3, ogg.",
+        )
+
+    conv = await _verify_conversation_access(conversation_id, user, db)
+
+    # Transcrire l'audio en texte
+    transcript = await stt.transcribe(
+        audio_data=audio.file,
+        filename=audio.filename or "audio.webm",
+        language="fr",
+    )
+
+    if not transcript.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Impossible de transcrire l'audio. Veuillez réessayer.",
+        )
+
+    # Charger le contexte entreprise
+    entreprise_dict = await _get_entreprise_dict(conv.entreprise_id, db)
+
+    # Instancier le registry et l'engine
+    registry = SkillRegistry(db)
+    engine = AgentEngine(db, registry)
+
+    async def event_generator():
+        # Envoyer d'abord la transcription au frontend
+        yield {
+            "event": "transcript",
+            "data": json.dumps({"type": "transcript", "text": transcript}, ensure_ascii=False),
+        }
+        # Puis lancer l'agent normalement avec le texte transcrit
+        try:
+            async for event in engine.run(
+                conversation_id=str(conversation_id),
+                user_message=transcript,
                 entreprise=entreprise_dict,
             ):
                 yield {

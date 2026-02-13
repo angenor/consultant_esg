@@ -82,5 +82,92 @@
       "description": "Garantie partielle de crédit pour PME vertes de la zone franc. Facilite l'accès au crédit bancaire classique avec un engagement ESG démontré."
     },
     "url_source": "https://www.fagace.org"
+  },
+  {
+    "nom": "Fonds Climat BCEAO",
+    "institution": "Banque Centrale des États de l'Afrique de l'Ouest (BCEAO)",
+    "type": "pret",
+    "referentiel_code": "bceao_fd_2024",
+    "montant_min": 25000000,
+    "montant_max": 1000000000,
+    "devise": "XOF",
+    "secteurs_json": ["agriculture", "energie", "recyclage", "agroalimentaire", "BTP", "transport"],
+    "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "TGO", "BEN", "NER", "GNB"],
+    "criteres_json": {
+      "score_esg_minimum": 35,
+      "anciennete_minimum_mois": 6,
+      "taux_preferentiel": "3.5-5.5%",
+      "description": "Ligne de refinancement de la BCEAO à taux bonifié pour les banques commerciales finançant des projets verts dans l'UEMOA. Taux de 3,5% à 5,5% selon la notation ESG."
+    },
+    "url_source": "https://www.bceao.int"
+  },
+  {
+    "nom": "Programme SUNREF Afrique de l'Ouest",
+    "institution": "Agence Française de Développement (AFD)",
+    "type": "pret",
+    "referentiel_code": "bceao_fd_2024",
+    "montant_min": 10000000,
+    "montant_max": 750000000,
+    "devise": "XOF",
+    "secteurs_json": ["energie", "batiment", "industrie", "agroalimentaire"],
+    "pays_eligibles": ["CIV", "SEN", "CMR", "BFA"],
+    "criteres_json": {
+      "score_esg_minimum": 30,
+      "prime_investissement_pct": 15,
+      "audit_energetique_requis": true,
+      "description": "Ligne de crédit verte via banques partenaires + prime d'investissement de 10-15% pour projets d'efficacité énergétique et énergies renouvelables. Audit énergétique gratuit inclus."
+    },
+    "url_source": "https://www.sunref.org"
+  },
+  {
+    "nom": "Fonds Paysan Résilient FIDA",
+    "institution": "Fonds International de Développement Agricole (FIDA)",
+    "type": "subvention",
+    "referentiel_code": "gcf_standards",
+    "montant_min": 50000,
+    "montant_max": 2000000,
+    "devise": "USD",
+    "secteurs_json": ["agriculture", "agroalimentaire", "eau"],
+    "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "NER", "TGO", "BEN", "GNB"],
+    "criteres_json": {
+      "score_esg_minimum": 25,
+      "pct_femmes_beneficiaires": 40,
+      "description": "Subventions pour renforcer la résilience climatique des petits producteurs agricoles en Afrique de l'Ouest. Priorité aux coopératives et aux femmes entrepreneures. 40% minimum de bénéficiaires femmes requis."
+    },
+    "url_source": "https://www.ifad.org"
+  },
+  {
+    "nom": "Ligne Verte BEI-Proparco",
+    "institution": "Banque Européenne d'Investissement (BEI) / Proparco",
+    "type": "pret",
+    "referentiel_code": "ifc_standards",
+    "montant_min": 500000,
+    "montant_max": 5000000,
+    "devise": "EUR",
+    "secteurs_json": ["energie", "transport", "industrie", "batiment", "services"],
+    "pays_eligibles": ["CIV", "SEN", "CMR", "GHA", "KEN", "TZA"],
+    "criteres_json": {
+      "score_esg_minimum": 40,
+      "composante_at_gratuite": true,
+      "description": "Co-financement BEI/Proparco pour PME en croissance engagées dans la transition climatique. Prêts à moyen-long terme (5-12 ans) avec composante d'assistance technique gratuite et possibilité de conversion en devises locales."
+    },
+    "url_source": "https://www.proparco.fr"
+  },
+  {
+    "nom": "Programme SREP - Énergie Renouvelable",
+    "institution": "Climate Investment Funds (CIF)",
+    "type": "subvention",
+    "referentiel_code": "gcf_standards",
+    "montant_min": 200000,
+    "montant_max": 8000000,
+    "devise": "USD",
+    "secteurs_json": ["energie"],
+    "pays_eligibles": ["MLI", "BFA", "NER", "ETH", "KEN", "TZA", "GHA"],
+    "criteres_json": {
+      "score_esg_minimum": 35,
+      "focus_energie_renouvelable": true,
+      "description": "Programme de mise à échelle des énergies renouvelables (SREP) pour les pays à faible revenu. Financement de projets solaires, éoliens et biomasse. Subventions + prêts concessionnels combinés."
+    },
+    "url_source": "https://www.cif.org"
   }
 ]

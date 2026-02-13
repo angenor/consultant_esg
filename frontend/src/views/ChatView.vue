@@ -21,7 +21,7 @@ const creatingEntreprise = ref(false)
 const activeConvId = computed(() => (route.params.conversationId as string) || null)
 
 // --- Chat composable ---
-const { messages, isLoading, sendMessage, loadHistory, clearMessages } = useChat(
+const { messages, isLoading, sendMessage, sendAudioMessage, loadHistory, clearMessages } = useChat(
   () => activeConvId.value ?? undefined,
 )
 
@@ -73,6 +73,19 @@ async function handleSend(text: string) {
   }
   await sendMessage(text)
   // Refresh conversation list to update order
+  chatStore.loadConversations()
+}
+
+async function handleAudio(blob: Blob) {
+  // Auto-create conversation if none active
+  if (!activeConvId.value) {
+    const entreprise = entrepriseStore.activeEntreprise
+    if (!entreprise) return
+    const conv = await chatStore.createConversation(entreprise.id)
+    router.push(`/chat/${conv.id}`)
+    await new Promise((r) => setTimeout(r, 50))
+  }
+  await sendAudioMessage(blob)
   chatStore.loadConversations()
 }
 
@@ -209,7 +222,7 @@ function formatDate(dateStr: string) {
     <!-- Chat area -->
     <div class="flex flex-1 flex-col bg-gray-50">
       <ChatContainer :messages="messages" />
-      <MessageInput :disabled="isLoading" @send="handleSend" />
+      <MessageInput :disabled="isLoading" @send="handleSend" @audio="handleAudio" />
     </div>
 
     <!-- Create entreprise modal -->
