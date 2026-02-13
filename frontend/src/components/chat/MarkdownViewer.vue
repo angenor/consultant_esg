@@ -480,17 +480,26 @@ onBeforeUnmount(() => {
   -webkit-overflow-scrolling: touch;
 }
 
+.tui-viewer-content .mermaid-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tui-viewer-content .mermaid-container::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+}
+
 .tui-viewer-content pre.mermaid {
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   padding: 1em;
   text-align: center;
-  overflow-x: auto;
+  width: max-content;
+  min-width: 100%;
 }
 
 .tui-viewer-content pre.mermaid svg {
-  max-width: 100%;
   height: auto;
 }
 </style>
