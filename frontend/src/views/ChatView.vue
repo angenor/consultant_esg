@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue'
+import { ref, watch, onMounted, computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useChatStore } from '../stores/chat'
 import { useEntrepriseStore } from '../stores/entreprise'
@@ -19,6 +19,9 @@ const creatingEntreprise = ref(false)
 
 // --- Active conversation from route ---
 const activeConvId = computed(() => (route.params.conversationId as string) || null)
+
+// Flag to skip watcher when auto-creating a conversation from handleSend
+const skipRouteWatcher = ref(false)
 
 // --- Chat composable ---
 const { messages, isLoading, sendMessage, sendAudioMessage, loadHistory, clearMessages } = useChat(
@@ -41,6 +44,11 @@ onMounted(async () => {
 watch(
   () => route.params.conversationId,
   async (newId) => {
+    if (skipRouteWatcher.value) {
+      skipRouteWatcher.value = false
+      if (newId) chatStore.setActiveConversation(newId as string)
+      return
+    }
     if (newId) {
       chatStore.setActiveConversation(newId as string)
       clearMessages()
@@ -67,9 +75,9 @@ async function handleSend(text: string) {
     const entreprise = entrepriseStore.activeEntreprise
     if (!entreprise) return
     const conv = await chatStore.createConversation(entreprise.id)
-    router.push(`/chat/${conv.id}`)
-    // Wait for route to update, then send
-    await new Promise((r) => setTimeout(r, 50))
+    skipRouteWatcher.value = true
+    await router.push(`/chat/${conv.id}`)
+    await nextTick()
   }
   await sendMessage(text)
   // Refresh conversation list to update order
@@ -82,8 +90,9 @@ async function handleAudio(blob: Blob) {
     const entreprise = entrepriseStore.activeEntreprise
     if (!entreprise) return
     const conv = await chatStore.createConversation(entreprise.id)
-    router.push(`/chat/${conv.id}`)
-    await new Promise((r) => setTimeout(r, 50))
+    skipRouteWatcher.value = true
+    await router.push(`/chat/${conv.id}`)
+    await nextTick()
   }
   await sendAudioMessage(blob)
   chatStore.loadConversations()
@@ -221,7 +230,7 @@ function formatDate(dateStr: string) {
 
     <!-- Chat area -->
     <div class="flex flex-1 flex-col bg-gray-50">
-      <ChatContainer :messages="messages" />
+      <ChatContainer :messages="messages" @suggest="handleSend" />
       <MessageInput :disabled="isLoading" @send="handleSend" @audio="handleAudio" />
     </div>
 

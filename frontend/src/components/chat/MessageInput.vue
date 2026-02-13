@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import AudioRecordButton from './AudioRecordButton.vue'
 
 const props = defineProps<{
@@ -12,12 +12,25 @@ const emit = defineEmits<{
 }>()
 
 const text = ref('')
+const textareaRef = ref<HTMLTextAreaElement>()
+
+function autoResize() {
+  const el = textareaRef.value
+  if (!el) return
+  el.style.height = 'auto'
+  el.style.height = Math.min(el.scrollHeight, 128) + 'px'
+}
 
 function handleSend() {
   const trimmed = text.value.trim()
   if (!trimmed || props.disabled) return
   emit('send', trimmed)
   text.value = ''
+  nextTick(() => {
+    if (textareaRef.value) {
+      textareaRef.value.style.height = 'auto'
+    }
+  })
 }
 
 function handleKeydown(e: KeyboardEvent) {
@@ -36,12 +49,14 @@ function handleAudio(blob: Blob) {
   <div class="border-t border-gray-200 bg-white px-4 py-3">
     <div class="flex items-end gap-2">
       <textarea
+        ref="textareaRef"
         v-model="text"
         :disabled="disabled"
         rows="1"
         placeholder="Tapez votre message ou utilisez le micro..."
         class="max-h-32 min-h-[42px] flex-1 resize-none rounded-xl border border-gray-300 px-4 py-2.5 text-sm outline-none transition-colors focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 disabled:bg-gray-50 disabled:text-gray-400"
         @keydown="handleKeydown"
+        @input="autoResize"
       />
       <AudioRecordButton :disabled="disabled" @audio="handleAudio" />
       <button

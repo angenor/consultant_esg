@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 
 const props = defineProps<{
   label: string
@@ -27,6 +27,42 @@ const colorClasses = computed(() => {
 })
 
 const isLarge = computed(() => props.size === 'lg')
+
+// Animated score counter
+const displayScore = ref(0)
+let animFrame = 0
+
+function animateScore(target: number) {
+  cancelAnimationFrame(animFrame)
+  const start = displayScore.value
+  const diff = target - start
+  if (diff === 0) return
+  const duration = 600
+  const startTime = performance.now()
+
+  function step(now: number) {
+    const elapsed = now - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    // ease-out cubic
+    const eased = 1 - Math.pow(1 - progress, 3)
+    displayScore.value = Math.round(start + diff * eased)
+    if (progress < 1) {
+      animFrame = requestAnimationFrame(step)
+    }
+  }
+  animFrame = requestAnimationFrame(step)
+}
+
+watch(() => props.score, (val) => {
+  if (val !== null) animateScore(val)
+}, { immediate: true })
+
+onMounted(() => {
+  if (props.score !== null) {
+    displayScore.value = 0
+    animateScore(props.score)
+  }
+})
 </script>
 
 <template>
@@ -38,18 +74,18 @@ const isLarge = computed(() => props.size === 'lg')
     <div class="mt-2 flex items-baseline gap-1">
       <span
         v-if="score !== null"
-        class="text-3xl font-bold"
+        class="font-bold"
         :class="[isLarge ? 'text-4xl' : 'text-3xl', colorClasses.text]"
       >
-        {{ Math.round(score) }}
+        {{ displayScore }}
       </span>
-      <span v-else class="text-2xl font-bold text-gray-300">—</span>
+      <span v-else class="text-2xl font-bold text-gray-300">&mdash;</span>
       <span class="text-sm text-gray-400">/{{ max }}</span>
     </div>
     <!-- Mini bar -->
     <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-gray-100">
       <div
-        class="h-full rounded-full transition-all duration-500"
+        class="h-full rounded-full transition-all duration-700 ease-out"
         :class="colorClasses.bg"
         :style="{ width: pct + '%' }"
       />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAdminStore, type Fonds } from '../../stores/admin'
+import { useAdminStore } from '../../stores/admin'
 
 const route = useRoute()
 const router = useRouter()

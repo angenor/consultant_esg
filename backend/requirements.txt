@@ -22,3 +22,6 @@ httpx
 weasyprint
 matplotlib
 jinja2
+# Tests
+pytest
+pytest-asyncio

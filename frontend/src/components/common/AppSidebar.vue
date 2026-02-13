@@ -3,6 +3,14 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 
+defineProps<{
+  open?: boolean
+}>()
+
+const emit = defineEmits<{
+  close: []
+}>()
+
 const authStore = useAuthStore()
 
 const mainNav = [
@@ -35,15 +43,45 @@ const userInitials = computed(() => {
 
 
 <template>
-  <aside class="fixed inset-y-0 left-0 z-30 flex w-64 flex-col bg-gray-900 text-white">
+  <!-- Mobile backdrop -->
+  <Transition
+    enter-active-class="transition-opacity duration-300"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="transition-opacity duration-200"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div
+      v-if="open"
+      class="fixed inset-0 z-20 bg-black/40 md:hidden"
+      @click="emit('close')"
+    />
+  </Transition>
+
+  <aside
+    class="fixed inset-y-0 left-0 z-30 flex w-64 flex-col bg-gray-900 text-white transition-transform duration-300 md:translate-x-0"
+    :class="open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+  >
     <!-- Logo -->
-    <div class="flex items-center gap-3 px-5 py-5">
-      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600">
-        <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.5S2 11.5 2 13.5s1.75 3.75 1.75 3.75" />
-        </svg>
+    <div class="flex items-center justify-between px-5 py-5">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600">
+          <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.5S2 11.5 2 13.5s1.75 3.75 1.75 3.75" />
+          </svg>
+        </div>
+        <span class="text-lg font-bold tracking-wide">ESG Advisor</span>
       </div>
-      <span class="text-lg font-bold tracking-wide">ESG Advisor</span>
+      <!-- Mobile close -->
+      <button
+        class="rounded-lg p-1 text-gray-400 hover:text-white md:hidden"
+        @click="emit('close')"
+      >
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
 
     <!-- Main Navigation -->
@@ -54,6 +92,7 @@ const userInitials = computed(() => {
         :to="item.to"
         active-class="!bg-emerald-600"
         class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800 hover:text-white"
+        @click="emit('close')"
       >
         <!-- Chat icon -->
         <svg v-if="item.icon === 'chat'" class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -101,6 +140,7 @@ const userInitials = computed(() => {
           :to="item.to"
           active-class="!bg-emerald-600"
           class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800 hover:text-white"
+          @click="emit('close')"
         >
           <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3" />

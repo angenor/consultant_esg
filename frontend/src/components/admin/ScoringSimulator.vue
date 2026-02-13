@@ -53,7 +53,7 @@ function niveauColor(niveau: string) {
         <SkillCodeEditor
           v-model="jsonInput"
           language="json"
-          height="150px"
+          :height="150"
           placeholder='{ "emissions_carbone": 350, "gestion_dechets": "Tri sélectif en place" }'
         />
       </div>

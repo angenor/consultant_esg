@@ -68,7 +68,7 @@ function removePilier(index: number) {
 }
 
 function addCritere(pilierIndex: number) {
-  piliers.value[pilierIndex].criteres.push({
+  piliers.value[pilierIndex]?.criteres.push({
     id: '',
     label: '',
     poids: 0,
@@ -81,7 +81,7 @@ function addCritere(pilierIndex: number) {
 }
 
 function removeCritere(pilierIndex: number, critereIndex: number) {
-  piliers.value[pilierIndex].criteres.splice(critereIndex, 1)
+  piliers.value[pilierIndex]?.criteres.splice(critereIndex, 1)
   emitUpdate()
 }
 

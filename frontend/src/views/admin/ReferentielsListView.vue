@@ -31,7 +31,7 @@ const filteredReferentiels = computed(() => {
 })
 
 const regions = computed(() => {
-  const set = new Set(adminStore.referentiels.map((r) => r.region).filter(Boolean))
+  const set = new Set(adminStore.referentiels.map((r) => r.region).filter((v): v is string => !!v))
   return Array.from(set).sort()
 })
 

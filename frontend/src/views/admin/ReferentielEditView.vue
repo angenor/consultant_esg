@@ -50,7 +50,10 @@ async function handleSubmit(data: ReferentielFormData) {
 
   try {
     if (isNew.value) {
-      const created = await adminStore.createReferentiel(data)
+      const created = await adminStore.createReferentiel({
+        ...data,
+        grille_json: data.grille_json as unknown as Record<string, unknown>,
+      })
       savedRefId.value = created.id
       router.replace({ name: 'AdminReferentielEdit', params: { id: created.id } })
     } else if (refId.value) {

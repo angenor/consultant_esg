@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import SkillCodeEditor from './SkillCodeEditor.vue'
 import SchemaBuilder from './SchemaBuilder.vue'
 
