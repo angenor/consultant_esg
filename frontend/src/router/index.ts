@@ -68,6 +68,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/admin/SkillsListView.vue'),
       },
       {
+        path: 'skills/new',
+        name: 'AdminSkillNew',
+        component: () => import('../views/admin/SkillEditView.vue'),
+      },
+      {
         path: 'skills/:id',
         name: 'AdminSkillEdit',
         component: () => import('../views/admin/SkillEditView.vue'),

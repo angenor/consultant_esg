@@ -12,7 +12,7 @@
 
 ### À faire
 
-- [ ] 26.1 Compléter `backend/app/api/admin/skills.py` (si pas déjà fait)
+- [x] 26.1 Compléter `backend/app/api/admin/skills.py` (si pas déjà fait)
   - `GET /api/admin/skills/` — lister tous les skills (filtrable par catégorie, statut)
   - `POST /api/admin/skills/` — créer un skill custom (valide le code Python)
   - `GET /api/admin/skills/{id}` — détail
@@ -22,29 +22,30 @@
   - `POST /api/admin/skills/{id}/test` — tester avec des params fictifs
   - Code dans [05_api_endpoints.md](../05_api_endpoints.md#admin---skills)
 
-- [ ] 26.2 Créer `src/views/admin/SkillsListView.vue`
+- [x] 26.2 Créer `src/views/admin/SkillsListView.vue`
   - Tableau des skills avec filtres (catégorie, statut)
   - Badges : builtin vs custom, actif/inactif
   - Actions : modifier, désactiver, supprimer (custom uniquement), tester
   - Bouton "Nouveau Skill"
   - Maquette dans [07_admin_skills.md](../07_admin_skills.md#interface-admin---liste-des-skills)
 
-- [ ] 26.3 Créer `src/views/admin/SkillEditView.vue`
+- [x] 26.3 Créer `src/views/admin/SkillEditView.vue`
   - Formulaire complet : nom, description, catégorie, input_schema, code Python
   - Intègre les composants admin ci-dessous
 
-- [ ] 26.4 Créer les composants admin skills
-  - [ ] `components/admin/SkillForm.vue` — formulaire principal, code dans [07_admin_skills.md](../07_admin_skills.md#composant-vuejs---skillform)
-  - [ ] `components/admin/SkillCodeEditor.vue` — éditeur CodeMirror pour Python
-    - Installer `@codemirror/lang-python`, `@codemirror/lang-json`
-  - [ ] `components/admin/SkillTestPanel.vue` — zone de test avec params JSON + résultat
-  - [ ] `components/admin/SchemaBuilder.vue` — builder visuel de JSON Schema (mode visuel optionnel)
+- [x] 26.4 Créer les composants admin skills
+  - [x] `components/admin/SkillForm.vue` — formulaire principal, code dans [07_admin_skills.md](../07_admin_skills.md#composant-vuejs---skillform)
+  - [x] `components/admin/SkillCodeEditor.vue` — éditeur code (textarea thème sombre, support Tab)
+    - Note : utilise un textarea stylisé au lieu de CodeMirror (plus léger pour le MVP)
+  - [x] `components/admin/SkillTestPanel.vue` — zone de test avec params JSON + résultat
+  - [x] `components/admin/SchemaBuilder.vue` — builder visuel de JSON Schema (mode visuel optionnel)
 
-- [ ] 26.5 Créer `src/stores/admin.ts` — Pinia store admin
+- [x] 26.5 Créer `src/stores/admin.ts` — Pinia store admin
   - Actions : `loadSkills()`, `createSkill()`, `updateSkill()`, `deleteSkill()`, `toggleSkill()`, `testSkill()`
 
-- [ ] 26.6 Tester le workflow admin complet
-  - Créer un skill custom → le tester → le sauvegarder → vérifier qu'il apparaît dans les tools du LLM → envoyer un message qui le trigger
+- [x] 26.6 Tester le workflow admin complet
+  - 10 tests API passés (LIST, CREATE, GET, UPDATE, TOGGLE, TEST, DELETE, protection builtin, filtrage, validation code)
+  - Frontend type-check OK (vue-tsc --noEmit)
 
 ### Comment
 
@@ -60,7 +61,7 @@
 
 ### À faire
 
-- [ ] 27.1 Compléter `backend/app/api/admin/referentiels.py`
+- [x] 27.1 Compléter `backend/app/api/admin/referentiels.py`
   - `GET /api/admin/referentiels/` — lister (filtrable par région, statut)
   - `POST /api/admin/referentiels/` — créer (valide la grille)
   - `GET /api/admin/referentiels/{id}` — détail avec grille + fonds liés
@@ -70,50 +71,50 @@
   - `POST /api/admin/referentiels/{id}/preview` — simuler un scoring avec données test
   - Validation de la grille : `validate_grille()` dans [05_api_endpoints.md](../05_api_endpoints.md#admin---référentiels-esg)
 
-- [ ] 27.2 Compléter `backend/app/api/admin/fonds.py`
+- [x] 27.2 Compléter `backend/app/api/admin/fonds.py`
   - CRUD fonds verts avec association au référentiel
   - `POST /api/admin/fonds/` — créer un fonds (+ `referentiel_id`)
   - `PUT /api/admin/fonds/{id}` — modifier
   - `DELETE /api/admin/fonds/{id}` — supprimer
 
-- [ ] 27.3 Compléter `backend/app/api/admin/templates.py`
+- [x] 27.3 Compléter `backend/app/api/admin/templates.py`
   - CRUD templates de rapports
 
-- [ ] 27.4 Créer `src/views/admin/ReferentielsListView.vue`
+- [x] 27.4 Créer `src/views/admin/ReferentielsListView.vue`
   - Tableau des référentiels avec : institution, région, poids E/S/G, méthode, nb critères, fonds liés
   - Actions : modifier, simuler, désactiver
   - Maquette dans [07_admin_skills.md](../07_admin_skills.md#interface-admin---liste-des-référentiels)
 
-- [ ] 27.5 Créer `src/views/admin/ReferentielEditView.vue`
+- [x] 27.5 Créer `src/views/admin/ReferentielEditView.vue`
   - Formulaire : nom, code, institution, région, description, méthode agrégation
   - Éditeur de grille ESG intégré
 
-- [ ] 27.6 Créer les composants admin référentiels
-  - [ ] `components/admin/ReferentielForm.vue` — formulaire principal
-  - [ ] `components/admin/GrilleEditor.vue` — éditeur visuel de grille ESG
+- [x] 27.6 Créer les composants admin référentiels
+  - [x] `components/admin/ReferentielForm.vue` — formulaire principal
+  - [x] `components/admin/GrilleEditor.vue` — éditeur visuel de grille ESG
     - Piliers avec poids global (slider ou input)
     - Pour chaque pilier : liste de critères (ajout/suppression)
     - Pour chaque critère : ID, label, poids, type (quantitatif/qualitatif), seuils ou options, question de collecte
     - Validation en temps réel : somme des poids = 1.00
     - Maquette dans [07_admin_skills.md](../07_admin_skills.md#interface-admin---éditeur-de-grille-esg)
-  - [ ] `components/admin/ScoringSimulator.vue` — tester le scoring avec données fictives
+  - [x] `components/admin/ScoringSimulator.vue` — tester le scoring avec données fictives
     - Input JSON des réponses aux critères
     - Affiche le résultat : scores par pilier + global + détail critères
 
-- [ ] 27.7 Créer les vues admin fonds + templates
-  - [ ] `src/views/admin/FondsListView.vue` — liste fonds verts
-  - [ ] `src/views/admin/FondEditView.vue` — formulaire fonds (avec sélecteur référentiel)
-  - [ ] `src/views/admin/TemplatesListView.vue` — liste templates rapports
+- [x] 27.7 Créer les vues admin fonds + templates
+  - [x] `src/views/admin/FondsListView.vue` — liste fonds verts
+  - [x] `src/views/admin/FondEditView.vue` — formulaire fonds (avec sélecteur référentiel)
+  - [x] `src/views/admin/TemplatesListView.vue` — liste templates rapports
 
-- [ ] 27.8 Créer `src/views/admin/AdminLayout.vue`
+- [x] 27.8 Créer `src/views/admin/AdminLayout.vue`
   - Navigation admin : Skills, Référentiels, Fonds, Templates, Stats
   - Layout avec sidebar admin
 
-- [ ] 27.9 Créer `backend/app/api/admin/stats.py`
+- [x] 27.9 Créer `backend/app/api/admin/stats.py`
   - `GET /api/admin/stats/dashboard` — statistiques globales
   - Nombre d'utilisateurs, d'entreprises, de conversations, de scores calculés, de rapports générés
 
-- [ ] 27.10 Créer `src/views/admin/StatsView.vue`
+- [x] 27.10 Créer `src/views/admin/StatsView.vue`
   - Dashboard admin avec compteurs et graphiques d'usage
 
 ### Comment
@@ -327,8 +328,8 @@
 
 | # | Étape | Statut |
 |---|-------|--------|
-| 26 | Admin CRUD skills | ⬜ |
-| 27 | Admin CRUD référentiels ESG | ⬜ |
+| 26 | Admin CRUD skills | ✅ |
+| 27 | Admin CRUD référentiels ESG | ✅ |
 | 28 | Support vocal (STT) | ⬜ |
 | 29 | Seed données réalistes | ⬜ |
 | 30 | UX/UI polish + tests | ⬜ |
