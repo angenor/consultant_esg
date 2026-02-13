@@ -278,7 +278,7 @@
 | 22 | Templates HTML rapports | ✅ |
 | 23 | Génération PDF (WeasyPrint + charts) | ✅ |
 | 24 | Frontend : CarbonView + CreditScoreView + ActionPlanView | ✅ |
-| 25 | Dashboard entreprise multi-référentiel | ⬜ |
+| 25 | Dashboard entreprise multi-référentiel | ✅ |
 
 **Critère de fin de semaine** : Toutes les vues frontend sont fonctionnelles. L'utilisateur peut voir son dashboard multi-référentiel, son empreinte carbone, son score crédit vert, son plan d'action, recevoir des notifications, et générer un rapport PDF complet.
 
