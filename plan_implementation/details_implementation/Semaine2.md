@@ -182,7 +182,7 @@
   - Bouton "Nouvelle conversation"
   - Intègre `ChatContainer`, `MessageInput`, les composants chat
 
-- [ ] 9.6 Tester le flow complet dans le navigateur
+- [x] 9.6 Tester le flow complet dans le navigateur — testé avec agent-browser headed
   - Se connecter → sélectionner/créer une entreprise → démarrer une conversation → envoyer un message → voir la réponse en streaming
 
 ### Comment
@@ -216,10 +216,11 @@
   - Rendu dynamique de toutes les clés de `profil_json` (avec labels français)
   - Description du skill `update_company_profile` enrichie avec les clés possibles
 
-- [ ] 10.4 Tester le profilage
-  - Démarrer une conversation, donner des infos sur l'entreprise ("on fait du tri sélectif", "on a 50 employés")
-  - Vérifier que l'agent appelle `update_company_profile` automatiquement
-  - Vérifier que les infos persistent dans `profil_json`
+- [x] 10.4 Tester le profilage — testé avec agent-browser headed
+  - Conversation démarrée, infos envoyées ("tri sélectif", "200 tonnes/mois", "ISO 14001", "30% solaire → 50% d'ici 2027")
+  - L'agent appelle `update_company_profile` automatiquement à chaque message (indicateur "Profil mis à jour" visible)
+  - Les infos persistent dans `profil_json` : certifications, activite_principale, volume_dechets_mensuels, energie_solaire_actuelle, objectif_energie_solaire, annee_objectif_energie
+  - Fix appliqué : réactivité Vue (proxy reactif) + nginx SSE (proxy_buffering off)
 
 ### Comment
 

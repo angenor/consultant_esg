@@ -33,14 +33,15 @@ export function useChat(conversationId: () => string | undefined) {
     })
 
     // Prepare assistant bubble (empty, streaming)
-    const assistantMsg: ChatMessage = {
+    messages.value.push({
       id: crypto.randomUUID(),
       role: 'assistant',
       content: '',
       skills: [],
       isStreaming: true,
-    }
-    messages.value.push(assistantMsg)
+    })
+    // Grab the reactive proxy from the array (not the raw object)
+    const assistantMsg = messages.value[messages.value.length - 1]!
     isLoading.value = true
 
     try {
