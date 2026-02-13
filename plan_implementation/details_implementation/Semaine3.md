@@ -226,7 +226,7 @@
   - Fichier JSON ou données dans `data/knowledge_base/` avec des actions types par secteur
   - Ex : remplacement éclairage LED, panneaux solaires, véhicules électriques, compostage, etc.
 
-- [ ] 16.3 Tester : "Génère un plan de réduction carbone pour mon entreprise"
+- [x] 16.3 Tester : "Génère un plan de réduction carbone pour mon entreprise"
 
 ### Comment
 

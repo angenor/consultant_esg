@@ -6,6 +6,7 @@ from app.skills.handlers.get_company_profile import get_company_profile
 from app.skills.handlers.list_referentiels import list_referentiels
 from app.skills.handlers.search_green_funds import search_green_funds
 from app.skills.handlers.search_knowledge_base import search_knowledge_base
+from app.skills.handlers.simulate_funding import simulate_funding
 from app.skills.handlers.update_company_profile import update_company_profile
 
 __all__ = [
