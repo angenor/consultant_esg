@@ -12,9 +12,9 @@
 
 ### À faire
 
-- [ ] 6.1 Créer `backend/app/skills/__init__.py`
+- [x] 6.1 Créer `backend/app/skills/__init__.py`
 
-- [ ] 6.2 Créer `backend/app/skills/registry.py` — classe `SkillRegistry`
+- [x] 6.2 Créer `backend/app/skills/registry.py` — classe `SkillRegistry`
   - `__init__(db_session)` : stocke la session BDD + enregistre les builtins
   - `_register_builtins()` : mappe `handler_key` → fonctions Python importées depuis `handlers/`
   - `get_active_tools()` : charge les skills actifs depuis la table `skills`, retourne une liste de dicts `{name, description, input_schema}`
@@ -22,19 +22,19 @@
   - `_execute_custom(code, params, context)` : exécution sandboxée du code Python custom
   - Code de référence complet dans [03_systeme_skills.md](../03_systeme_skills.md#architecture-du-skill-registry)
 
-- [ ] 6.3 Créer `backend/app/skills/validator.py`
+- [x] 6.3 Créer `backend/app/skills/validator.py`
   - `validate_skill_code(code)` → `(bool, str)` : vérifie les patterns interdits (`import os`, `exec(`, etc.)
   - Liste `FORBIDDEN_PATTERNS` depuis [03_systeme_skills.md](../03_systeme_skills.md#sécurité-des-skills-custom)
 
-- [ ] 6.4 Créer les handlers builtin basiques (versions minimales)
-  - [ ] `handlers/__init__.py` — importe tout
-  - [ ] `handlers/get_company_profile.py` — lit le profil entreprise depuis la BDD
-  - [ ] `handlers/update_company_profile.py` — met à jour `profil_json` de l'entreprise
-  - [ ] `handlers/list_referentiels.py` — liste les référentiels ESG actifs
-  - [ ] `handlers/search_knowledge_base.py` — placeholder (retourne un message "RAG pas encore implémenté")
-  - Les autres handlers (analyze_document, calculate_esg_score, etc.) seront des stubs qui retournent `{"status": "not_implemented"}` pour l'instant
+- [x] 6.4 Créer les handlers builtin basiques (versions minimales)
+  - [x] `handlers/__init__.py` — importe tout
+  - [x] `handlers/get_company_profile.py` — lit le profil entreprise depuis la BDD
+  - [x] `handlers/update_company_profile.py` — met à jour `profil_json` de l'entreprise
+  - [x] `handlers/list_referentiels.py` — liste les référentiels ESG actifs
+  - [x] `handlers/search_knowledge_base.py` — placeholder (retourne un message "RAG pas encore implémenté")
+  - Les autres handlers (analyze_document, calculate_esg_score, etc.) seront des stubs qui retournent `{"status": "not_implemented"}` pour l'instant → ✅ `handlers/stubs.py` créé
 
-- [ ] 6.5 Tester le registry en isolation
+- [x] 6.5 Tester le registry en isolation — 18/18 tests passent
   - Charger les skills depuis la BDD (seed de la Semaine 1)
   - Vérifier que `get_active_tools()` retourne la bonne liste
   - Exécuter `get_company_profile` avec un `entreprise_id` de test
@@ -229,7 +229,7 @@
 
 | # | Étape | Statut |
 |---|-------|--------|
-| 6 | SkillRegistry + handlers builtin basiques | ⬜ |
+| 6 | SkillRegistry + handlers builtin basiques | ✅ |
 | 7 | AgentEngine (boucle agent + LLM API) | ⬜ |
 | 8 | API /chat avec SSE streaming | ⬜ |
 | 9 | Frontend ChatView + composable useChat | ⬜ |

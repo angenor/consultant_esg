@@ -24,6 +24,8 @@ services:
     depends_on:
       - db
     volumes:
+      - ./backend/app:/app/app
+      - ./backend/tests:/app/tests
       - ./backend/uploads:/app/uploads
       - ./data:/app/data
 
