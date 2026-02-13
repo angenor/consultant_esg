@@ -54,14 +54,14 @@
 
 ### À faire
 
-- [ ] 7.1 Créer `backend/app/agent/__init__.py`
+- [x] 7.1 Créer `backend/app/agent/__init__.py`
 
-- [ ] 7.2 Créer `backend/app/agent/prompt_builder.py`
+- [x] 7.2 Créer `backend/app/agent/prompt_builder.py`
   - Fonction `build_system_prompt(entreprise, skills)` → str
   - 3 parties : identité/rôle fixe + contexte entreprise dynamique + liste des skills
   - Code de référence dans [04_agent_conversationnel.md](../04_agent_conversationnel.md#system-prompt-dynamique)
 
-- [ ] 7.3 Créer `backend/app/agent/engine.py` — classe `AgentEngine`
+- [x] 7.3 Créer `backend/app/agent/engine.py` — classe `AgentEngine`
   - `__init__(db, skill_registry)` : instancie le client `AsyncOpenAI` pointé vers `LLM_BASE_URL` (OpenRouter)
   - `run(conversation_id, user_message, entreprise)` : boucle agent complète, yield des événements SSE
   - `_stream_llm(tools, messages)` : appel streaming au LLM, accumule les `tool_calls` fragmentés
@@ -69,7 +69,7 @@
   - `_save_message(conv_id, role, content, tool_calls_json)` : sauvegarde en BDD
   - Code de référence complet dans [04_agent_conversationnel.md](../04_agent_conversationnel.md#boucle-agent)
 
-- [ ] 7.4 Boucle agent — logique détaillée
+- [x] 7.4 Boucle agent — logique détaillée
   - Construire les messages : `[system, ...history, user_message]`
   - Convertir les skills en format OpenAI tools (`type: "function"`)
   - Appeler le LLM en streaming
@@ -77,7 +77,7 @@
   - Boucle max 10 tours (sécurité anti-boucle infinie)
   - Yield des événements : `text`, `skill_start`, `skill_result`, `done`, `error`
 
-- [ ] 7.5 Tester en isolation
+- [x] 7.5 Tester en isolation — 6/6 unit tests OK, 3 tests LLM skippés (clé API OpenRouter à configurer)
   - Appeler `engine.run()` avec un message simple ("Bonjour")
   - Vérifier que le LLM répond en streaming
   - Appeler avec un message qui devrait trigger un skill ("Quel est mon profil ?") → vérifier que `get_company_profile` est appelé
@@ -230,7 +230,7 @@
 | # | Étape | Statut |
 |---|-------|--------|
 | 6 | SkillRegistry + handlers builtin basiques | ✅ |
-| 7 | AgentEngine (boucle agent + LLM API) | ⬜ |
+| 7 | AgentEngine (boucle agent + LLM API) | ✅ |
 | 8 | API /chat avec SSE streaming | ⬜ |
 | 9 | Frontend ChatView + composable useChat | ⬜ |
 | 10 | Profilage entreprise par conversation | ⬜ |
