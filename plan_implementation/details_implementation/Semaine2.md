@@ -98,43 +98,43 @@
 
 ### À faire
 
-- [ ] 8.1 Créer `backend/app/api/chat.py` — router `/api/chat`
+- [x] 8.1 Créer `backend/app/api/chat.py` — router `/api/chat`
 
-- [ ] 8.2 Endpoint `POST /api/chat/conversations`
+- [x] 8.2 Endpoint `POST /api/chat/conversations`
   - Crée une nouvelle conversation liée à une entreprise
   - Body : `{ entreprise_id, titre? }`
   - Retourne la conversation créée
 
-- [ ] 8.3 Endpoint `GET /api/chat/conversations`
+- [x] 8.3 Endpoint `GET /api/chat/conversations`
   - Liste les conversations de l'utilisateur (via l'entreprise liée au user)
 
-- [ ] 8.4 Endpoint `GET /api/chat/conversations/{id}`
+- [x] 8.4 Endpoint `GET /api/chat/conversations/{id}`
   - Retourne l'historique complet d'une conversation (messages)
 
-- [ ] 8.5 Endpoint `POST /api/chat/conversations/{id}/message` — SSE streaming
+- [x] 8.5 Endpoint `POST /api/chat/conversations/{id}/message` — SSE streaming
   - Body : `{ message: string }`
   - Instancie `AgentEngine`, appelle `engine.run()`
   - Retourne un `EventSourceResponse` (sse-starlette)
   - Événements SSE : `text`, `skill_start`, `skill_result`, `done`, `error`
   - Voir [05_api_endpoints.md](../05_api_endpoints.md#chat-endpoint-principal)
 
-- [ ] 8.6 Endpoint `DELETE /api/chat/conversations/{id}`
+- [x] 8.6 Endpoint `DELETE /api/chat/conversations/{id}`
   - Supprime une conversation et ses messages
 
-- [ ] 8.7 Créer les schemas Pydantic `backend/app/schemas/chat.py`
+- [x] 8.7 Créer les schemas Pydantic `backend/app/schemas/chat.py`
   - `CreateConversationRequest`, `SendMessageRequest`
   - `ConversationResponse`, `ConversationDetailResponse`, `MessageResponse`
 
-- [ ] 8.8 Ajouter le router chat dans `main.py`
+- [x] 8.8 Ajouter le router chat dans `main.py`
 
-- [ ] 8.9 Créer `backend/app/api/entreprises.py` — CRUD basique entreprises
+- [x] 8.9 Créer `backend/app/api/entreprises.py` — CRUD basique entreprises
   - `POST /api/entreprises/` — créer une entreprise
   - `GET /api/entreprises/` — lister mes entreprises
   - `GET /api/entreprises/{id}` — détail
   - `PUT /api/entreprises/{id}` — modifier
   - Nécessaire pour que le chat puisse charger le contexte entreprise
 
-- [ ] 8.10 Tester le flux complet avec `curl`
+- [x] 8.10 Tester le flux complet avec `curl` — tous endpoints OK, SSE stream OK (LLM API key à configurer)
   - Créer une entreprise → créer une conversation → envoyer un message → recevoir le stream SSE
 
 ### Comment
@@ -231,7 +231,7 @@
 |---|-------|--------|
 | 6 | SkillRegistry + handlers builtin basiques | ✅ |
 | 7 | AgentEngine (boucle agent + LLM API) | ✅ |
-| 8 | API /chat avec SSE streaming | ⬜ |
+| 8 | API /chat avec SSE streaming | ✅ |
 | 9 | Frontend ChatView + composable useChat | ⬜ |
 | 10 | Profilage entreprise par conversation | ⬜ |
 
