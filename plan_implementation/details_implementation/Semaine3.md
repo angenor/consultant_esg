@@ -127,10 +127,13 @@
   - `GET /api/entreprises/{id}/scores/{score_id}` — détail complet par critère
   - Schemas Pydantic dans `backend/app/schemas/esg.py`
 
-- [ ] 13.5 Tester le scoring via le chat
-  - Via le chat : "Calcule mon score ESG selon le référentiel BCEAO"
-  - L'agent doit poser les questions correspondant aux critères de la grille
-  - Vérifier le résultat en BDD
+- [x] 13.5 Tester le scoring via le chat
+  - Via le chat : "Calcule mon score ESG selon le référentiel BCEAO" ✅
+  - L'agent pose les 12 questions (3 piliers × 4 critères) ✅
+  - Le skill `calculate_esg_score` est appelé et sauvegarde en BDD ✅
+  - L'endpoint `GET /api/entreprises/{id}/scores` retourne l'historique ✅
+  - Note : les réponses qualitatives en texte libre ont un matching partiel,
+    les réponses doivent correspondre aux labels exacts des options pour un score optimal
 
 ### Comment
 
@@ -147,21 +150,23 @@
 
 ### À faire
 
-- [ ] 14.1 Implémenter le handler `search_green_funds`
-  - Étape 1 : filtrage SQL sur `fonds_verts` (secteur, pays, date_limite, montant)
-  - Étape 2 : pour chaque fonds filtré, recherche RAG dans `fonds_chunks` pour les critères détaillés
-  - Calcul d'un score de compatibilité simplifié
+- [x] 14.1 Implémenter le handler `search_green_funds`
+  - Filtrage SQL sur `fonds_verts` (secteur, pays, date_limite, montant)
+  - Recherche RAG dans `fonds_chunks` pour les critères détaillés
+  - Score de compatibilité (secteur +15, pays +10, montant +10, ESG +15, RAG +5)
   - Tri par compatibilité décroissante
-  - Code dans [03_systeme_skills.md](../03_systeme_skills.md#skill--search_green_funds)
+  - → `backend/app/skills/handlers/search_green_funds.py`
 
-- [ ] 14.2 Peupler `fonds_chunks` pour les fonds du seed
-  - Écrire des textes de description détaillés pour chaque fonds
-  - Chunker + embeddings → insertion dans `fonds_chunks`
-  - Peut être fait dans le seed ou via un script séparé
+- [x] 14.2 Peupler `fonds_chunks` pour les fonds du seed
+  - 5 fonds × 3 descriptions (éligibilité, critères, processus) = 16 chunks
+  - Embeddings via Voyage AI + insertion dans `fonds_chunks`
+  - → `backend/app/seed/seed_fonds_chunks.py`
+  - Intégré dans `python -m app.seed` (étape 5/5)
 
-- [ ] 14.3 Tester via le chat
-  - "Quels fonds verts sont disponibles pour une entreprise de recyclage en Côte d'Ivoire ?"
-  - Vérifier que l'agent retourne des fonds pertinents avec score de compatibilité
+- [x] 14.3 Tester via le chat
+  - "Quels fonds verts sont disponibles pour une entreprise de recyclage en CI ?" ✅
+  - FAGACE 100%, BOAD-PME 95%, GCF 75% (score ESG insuffisant) ✅
+  - Détails RAG : documents requis, délais, conditions extraits des chunks ✅
 
 ### Comment
 
@@ -284,7 +289,7 @@
 | 11 | RAG : chunker, embeddings, search | ✅ |
 | 12 | Upload documents + analyse | ✅ |
 | 13 | Score ESG multi-référentiel | ✅ |
-| 14 | Recherche fonds verts (SQL + RAG) | ⬜ |
+| 14 | Recherche fonds verts (SQL + RAG) | ✅ |
 | 15 | Calculateur empreinte carbone | ⬜ |
 | 16 | Plan de réduction carbone | ⬜ |
 | 17 | Simulateur de financement | ⬜ |
