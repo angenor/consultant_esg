@@ -182,7 +182,7 @@
 
 ### À faire
 
-- [ ] 15.1 Implémenter le handler `calculate_carbon_footprint`
+- [x] 15.1 Implémenter le handler `calculate_carbon_footprint`
   - Entrées : `entreprise_id`, `data` (electricite_kwh, generateur_litres, vehicules_km, type_carburant, dechets_tonnes, achats_montant)
   - Charge les facteurs d'émission depuis `data/facteurs_emission.json` (contextualisés par pays)
   - Calcule : chaque donnée d'activité × facteur d'émission
@@ -190,15 +190,15 @@
   - Sauvegarde dans `carbon_footprints`
   - Compare avec la moyenne sectorielle via `sector_benchmarks`
 
-- [ ] 15.2 Créer/compléter `data/facteurs_emission.json`
+- [x] 15.2 Créer/compléter `data/facteurs_emission.json`
   - Facteurs par pays : CI (mix énergétique ~0.45 kgCO2/kWh), SEN, CMR
   - Facteurs par source : diesel (2.68 kgCO2/L), essence (2.31), etc.
 
-- [ ] 15.3 Créer `backend/app/api/carbon.py`
+- [x] 15.3 Créer `backend/app/api/carbon.py`
   - `GET /api/carbon/entreprise/{id}` — historique empreinte carbone
   - `GET /api/carbon/entreprise/{id}/evolution` — évolution mensuelle/annuelle
 
-- [ ] 15.4 Tester via le chat
+- [x] 15.4 Tester via le chat
   - "Calcule mon empreinte carbone, je consomme 15000 kWh d'électricité par an et j'ai 3 véhicules diesel"
 
 ### Comment
@@ -215,14 +215,14 @@
 
 ### À faire
 
-- [ ] 16.1 Implémenter le handler `generate_reduction_plan`
+- [x] 16.1 Implémenter le handler `generate_reduction_plan`
   - Récupère la dernière `carbon_footprint` de l'entreprise
   - Identifie les sources les plus émettrices
   - Propose des actions classées en `quick_win` (< 3 mois), `moyen_terme` (3-12 mois), `long_terme` (> 12 mois)
   - Estime la réduction en tCO2e et les économies financières pour chaque action
   - Crée automatiquement les `action_items` associés
 
-- [ ] 16.2 Créer une base de connaissances des actions de réduction
+- [x] 16.2 Créer une base de connaissances des actions de réduction
   - Fichier JSON ou données dans `data/knowledge_base/` avec des actions types par secteur
   - Ex : remplacement éclairage LED, panneaux solaires, véhicules électriques, compostage, etc.
 
@@ -290,8 +290,8 @@
 | 12 | Upload documents + analyse | ✅ |
 | 13 | Score ESG multi-référentiel | ✅ |
 | 14 | Recherche fonds verts (SQL + RAG) | ✅ |
-| 15 | Calculateur empreinte carbone | ⬜ |
-| 16 | Plan de réduction carbone | ⬜ |
+| 15 | Calculateur empreinte carbone | ✅ |
+| 16 | Plan de réduction carbone | ✅ |
 | 17 | Simulateur de financement | ⬜ |
 | 18 | Benchmarking sectoriel | ⬜ |
 

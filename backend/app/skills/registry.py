@@ -32,7 +32,9 @@ class SkillRegistry:
         """Enregistre tous les handlers builtin disponibles."""
         from app.skills.handlers import (
             analyze_document,
+            calculate_carbon,
             calculate_esg_score,
+            generate_reduction_plan,
             get_company_profile,
             list_referentiels,
             search_green_funds,
@@ -49,14 +51,14 @@ class SkillRegistry:
             "builtin.analyze_document": analyze_document,
             "builtin.calculate_esg_score": calculate_esg_score,
             "builtin.search_green_funds": search_green_funds,
+            "builtin.calculate_carbon": calculate_carbon,
+            "builtin.generate_reduction_plan": generate_reduction_plan,
         }
 
         # Handlers stubs — seront développés en Semaine 3-4
         from app.skills.handlers.stubs import stub_handler
 
         stub_keys = [
-            "builtin.calculate_carbon",
-            "builtin.generate_reduction_plan",
             "builtin.simulate_funding",
             "builtin.calculate_credit_score",
             "builtin.get_sector_benchmark",

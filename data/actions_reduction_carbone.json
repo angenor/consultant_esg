@@ -1,0 +1,193 @@
+{
+  "description": "Actions de réduction carbone par source d'émission, classées par horizon temporel.",
+  "actions": {
+    "energie": [
+      {
+        "titre": "Audit énergétique du site",
+        "description": "Réaliser un audit complet pour identifier les gaspillages énergétiques (éclairage, climatisation, équipements).",
+        "horizon": "quick_win",
+        "reduction_pct": 5,
+        "cout_estime_xof": 500000,
+        "economie_annuelle_xof": 300000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Remplacement éclairage LED",
+        "description": "Remplacer tous les éclairages par des LED basse consommation. Réduction de 60-80% de la consommation d'éclairage.",
+        "horizon": "quick_win",
+        "reduction_pct": 8,
+        "cout_estime_xof": 2000000,
+        "economie_annuelle_xof": 800000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Installation de minuteries et détecteurs de présence",
+        "description": "Automatiser l'extinction des lumières et climatiseurs dans les zones à occupation intermittente.",
+        "horizon": "quick_win",
+        "reduction_pct": 3,
+        "cout_estime_xof": 300000,
+        "economie_annuelle_xof": 200000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Installation panneaux solaires (phase 1)",
+        "description": "Installer des panneaux solaires pour couvrir 30-40% des besoins électriques. Réduit aussi la dépendance au générateur diesel.",
+        "horizon": "moyen_terme",
+        "reduction_pct": 30,
+        "cout_estime_xof": 15000000,
+        "economie_annuelle_xof": 4000000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Remplacement du générateur par un modèle plus efficient",
+        "description": "Passer à un générateur de dernière génération ou hybride solaire-diesel pour réduire la consommation de carburant.",
+        "horizon": "moyen_terme",
+        "reduction_pct": 20,
+        "cout_estime_xof": 8000000,
+        "economie_annuelle_xof": 2500000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Extension solaire (phase 2) + batteries de stockage",
+        "description": "Porter la couverture solaire à 70-80% avec batteries de stockage pour l'autonomie énergétique.",
+        "horizon": "long_terme",
+        "reduction_pct": 60,
+        "cout_estime_xof": 40000000,
+        "economie_annuelle_xof": 10000000,
+        "secteurs": ["tous"]
+      }
+    ],
+    "transport": [
+      {
+        "titre": "Formation éco-conduite des chauffeurs",
+        "description": "Former les chauffeurs aux techniques d'éco-conduite pour réduire la consommation de carburant de 10-15%.",
+        "horizon": "quick_win",
+        "reduction_pct": 12,
+        "cout_estime_xof": 200000,
+        "economie_annuelle_xof": 600000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Optimisation des tournées et itinéraires",
+        "description": "Utiliser un logiciel d'optimisation pour réduire les kilomètres parcourus de 15-20%.",
+        "horizon": "quick_win",
+        "reduction_pct": 15,
+        "cout_estime_xof": 500000,
+        "economie_annuelle_xof": 1000000,
+        "secteurs": ["recyclage", "transport", "agroalimentaire"]
+      },
+      {
+        "titre": "Entretien préventif renforcé des véhicules",
+        "description": "Programme d'entretien régulier (pression pneus, filtres, huile) pour maintenir l'efficacité des véhicules.",
+        "horizon": "quick_win",
+        "reduction_pct": 5,
+        "cout_estime_xof": 300000,
+        "economie_annuelle_xof": 400000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Remplacement progressif par des véhicules hybrides",
+        "description": "Remplacer les véhicules diesel les plus anciens par des modèles hybrides lors du renouvellement de flotte.",
+        "horizon": "moyen_terme",
+        "reduction_pct": 30,
+        "cout_estime_xof": 25000000,
+        "economie_annuelle_xof": 3000000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Transition vers véhicules électriques",
+        "description": "Électrification progressive de la flotte avec installation de bornes de recharge solaire.",
+        "horizon": "long_terme",
+        "reduction_pct": 70,
+        "cout_estime_xof": 60000000,
+        "economie_annuelle_xof": 8000000,
+        "secteurs": ["tous"]
+      }
+    ],
+    "dechets": [
+      {
+        "titre": "Tri sélectif et amélioration de la valorisation",
+        "description": "Mettre en place ou améliorer le tri à la source pour augmenter le taux de recyclage et réduire l'enfouissement.",
+        "horizon": "quick_win",
+        "reduction_pct": 15,
+        "cout_estime_xof": 500000,
+        "economie_annuelle_xof": 300000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Compostage des déchets organiques",
+        "description": "Installer un site de compostage pour les déchets biodégradables. Le compost peut être revendu ou utilisé.",
+        "horizon": "quick_win",
+        "reduction_pct": 20,
+        "cout_estime_xof": 1000000,
+        "economie_annuelle_xof": 500000,
+        "secteurs": ["agriculture", "agroalimentaire", "recyclage"]
+      },
+      {
+        "titre": "Partenariat avec des filières de recyclage",
+        "description": "Établir des partenariats avec des recycleurs locaux pour valoriser les déchets plastiques, métaux et papiers.",
+        "horizon": "moyen_terme",
+        "reduction_pct": 30,
+        "cout_estime_xof": 800000,
+        "economie_annuelle_xof": 1200000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Unité de méthanisation des déchets organiques",
+        "description": "Installer une unité de méthanisation pour produire du biogaz à partir des déchets organiques.",
+        "horizon": "long_terme",
+        "reduction_pct": 50,
+        "cout_estime_xof": 30000000,
+        "economie_annuelle_xof": 5000000,
+        "secteurs": ["agriculture", "agroalimentaire", "recyclage"]
+      },
+      {
+        "titre": "Objectif zéro enfouissement",
+        "description": "Programme complet visant 100% de valorisation des déchets (recyclage, compostage, réemploi).",
+        "horizon": "long_terme",
+        "reduction_pct": 90,
+        "cout_estime_xof": 10000000,
+        "economie_annuelle_xof": 3000000,
+        "secteurs": ["recyclage"]
+      }
+    ],
+    "achats": [
+      {
+        "titre": "Politique achats responsables",
+        "description": "Adopter une charte achats responsables privilégiant les fournisseurs locaux et éco-certifiés.",
+        "horizon": "quick_win",
+        "reduction_pct": 5,
+        "cout_estime_xof": 0,
+        "economie_annuelle_xof": 200000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Réduction des emballages et matériaux jetables",
+        "description": "Remplacer les emballages à usage unique par des solutions réutilisables ou recyclées.",
+        "horizon": "quick_win",
+        "reduction_pct": 8,
+        "cout_estime_xof": 500000,
+        "economie_annuelle_xof": 400000,
+        "secteurs": ["agroalimentaire", "recyclage"]
+      },
+      {
+        "titre": "Approvisionnement en circuit court",
+        "description": "Privilégier les fournisseurs locaux (< 100 km) pour réduire les émissions de transport des marchandises.",
+        "horizon": "moyen_terme",
+        "reduction_pct": 15,
+        "cout_estime_xof": 0,
+        "economie_annuelle_xof": 1000000,
+        "secteurs": ["tous"]
+      },
+      {
+        "titre": "Certification éco-responsable des fournisseurs",
+        "description": "Exiger des certifications environnementales de la part des principaux fournisseurs.",
+        "horizon": "long_terme",
+        "reduction_pct": 20,
+        "cout_estime_xof": 1000000,
+        "economie_annuelle_xof": 500000,
+        "secteurs": ["tous"]
+      }
+    ]
+  }
+}

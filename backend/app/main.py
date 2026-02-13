@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from app.api.auth import router as auth_router
+from app.api.carbon import router as carbon_router
 from app.api.chat import router as chat_router
 from app.api.documents import router as documents_router
 from app.api.entreprises import router as entreprises_router
@@ -37,6 +38,7 @@ app.include_router(auth_router)
 app.include_router(entreprises_router)
 app.include_router(chat_router)
 app.include_router(documents_router)
+app.include_router(carbon_router)
 
 
 @app.get("/api/health")
