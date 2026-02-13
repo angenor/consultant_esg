@@ -1,0 +1,86 @@
+[
+  {
+    "nom": "Facilité Verte BOAD-PME",
+    "institution": "Banque Ouest Africaine de Développement (BOAD)",
+    "type": "pret",
+    "referentiel_code": "bceao_fd_2024",
+    "montant_min": 50000000,
+    "montant_max": 2000000000,
+    "devise": "XOF",
+    "secteurs_json": ["agriculture", "energie", "recyclage", "agroalimentaire", "transport"],
+    "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "TGO", "BEN", "NER", "GNB"],
+    "criteres_json": {
+      "score_esg_minimum": 40,
+      "anciennete_minimum_mois": 12,
+      "description": "Prêt à taux préférentiel pour PME de l'UEMOA engagées dans la transition verte. Score ESG minimum de 40/100 requis."
+    },
+    "url_source": "https://www.boad.org"
+  },
+  {
+    "nom": "Programme d'Adaptation Climatique BAD",
+    "institution": "Banque Africaine de Développement (BAD)",
+    "type": "subvention",
+    "referentiel_code": "gcf_standards",
+    "montant_min": 100000,
+    "montant_max": 5000000,
+    "devise": "USD",
+    "secteurs_json": ["agriculture", "eau", "energie", "infrastructure"],
+    "pays_eligibles": ["CIV", "SEN", "CMR", "GHA", "KEN", "TZA", "ETH"],
+    "criteres_json": {
+      "score_esg_minimum": 30,
+      "impact_climatique_requis": true,
+      "description": "Subvention pour projets d'adaptation au changement climatique en Afrique. Focus sur l'agriculture résiliente et les énergies renouvelables."
+    },
+    "url_source": "https://www.afdb.org"
+  },
+  {
+    "nom": "Green Climate Fund - PME Afrique de l'Ouest",
+    "institution": "Green Climate Fund (GCF)",
+    "type": "subvention",
+    "referentiel_code": "gcf_standards",
+    "montant_min": 500000,
+    "montant_max": 10000000,
+    "devise": "USD",
+    "secteurs_json": ["energie", "transport", "agriculture", "dechets"],
+    "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "GHA", "CMR", "TGO", "BEN"],
+    "criteres_json": {
+      "score_esg_minimum": 50,
+      "plan_reduction_carbone_requis": true,
+      "description": "Financement de projets à fort impact climatique. Nécessite un plan de réduction carbone chiffré et un score ESG d'au moins 50/100."
+    },
+    "url_source": "https://www.greenclimate.fund"
+  },
+  {
+    "nom": "Ligne de Crédit Vert IFC",
+    "institution": "International Finance Corporation (IFC)",
+    "type": "pret",
+    "referentiel_code": "ifc_standards",
+    "montant_min": 200000,
+    "montant_max": 3000000,
+    "devise": "USD",
+    "secteurs_json": ["energie", "industrie", "batiment", "transport"],
+    "pays_eligibles": ["CIV", "SEN", "CMR", "GHA", "KEN", "NGA"],
+    "criteres_json": {
+      "score_esg_minimum": 45,
+      "conformite_ifc_requise": true,
+      "description": "Crédit via banques partenaires pour projets de transition énergétique et efficacité des ressources. Conformité aux standards IFC requise."
+    },
+    "url_source": "https://www.ifc.org"
+  },
+  {
+    "nom": "Fonds de Garantie Verte FAGACE",
+    "institution": "Fonds Africain de Garantie et de Coopération Économique (FAGACE)",
+    "type": "garantie",
+    "referentiel_code": "bceao_fd_2024",
+    "montant_min": 10000000,
+    "montant_max": 500000000,
+    "devise": "XOF",
+    "secteurs_json": ["agriculture", "energie", "recyclage", "eau"],
+    "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "TGO", "BEN", "NER", "CMR"],
+    "criteres_json": {
+      "score_esg_minimum": 35,
+      "description": "Garantie partielle de crédit pour PME vertes de la zone franc. Facilite l'accès au crédit bancaire classique avec un engagement ESG démontré."
+    },
+    "url_source": "https://www.fagace.org"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "secteur": "agriculture",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 42.0,
+    "score_s_moyen": 38.0,
+    "score_g_moyen": 35.0,
+    "score_global_moyen": 38.5,
+    "carbone_moyen_tco2e": 320.0,
+    "nombre_entreprises": 45,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "energie",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 48.0,
+    "score_s_moyen": 45.0,
+    "score_g_moyen": 50.0,
+    "score_global_moyen": 47.5,
+    "carbone_moyen_tco2e": 850.0,
+    "nombre_entreprises": 22,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "recyclage",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 65.0,
+    "score_s_moyen": 42.0,
+    "score_g_moyen": 40.0,
+    "score_global_moyen": 50.5,
+    "carbone_moyen_tco2e": 120.0,
+    "nombre_entreprises": 12,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "agroalimentaire",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 40.0,
+    "score_s_moyen": 44.0,
+    "score_g_moyen": 42.0,
+    "score_global_moyen": 41.8,
+    "carbone_moyen_tco2e": 450.0,
+    "nombre_entreprises": 35,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "transport",
+    "pays": "CIV",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 30.0,
+    "score_s_moyen": 40.0,
+    "score_g_moyen": 38.0,
+    "score_global_moyen": 35.2,
+    "carbone_moyen_tco2e": 1200.0,
+    "nombre_entreprises": 28,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "agriculture",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 40.0,
+    "score_s_moyen": 36.0,
+    "score_g_moyen": 33.0,
+    "score_global_moyen": 36.5,
+    "carbone_moyen_tco2e": 280.0,
+    "nombre_entreprises": 30,
+    "periode": "2025_Q1"
+  },
+  {
+    "secteur": "energie",
+    "pays": "SEN",
+    "referentiel_code": "bceao_fd_2024",
+    "score_e_moyen": 45.0,
+    "score_s_moyen": 42.0,
+    "score_g_moyen": 48.0,
+    "score_global_moyen": 45.0,
+    "carbone_moyen_tco2e": 920.0,
+    "nombre_entreprises": 18,
+    "periode": "2025_Q1"
+  }
+]

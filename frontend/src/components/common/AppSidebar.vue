@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 
@@ -32,10 +33,6 @@ const userInitials = computed(() => {
 })
 </script>
 
-<script lang="ts">
-import { computed } from 'vue'
-export default { name: 'AppSidebar' }
-</script>
 
 <template>
   <aside class="fixed inset-y-0 left-0 z-30 flex w-64 flex-col bg-gray-900 text-white">

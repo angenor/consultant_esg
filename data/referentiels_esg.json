@@ -1,0 +1,440 @@
+[
+  {
+    "nom": "BCEAO Finance Durable 2024",
+    "code": "bceao_fd_2024",
+    "institution": "BCEAO",
+    "description": "Référentiel de la Banque Centrale des États de l'Afrique de l'Ouest pour la finance durable, applicable aux pays de l'UEMOA.",
+    "region": "UEMOA",
+    "grille_json": {
+      "methode_aggregation": "weighted_average",
+      "piliers": {
+        "environnement": {
+          "poids_global": 0.40,
+          "criteres": [
+            {
+              "id": "emissions_carbone",
+              "label": "Émissions de gaz à effet de serre",
+              "poids": 0.30,
+              "type": "quantitatif",
+              "unite": "tCO2e/an",
+              "seuils": {
+                "excellent": {"max": 50, "score": 100},
+                "bon": {"max": 200, "score": 70},
+                "moyen": {"max": 500, "score": 40},
+                "faible": {"min": 500, "score": 10}
+              },
+              "question_collecte": "Estimez vos émissions annuelles de CO2 (en tonnes équivalent CO2)"
+            },
+            {
+              "id": "gestion_dechets",
+              "label": "Gestion et valorisation des déchets",
+              "poids": 0.25,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Politique formelle + recyclage actif", "score": 100},
+                {"label": "Tri sélectif en place", "score": 70},
+                {"label": "Collecte basique", "score": 40},
+                {"label": "Aucune gestion structurée", "score": 10}
+              ],
+              "question_collecte": "Comment gérez-vous vos déchets ?"
+            },
+            {
+              "id": "consommation_eau",
+              "label": "Gestion de la consommation d'eau",
+              "poids": 0.20,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Système de récupération + réutilisation", "score": 100},
+                {"label": "Suivi et objectifs de réduction", "score": 70},
+                {"label": "Suivi basique de la consommation", "score": 40},
+                {"label": "Aucun suivi", "score": 10}
+              ],
+              "question_collecte": "Comment gérez-vous votre consommation d'eau ?"
+            },
+            {
+              "id": "energie_renouvelable",
+              "label": "Utilisation d'énergies renouvelables",
+              "poids": 0.25,
+              "type": "quantitatif",
+              "unite": "%",
+              "seuils": {
+                "excellent": {"min": 50, "score": 100},
+                "bon": {"min": 25, "score": 70},
+                "moyen": {"min": 10, "score": 40},
+                "faible": {"max": 10, "score": 10}
+              },
+              "question_collecte": "Quel pourcentage de votre énergie provient de sources renouvelables ?"
+            }
+          ]
+        },
+        "social": {
+          "poids_global": 0.30,
+          "criteres": [
+            {
+              "id": "conditions_travail",
+              "label": "Conditions de travail et sécurité",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Certifié (ISO 45001 ou équivalent)", "score": 100},
+                {"label": "Politique formelle + formation régulière", "score": 70},
+                {"label": "Règles de base respectées", "score": 40},
+                {"label": "Pas de politique formelle", "score": 10}
+              ],
+              "question_collecte": "Décrivez vos mesures de sécurité et conditions de travail"
+            },
+            {
+              "id": "egalite_genre",
+              "label": "Égalité des genres et diversité",
+              "poids": 0.25,
+              "type": "quantitatif",
+              "unite": "% femmes postes direction",
+              "seuils": {
+                "excellent": {"min": 40, "score": 100},
+                "bon": {"min": 25, "score": 70},
+                "moyen": {"min": 15, "score": 40},
+                "faible": {"max": 15, "score": 10}
+              },
+              "question_collecte": "Quel est le pourcentage de femmes dans les postes de direction ?"
+            },
+            {
+              "id": "impact_communaute",
+              "label": "Impact sur la communauté locale",
+              "poids": 0.25,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Programmes actifs + mesure d'impact", "score": 100},
+                {"label": "Actions ponctuelles documentées", "score": 70},
+                {"label": "Embauche locale uniquement", "score": 40},
+                {"label": "Pas d'engagement communautaire", "score": 10}
+              ],
+              "question_collecte": "Quelles actions menez-vous pour la communauté locale ?"
+            },
+            {
+              "id": "formation_employes",
+              "label": "Formation et développement des employés",
+              "poids": 0.20,
+              "type": "quantitatif",
+              "unite": "heures/employé/an",
+              "seuils": {
+                "excellent": {"min": 40, "score": 100},
+                "bon": {"min": 20, "score": 70},
+                "moyen": {"min": 8, "score": 40},
+                "faible": {"max": 8, "score": 10}
+              },
+              "question_collecte": "Combien d'heures de formation par employé par an ?"
+            }
+          ]
+        },
+        "gouvernance": {
+          "poids_global": 0.30,
+          "criteres": [
+            {
+              "id": "transparence",
+              "label": "Transparence et reporting",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Rapport ESG publié annuellement", "score": 100},
+                {"label": "Reporting interne structuré", "score": 70},
+                {"label": "Données disponibles sur demande", "score": 40},
+                {"label": "Pas de reporting", "score": 10}
+              ],
+              "question_collecte": "Publiez-vous un rapport ESG ou de durabilité ?"
+            },
+            {
+              "id": "ethique_anticorruption",
+              "label": "Éthique et lutte anti-corruption",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Code éthique + formation + mécanisme alerte", "score": 100},
+                {"label": "Code éthique documenté", "score": 70},
+                {"label": "Règles informelles", "score": 40},
+                {"label": "Aucune politique", "score": 10}
+              ],
+              "question_collecte": "Avez-vous un code éthique et des mesures anti-corruption ?"
+            },
+            {
+              "id": "gouvernance_structure",
+              "label": "Structure de gouvernance",
+              "poids": 0.25,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Conseil d'administration + comité ESG", "score": 100},
+                {"label": "Conseil d'administration actif", "score": 70},
+                {"label": "Direction collégiale", "score": 40},
+                {"label": "Direction unique sans contre-pouvoir", "score": 10}
+              ],
+              "question_collecte": "Décrivez votre structure de gouvernance"
+            },
+            {
+              "id": "conformite_reglementaire",
+              "label": "Conformité réglementaire",
+              "poids": 0.15,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Conformité totale + veille active", "score": 100},
+                {"label": "Conformité totale", "score": 70},
+                {"label": "Conformité partielle", "score": 40},
+                {"label": "Non-conformités identifiées", "score": 10}
+              ],
+              "question_collecte": "Êtes-vous en conformité avec les réglementations en vigueur ?"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "nom": "Green Climate Fund Standards",
+    "code": "gcf_standards",
+    "institution": "Green Climate Fund",
+    "description": "Standards du Fonds Vert pour le Climat des Nations Unies, utilisés pour évaluer l'éligibilité des projets aux financements climatiques internationaux.",
+    "region": "International",
+    "grille_json": {
+      "methode_aggregation": "weighted_average",
+      "piliers": {
+        "environnement": {
+          "poids_global": 0.50,
+          "criteres": [
+            {
+              "id": "impact_climatique",
+              "label": "Impact sur l'atténuation du changement climatique",
+              "poids": 0.40,
+              "type": "quantitatif",
+              "unite": "tCO2e évitées/an",
+              "seuils": {
+                "excellent": {"min": 1000, "score": 100},
+                "bon": {"min": 500, "score": 70},
+                "moyen": {"min": 100, "score": 40},
+                "faible": {"max": 100, "score": 10}
+              },
+              "question_collecte": "Combien de tonnes de CO2 votre projet permet-il d'éviter par an ?"
+            },
+            {
+              "id": "adaptation_climatique",
+              "label": "Contribution à l'adaptation climatique",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Stratégie d'adaptation intégrée + indicateurs", "score": 100},
+                {"label": "Mesures d'adaptation identifiées", "score": 70},
+                {"label": "Sensibilisation aux risques climatiques", "score": 40},
+                {"label": "Pas de mesures d'adaptation", "score": 10}
+              ],
+              "question_collecte": "Quelles mesures d'adaptation climatique avez-vous mises en place ?"
+            },
+            {
+              "id": "biodiversite",
+              "label": "Protection de la biodiversité",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Évaluation d'impact + plan de protection", "score": 100},
+                {"label": "Mesures de protection en place", "score": 70},
+                {"label": "Pas d'impact négatif identifié", "score": 40},
+                {"label": "Risques non évalués", "score": 10}
+              ],
+              "question_collecte": "Quelles mesures prenez-vous pour protéger la biodiversité ?"
+            }
+          ]
+        },
+        "social": {
+          "poids_global": 0.25,
+          "criteres": [
+            {
+              "id": "beneficiaires",
+              "label": "Nombre de bénéficiaires directs",
+              "poids": 0.50,
+              "type": "quantitatif",
+              "unite": "personnes",
+              "seuils": {
+                "excellent": {"min": 10000, "score": 100},
+                "bon": {"min": 1000, "score": 70},
+                "moyen": {"min": 100, "score": 40},
+                "faible": {"max": 100, "score": 10}
+              },
+              "question_collecte": "Combien de personnes bénéficient directement de votre projet ?"
+            },
+            {
+              "id": "genre_inclusion",
+              "label": "Approche genre et inclusion",
+              "poids": 0.50,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Plan genre intégré + indicateurs sexo-spécifiques", "score": 100},
+                {"label": "Objectifs genre définis", "score": 70},
+                {"label": "Sensibilisation genre", "score": 40},
+                {"label": "Pas d'approche genre", "score": 10}
+              ],
+              "question_collecte": "Comment intégrez-vous la dimension genre dans votre projet ?"
+            }
+          ]
+        },
+        "gouvernance": {
+          "poids_global": 0.25,
+          "criteres": [
+            {
+              "id": "capacite_institutionnelle",
+              "label": "Capacité institutionnelle",
+              "poids": 0.50,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Équipe dédiée + expérience projets internationaux", "score": 100},
+                {"label": "Équipe compétente", "score": 70},
+                {"label": "Capacité basique", "score": 40},
+                {"label": "Capacité insuffisante", "score": 10}
+              ],
+              "question_collecte": "Décrivez les capacités de votre équipe pour gérer ce projet"
+            },
+            {
+              "id": "suivi_evaluation",
+              "label": "Système de suivi-évaluation",
+              "poids": 0.50,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Cadre logique + indicateurs + évaluations indépendantes", "score": 100},
+                {"label": "Indicateurs de suivi définis", "score": 70},
+                {"label": "Rapports périodiques", "score": 40},
+                {"label": "Pas de système de suivi", "score": 10}
+              ],
+              "question_collecte": "Comment suivez-vous et évaluez-vous les résultats de vos projets ?"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "nom": "IFC Performance Standards",
+    "code": "ifc_standards",
+    "institution": "International Finance Corporation (Banque Mondiale)",
+    "description": "Standards de performance de la Société Financière Internationale, référence mondiale pour la gestion des risques environnementaux et sociaux des projets du secteur privé.",
+    "region": "International",
+    "grille_json": {
+      "methode_aggregation": "weighted_average",
+      "piliers": {
+        "environnement": {
+          "poids_global": 0.40,
+          "criteres": [
+            {
+              "id": "systeme_gestion_env",
+              "label": "Système de gestion environnementale et sociale",
+              "poids": 0.35,
+              "type": "qualitatif",
+              "options": [
+                {"label": "SGES certifié (ISO 14001 ou équivalent)", "score": 100},
+                {"label": "SGES documenté et opérationnel", "score": 70},
+                {"label": "Procédures environnementales basiques", "score": 40},
+                {"label": "Pas de système de gestion", "score": 10}
+              ],
+              "question_collecte": "Disposez-vous d'un système de gestion environnementale ?"
+            },
+            {
+              "id": "pollution_prevention",
+              "label": "Prévention et réduction de la pollution",
+              "poids": 0.35,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Technologies propres + monitoring continu", "score": 100},
+                {"label": "Plan de réduction des émissions", "score": 70},
+                {"label": "Conformité réglementaire", "score": 40},
+                {"label": "Pas de mesures spécifiques", "score": 10}
+              ],
+              "question_collecte": "Quelles mesures prenez-vous pour prévenir la pollution ?"
+            },
+            {
+              "id": "ressources_naturelles",
+              "label": "Utilisation durable des ressources naturelles",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Plan de gestion des ressources + économie circulaire", "score": 100},
+                {"label": "Objectifs de réduction de consommation", "score": 70},
+                {"label": "Suivi de la consommation", "score": 40},
+                {"label": "Aucune gestion", "score": 10}
+              ],
+              "question_collecte": "Comment gérez-vous l'utilisation de vos ressources naturelles ?"
+            }
+          ]
+        },
+        "social": {
+          "poids_global": 0.35,
+          "criteres": [
+            {
+              "id": "droit_travail",
+              "label": "Conditions de travail et droit du travail",
+              "poids": 0.40,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Conformité totale + avantages supérieurs", "score": 100},
+                {"label": "Conformité au droit du travail national", "score": 70},
+                {"label": "Conformité partielle", "score": 40},
+                {"label": "Non-conformités", "score": 10}
+              ],
+              "question_collecte": "Décrivez vos pratiques en matière de droit du travail"
+            },
+            {
+              "id": "sante_securite_communaute",
+              "label": "Santé et sécurité des communautés",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Plan d'urgence + consultation communautaire régulière", "score": 100},
+                {"label": "Évaluation des risques communautaires", "score": 70},
+                {"label": "Mesures de base", "score": 40},
+                {"label": "Pas de mesures", "score": 10}
+              ],
+              "question_collecte": "Quelles mesures prenez-vous pour la sécurité des communautés ?"
+            },
+            {
+              "id": "mecanisme_reclamation",
+              "label": "Mécanisme de réclamation",
+              "poids": 0.30,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Mécanisme formel + suivi des réclamations", "score": 100},
+                {"label": "Boîte à suggestions opérationnelle", "score": 70},
+                {"label": "Canal informel existant", "score": 40},
+                {"label": "Aucun mécanisme", "score": 10}
+              ],
+              "question_collecte": "Disposez-vous d'un mécanisme de réclamation pour les parties prenantes ?"
+            }
+          ]
+        },
+        "gouvernance": {
+          "poids_global": 0.25,
+          "criteres": [
+            {
+              "id": "engagement_parties_prenantes",
+              "label": "Engagement des parties prenantes",
+              "poids": 0.50,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Plan d'engagement formel + consultations régulières", "score": 100},
+                {"label": "Consultations ponctuelles documentées", "score": 70},
+                {"label": "Information des parties prenantes", "score": 40},
+                {"label": "Pas d'engagement", "score": 10}
+              ],
+              "question_collecte": "Comment engagez-vous vos parties prenantes ?"
+            },
+            {
+              "id": "divulgation_information",
+              "label": "Divulgation de l'information",
+              "poids": 0.50,
+              "type": "qualitatif",
+              "options": [
+                {"label": "Rapport public + données accessibles", "score": 100},
+                {"label": "Rapports aux investisseurs", "score": 70},
+                {"label": "Information sur demande", "score": 40},
+                {"label": "Pas de divulgation", "score": 10}
+              ],
+              "question_collecte": "Quelle information rendez-vous publique ?"
+            }
+          ]
+        }
+      }
+    }
+  }
+]

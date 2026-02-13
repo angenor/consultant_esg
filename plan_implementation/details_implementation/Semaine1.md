@@ -173,7 +173,7 @@
 
 ### À faire
 
-- [ ] 4.1 Créer `app/seed/seed_skills.py`
+- [x] 4.1 Créer `app/seed/seed_skills.py`
   - Insérer les skills builtin dans la table `skills` :
     - `analyze_document`, `calculate_esg_score`, `list_referentiels`, `search_green_funds`
     - `calculate_carbon`, `generate_reduction_plan`, `simulate_funding`
@@ -183,30 +183,24 @@
   - Pour chaque skill : nom, description (pour le LLM), category, input_schema (JSON Schema), handler_key (`builtin.xxx`)
   - Les descriptions et schemas sont dans [03_systeme_skills.md](../03_systeme_skills.md)
 
-- [ ] 4.2 Créer `data/referentiels_esg.json` + `app/seed/seed_referentiels.py`
-  - Au minimum 2-3 référentiels : BCEAO Finance Durable 2024, Green Climate Fund, IFC Standards
+- [x] 4.2 Créer `data/referentiels_esg.json` + `app/seed/seed_referentiels.py`
+  - 3 référentiels : BCEAO Finance Durable 2024, Green Climate Fund, IFC Standards
   - Chaque référentiel a sa `grille_json` complète (piliers, critères, poids, seuils)
-  - Structure détaillée dans [02_modeles_donnees.md](../02_modeles_donnees.md#referentiels_esg)
 
-- [ ] 4.3 Créer `data/fonds_verts.json` + `app/seed/seed_fonds.py`
-  - Quelques fonds verts réalistes (BAD, BOAD, GCF, etc.)
-  - Chacun lié à un `referentiel_id`
-  - Champs : nom, institution, type, montant_min/max, secteurs_json, pays_eligibles
+- [x] 4.3 Créer `data/fonds_verts.json` + `app/seed/seed_fonds.py`
+  - 5 fonds verts : BOAD, BAD, GCF, IFC, FAGACE — liés aux référentiels
 
-- [ ] 4.4 Créer `data/facteurs_emission.json`
-  - Facteurs d'émission carbone par pays (CI, SEN, CMR) et par source (électricité, diesel, etc.)
-  - Utilisé par le skill `calculate_carbon`
+- [x] 4.4 Créer `data/facteurs_emission.json`
+  - 6 pays (CIV, SEN, CMR, MLI, BFA, GHA) avec facteurs électricité, diesel, transport, déchets
 
-- [ ] 4.5 Créer `data/sector_benchmarks.json` + `app/seed/seed_benchmarks.py`
-  - Moyennes sectorielles initiales (estimées) pour quelques secteurs clés
-  - Agriculture, énergie, recyclage, agroalimentaire, transport
+- [x] 4.5 Créer `data/sector_benchmarks.json` + `app/seed/seed_benchmarks.py`
+  - 7 benchmarks : agriculture, énergie, recyclage, agroalimentaire, transport (CIV + SEN)
 
-- [ ] 4.6 Créer un script principal `app/seed/__init__.py` ou commande CLI
-  - `python -m app.seed` ou endpoint admin temporaire
-  - Exécute tous les seeds dans l'ordre : skills → référentiels → fonds → benchmarks
-  - Idempotent : utiliser `ON CONFLICT DO NOTHING` ou vérifier l'existence avant insertion
+- [x] 4.6 Créer un script principal `app/seed/__main__.py`
+  - `python -m app.seed` exécute tous les seeds dans l'ordre
+  - Idempotent : vérifie l'existence avant insertion (0 doublons au 2e run)
 
-- [ ] 4.7 Exécuter le seed et vérifier en BDD
+- [x] 4.7 Exécuter le seed et vérifier en BDD (15 skills, 3 réf., 5 fonds, 7 benchmarks)
 
 ### Comment
 
@@ -303,7 +297,7 @@
 | 1 | Docker Compose + PostgreSQL + pgvector | ✅ |
 | 2 | Backend FastAPI : config, database, auth | ✅ |
 | 3 | Modèles BDD + migrations Alembic | ✅ |
-| 4 | Seed : skills + référentiels + fonds | ⬜ |
+| 4 | Seed : skills + référentiels + fonds | ✅ |
 | 5 | Frontend : Vue.js + router + auth | ⬜ |
 
 **Critère de fin de semaine** : On peut lancer `docker compose up`, s'inscrire/se connecter, voir le layout principal, et la BDD contient toutes les tables + données initiales (skills, référentiels, fonds).

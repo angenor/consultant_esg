@@ -1,0 +1,88 @@
+{
+  "description": "Facteurs d'émission carbone par pays et par source. Unités : kgCO2e par unité indiquée.",
+  "pays": {
+    "CIV": {
+      "nom": "Côte d'Ivoire",
+      "electricite_kgco2_par_kwh": 0.45,
+      "sources": {
+        "diesel_kgco2_par_litre": 2.68,
+        "essence_kgco2_par_litre": 2.31,
+        "gaz_naturel_kgco2_par_m3": 2.02,
+        "charbon_kgco2_par_kg": 2.42,
+        "bois_kgco2_par_kg": 1.85
+      },
+      "transport": {
+        "voiture_diesel_kgco2_par_km": 0.21,
+        "voiture_essence_kgco2_par_km": 0.18,
+        "camion_kgco2_par_km": 0.85,
+        "moto_kgco2_par_km": 0.11
+      },
+      "dechets": {
+        "enfouissement_kgco2_par_tonne": 580,
+        "incineration_kgco2_par_tonne": 900,
+        "compostage_kgco2_par_tonne": 50,
+        "recyclage_kgco2_par_tonne": 20
+      }
+    },
+    "SEN": {
+      "nom": "Sénégal",
+      "electricite_kgco2_par_kwh": 0.62,
+      "sources": {
+        "diesel_kgco2_par_litre": 2.68,
+        "essence_kgco2_par_litre": 2.31,
+        "gaz_naturel_kgco2_par_m3": 2.02,
+        "charbon_kgco2_par_kg": 2.42
+      },
+      "transport": {
+        "voiture_diesel_kgco2_par_km": 0.21,
+        "voiture_essence_kgco2_par_km": 0.18,
+        "camion_kgco2_par_km": 0.85,
+        "moto_kgco2_par_km": 0.11
+      },
+      "dechets": {
+        "enfouissement_kgco2_par_tonne": 580,
+        "incineration_kgco2_par_tonne": 900,
+        "compostage_kgco2_par_tonne": 50,
+        "recyclage_kgco2_par_tonne": 20
+      }
+    },
+    "CMR": {
+      "nom": "Cameroun",
+      "electricite_kgco2_par_kwh": 0.28,
+      "sources": {
+        "diesel_kgco2_par_litre": 2.68,
+        "essence_kgco2_par_litre": 2.31,
+        "gaz_naturel_kgco2_par_m3": 2.02,
+        "charbon_kgco2_par_kg": 2.42
+      },
+      "transport": {
+        "voiture_diesel_kgco2_par_km": 0.21,
+        "voiture_essence_kgco2_par_km": 0.18,
+        "camion_kgco2_par_km": 0.85,
+        "moto_kgco2_par_km": 0.11
+      },
+      "dechets": {
+        "enfouissement_kgco2_par_tonne": 580,
+        "incineration_kgco2_par_tonne": 900,
+        "compostage_kgco2_par_tonne": 50,
+        "recyclage_kgco2_par_tonne": 20
+      }
+    },
+    "MLI": {
+      "nom": "Mali",
+      "electricite_kgco2_par_kwh": 0.55
+    },
+    "BFA": {
+      "nom": "Burkina Faso",
+      "electricite_kgco2_par_kwh": 0.70
+    },
+    "GHA": {
+      "nom": "Ghana",
+      "electricite_kgco2_par_kwh": 0.36
+    }
+  },
+  "achats": {
+    "description": "Facteur d'émission moyen pour les achats de matières premières et fournitures, en kgCO2e par 1000 XOF dépensés",
+    "facteur_defaut_kgco2_par_1000xof": 0.5
+  }
+}

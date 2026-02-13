@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -131,9 +132,7 @@ router.beforeEach(async (to, _from, next) => {
 
   // If route requires admin role, check the auth store
   if (to.matched.some((record) => record.meta.requiresAdmin)) {
-    const { useAuthStore } = await import('../stores/auth')
     const authStore = useAuthStore()
-
     if (!authStore.isAdmin) {
       return next('/chat')
     }
