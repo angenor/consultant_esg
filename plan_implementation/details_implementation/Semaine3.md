@@ -264,16 +264,16 @@
 
 ### À faire
 
-- [ ] 18.1 Implémenter le handler `get_sector_benchmark`
+- [x] 18.1 Implémenter le handler `get_sector_benchmark`
   - Entrées : `secteur`, `pays` (optionnel), `referentiel_code` (optionnel)
   - Requête sur `sector_benchmarks`
   - Si pas de benchmark existant → le calculer à partir des données en BDD
   - Retourne : moyennes E/S/G, score global, empreinte carbone, taille échantillon
 
-- [ ] 18.2 Créer `backend/app/api/benchmark.py`
+- [x] 18.2 Créer `backend/app/api/benchmark.py`
   - `GET /api/benchmark/secteur/{secteur}` — moyennes sectorielles
 
-- [ ] 18.3 Tester : "Comment je me situe par rapport aux autres entreprises de recyclage en CI ?"
+- [x] 18.3 Tester : "Comment je me situe par rapport aux autres entreprises de recyclage en CI ?"
 
 ### Comment
 
@@ -293,7 +293,7 @@
 | 15 | Calculateur empreinte carbone | ✅ |
 | 16 | Plan de réduction carbone | ✅ |
 | 17 | Simulateur de financement | ✅ |
-| 18 | Benchmarking sectoriel | ⬜ |
+| 18 | Benchmarking sectoriel | ✅ |
 
 **Critère de fin de semaine** : L'agent peut analyser des documents uploadés, calculer un score ESG multi-référentiel, calculer l'empreinte carbone, proposer un plan de réduction, rechercher des fonds verts compatibles, simuler un financement, et comparer avec les moyennes sectorielles — le tout via la conversation.
 

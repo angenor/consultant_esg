@@ -36,6 +36,7 @@ class SkillRegistry:
             calculate_esg_score,
             generate_reduction_plan,
             get_company_profile,
+            get_sector_benchmark,
             list_referentiels,
             search_green_funds,
             search_knowledge_base,
@@ -55,6 +56,7 @@ class SkillRegistry:
             "builtin.calculate_carbon": calculate_carbon,
             "builtin.generate_reduction_plan": generate_reduction_plan,
             "builtin.simulate_funding": simulate_funding,
+            "builtin.get_sector_benchmark": get_sector_benchmark,
         }
 
         # Handlers stubs — seront développés en Semaine 3-4
@@ -62,7 +64,6 @@ class SkillRegistry:
 
         stub_keys = [
             "builtin.calculate_credit_score",
-            "builtin.get_sector_benchmark",
             "builtin.manage_action_plan",
             "builtin.generate_report_section",
             "builtin.assemble_pdf",
