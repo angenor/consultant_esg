@@ -7,16 +7,14 @@ from sqlalchemy import text
 
 from app.api.auth import router as auth_router
 from app.config import settings
-from app.core.database import Base, engine
-import app.models  # noqa: F401 — enregistre tous les modèles
+from app.core.database import engine
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: créer les tables (sera remplacé par Alembic à l'étape 3)
+    # Startup: vérifier la connexion BDD
     async with engine.begin() as conn:
-        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-        await conn.run_sync(Base.metadata.create_all)
+        await conn.execute(text("SELECT 1"))
     yield
     # Shutdown: fermer le pool
     await engine.dispose()

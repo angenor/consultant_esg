@@ -10,20 +10,20 @@
 
 ### À faire
 
-- [ ] 1.1 Créer le fichier `docker-compose.yml` à la racine
+- [x] 1.1 Créer le fichier `docker-compose.yml` à la racine
   - Service `db` : image `pgvector/pgvector:pg16`, port 5432, volume `pgdata`
   - Service `backend` : build `./backend`, port 8000, depends_on `db`
   - Service `frontend` : build `./frontend`, port 3000, depends_on `backend`
   - Variables d'env injectées depuis `.env`
 
-- [ ] 1.2 Créer `.env` à partir de `.env.example`
+- [x] 1.2 Créer `.env` à partir de `.env.example`
   - `DB_PASSWORD`, `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`, `JWT_SECRET`, `APP_URL`
   - Voir le template complet dans [08_arborescence_projet.md](../08_arborescence_projet.md#docker-composeyml)
 
-- [ ] 1.3 Créer `.gitignore`
+- [x] 1.3 Créer `.gitignore`
   - `.env`, `__pycache__`, `node_modules`, `uploads/*`, `pgdata`, `.venv`
 
-- [ ] 1.4 Vérifier que `docker compose up db` lance PostgreSQL avec pgvector
+- [x] 1.4 Vérifier que `docker compose up db` lance PostgreSQL avec pgvector (port 5433 externe, pgvector v0.8.1)
   - Tester : `docker compose exec db psql -U esg -d esg_advisor -c "CREATE EXTENSION IF NOT EXISTS vector;"`
 
 ### Comment
@@ -40,7 +40,7 @@
 
 ### À faire
 
-- [ ] 2.1 Créer l'arborescence backend
+- [x] 2.1 Créer l'arborescence backend
   ```
   backend/
   ├── app/
@@ -65,48 +65,48 @@
   └── .env.example
   ```
 
-- [ ] 2.2 `requirements.txt` — dépendances initiales
+- [x] 2.2 `requirements.txt` — dépendances initiales (bcrypt direct au lieu de passlib[bcrypt] pour compat bcrypt 5.x)
   - `fastapi`, `uvicorn[standard]`, `asyncpg`, `sqlalchemy[asyncio]`, `alembic`
-  - `python-jose[cryptography]`, `passlib[bcrypt]`, `python-multipart`
+  - `python-jose[cryptography]`, `bcrypt`, `python-multipart`
   - `pydantic-settings`, `sse-starlette`, `openai`, `pgvector`
 
-- [ ] 2.3 `app/config.py` — Settings via pydantic-settings
+- [x] 2.3 `app/config.py` — Settings via pydantic-settings
   - Charger depuis `.env` : `DATABASE_URL`, `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`, `JWT_SECRET`, `APP_URL`
 
-- [ ] 2.4 `app/core/database.py` — Connexion async PostgreSQL
+- [x] 2.4 `app/core/database.py` — Connexion async PostgreSQL
   - Pool de connexions via `asyncpg` ou `SQLAlchemy async`
   - Fonction `get_db()` pour l'injection de dépendance FastAPI
 
-- [ ] 2.5 `app/core/security.py` — JWT + hashing
+- [x] 2.5 `app/core/security.py` — JWT + hashing
   - `hash_password(password)` → bcrypt
   - `verify_password(plain, hashed)` → bool
   - `create_access_token(user_id)` → JWT signé HS256
   - `decode_token(token)` → payload
 
-- [ ] 2.6 `app/core/dependencies.py` — Dépendances FastAPI
+- [x] 2.6 `app/core/dependencies.py` — Dépendances FastAPI
   - `get_current_user(token)` : décode le JWT, charge le user, vérifie `is_active`
   - `require_admin(user)` : vérifie `role == 'admin'`
   - Voir [05_api_endpoints.md](../05_api_endpoints.md#middleware-et-dépendances)
 
-- [ ] 2.7 `app/api/auth.py` — Endpoints d'authentification
+- [x] 2.7 `app/api/auth.py` — Endpoints d'authentification
   - `POST /api/auth/register` → crée user + retourne JWT
   - `POST /api/auth/login` → vérifie credentials + retourne JWT
   - `GET /api/auth/me` → retourne profil user connecté
   - Schemas Pydantic : `RegisterRequest`, `LoginRequest`, `TokenResponse`
   - Voir [05_api_endpoints.md](../05_api_endpoints.md#auth)
 
-- [ ] 2.8 `app/main.py` — Point d'entrée FastAPI
+- [x] 2.8 `app/main.py` — Point d'entrée FastAPI
   - Inclure le router auth
   - CORS middleware (allow origins: `http://localhost:3000`)
   - Event startup : connexion BDD
 
-- [ ] 2.9 `Dockerfile` backend
+- [x] 2.9 `Dockerfile` backend
   - `FROM python:3.12-slim`
   - `COPY requirements.txt` → `pip install`
   - `COPY app/ /app/app/`
   - `CMD uvicorn app.main:app --host 0.0.0.0 --port 8000`
 
-- [ ] 2.10 Tester : `docker compose up backend` → `POST /api/auth/register` fonctionne
+- [x] 2.10 Tester : `docker compose up backend` → `POST /api/auth/register` fonctionne
 
 ### Comment
 
@@ -126,35 +126,35 @@
 
 ### À faire
 
-- [ ] 3.1 Initialiser Alembic
+- [x] 3.1 Initialiser Alembic
   - `alembic init migrations`
   - Configurer `env.py` pour utiliser `DATABASE_URL` depuis les settings
   - Configurer pour le mode async si SQLAlchemy async
 
-- [ ] 3.2 Créer les modèles SQLAlchemy dans `app/models/`
-  - [ ] `user.py` — table `users` (id UUID, email, password_hash, nom_complet, role, is_active)
-  - [ ] `entreprise.py` — table `entreprises` (id, user_id FK, nom, secteur, pays, ville, effectifs, chiffre_affaires, devise, profil_json JSONB)
-  - [ ] `conversation.py` — table `conversations` (id, entreprise_id FK, titre, timestamps)
-  - [ ] `message.py` — table `messages` (id, conversation_id FK, role, content, tool_calls_json JSONB) + index
-  - [ ] `skill.py` — table `skills` (id, nom UNIQUE, description, category, input_schema JSONB, handler_key, handler_code, is_active, version)
-  - [ ] `document.py` — tables `documents` + `doc_chunks` (avec colonne `vector(1024)` pour pgvector)
-  - [ ] `referentiel_esg.py` — table `referentiels_esg` (id, nom, code UNIQUE, institution, grille_json JSONB, is_active)
-  - [ ] `esg_score.py` — table `esg_scores` (id, entreprise_id FK, referentiel_id FK, scores E/S/G, details_json)
-  - [ ] `fonds_vert.py` — tables `fonds_verts` + `fonds_chunks` (avec referentiel_id FK)
-  - [ ] `carbon_footprint.py` — table `carbon_footprints` (id, entreprise_id FK, annee, sources, total_tco2e)
-  - [ ] `credit_score.py` — table `credit_scores` (scores solvabilité, impact vert, combiné, facteurs)
-  - [ ] `action_plan.py` — tables `action_plans` + `action_items`
-  - [ ] `notification.py` — table `notifications`
-  - [ ] `sector_benchmark.py` — table `sector_benchmarks`
-  - [ ] `report_template.py` — table `report_templates`
+- [x] 3.2 Créer les modèles SQLAlchemy dans `app/models/`
+  - [x] `user.py` — table `users` (id UUID, email, password_hash, nom_complet, role, is_active)
+  - [x] `entreprise.py` — table `entreprises` (id, user_id FK, nom, secteur, pays, ville, effectifs, chiffre_affaires, devise, profil_json JSONB)
+  - [x] `conversation.py` — table `conversations` (id, entreprise_id FK, titre, timestamps)
+  - [x] `message.py` — table `messages` (id, conversation_id FK, role, content, tool_calls_json JSONB) + index
+  - [x] `skill.py` — table `skills` (id, nom UNIQUE, description, category, input_schema JSONB, handler_key, handler_code, is_active, version)
+  - [x] `document.py` — tables `documents` + `doc_chunks` (avec colonne `vector(1024)` pour pgvector)
+  - [x] `referentiel_esg.py` — table `referentiels_esg` (id, nom, code UNIQUE, institution, grille_json JSONB, is_active)
+  - [x] `esg_score.py` — table `esg_scores` (id, entreprise_id FK, referentiel_id FK, scores E/S/G, details_json)
+  - [x] `fonds_vert.py` — tables `fonds_verts` + `fonds_chunks` (avec referentiel_id FK)
+  - [x] `carbon_footprint.py` — table `carbon_footprints` (id, entreprise_id FK, annee, sources, total_tco2e)
+  - [x] `credit_score.py` — table `credit_scores` (scores solvabilité, impact vert, combiné, facteurs)
+  - [x] `action_plan.py` — tables `action_plans` + `action_items`
+  - [x] `notification.py` — table `notifications`
+  - [x] `sector_benchmark.py` — table `sector_benchmarks`
+  - [x] `report_template.py` — table `report_templates`
   - Tout le SQL de référence est dans [02_modeles_donnees.md](../02_modeles_donnees.md)
 
-- [ ] 3.3 Créer la première migration Alembic
+- [x] 3.3 Créer la première migration Alembic
   - `alembic revision --autogenerate -m "initial tables"`
   - Vérifier le fichier généré (pgvector extension, indexes HNSW)
   - Ajouter manuellement `CREATE EXTENSION IF NOT EXISTS vector` en haut de la migration
 
-- [ ] 3.4 Appliquer la migration
+- [x] 3.4 Appliquer la migration
   - `alembic upgrade head`
   - Vérifier avec `\dt` dans psql que toutes les tables existent
 
@@ -300,9 +300,9 @@
 
 | # | Étape | Statut |
 |---|-------|--------|
-| 1 | Docker Compose + PostgreSQL + pgvector | ⬜ |
-| 2 | Backend FastAPI : config, database, auth | ⬜ |
-| 3 | Modèles BDD + migrations Alembic | ⬜ |
+| 1 | Docker Compose + PostgreSQL + pgvector | ✅ |
+| 2 | Backend FastAPI : config, database, auth | ✅ |
+| 3 | Modèles BDD + migrations Alembic | ✅ |
 | 4 | Seed : skills + référentiels + fonds | ⬜ |
 | 5 | Frontend : Vue.js + router + auth | ⬜ |
 

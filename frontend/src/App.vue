@@ -1,30 +1,34 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useAuthStore } from './stores/auth'
+import AppSidebar from './components/common/AppSidebar.vue'
+import AppHeader from './components/common/AppHeader.vue'
+
+const route = useRoute()
+const authStore = useAuthStore()
+
+const isAuthPage = computed(() => {
+  return route.path === '/login' || route.path === '/register'
+})
+
+onMounted(() => {
+  authStore.init()
+})
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
+  <!-- Auth pages: no sidebar/header -->
+  <router-view v-if="isAuthPage" />
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+  <!-- Authenticated layout -->
+  <div v-else class="flex h-screen bg-gray-100">
+    <AppSidebar />
+    <div class="ml-64 flex flex-1 flex-col overflow-hidden">
+      <AppHeader />
+      <main class="flex-1 overflow-auto p-6">
+        <router-view />
+      </main>
+    </div>
+  </div>
+</template>
