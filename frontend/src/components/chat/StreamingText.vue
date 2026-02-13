@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import MarkdownViewer from './MarkdownViewer.vue'
+
 defineProps<{
   content: string
   isStreaming?: boolean
@@ -6,10 +8,5 @@ defineProps<{
 </script>
 
 <template>
-  <div class="whitespace-pre-wrap break-words">
-    {{ content }}<span
-      v-if="isStreaming"
-      class="ml-0.5 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-gray-400"
-    />
-  </div>
+  <MarkdownViewer :content="content" :is-streaming="isStreaming" />
 </template>

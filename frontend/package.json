@@ -9,13 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+    "@toast-ui/editor-plugin-table-merged-cell": "^3.1.0",
     "pinia": "^3.0.4",
+    "prismjs": "^1.30.0",
     "vue": "^3.5.25",
     "vue-router": "^5.0.2"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^24.10.1",
+    "@types/prismjs": "^1.26.6",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vue/tsconfig": "^0.8.1",
     "tailwindcss": "^4.1.18",

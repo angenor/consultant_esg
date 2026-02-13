@@ -22,11 +22,10 @@ defineProps<{
     </div>
 
     <div
-      class="max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed"
       :class="
         message.role === 'user'
-          ? 'bg-emerald-600 text-white'
-          : 'bg-white text-gray-800 shadow-sm ring-1 ring-gray-100'
+          ? 'max-w-[75%] rounded-2xl bg-emerald-600 px-4 py-3 text-sm leading-relaxed text-white'
+          : 'max-w-[85%] min-w-0 rounded-2xl bg-white px-5 py-4 text-sm leading-relaxed text-gray-800 shadow-sm ring-1 ring-gray-100'
       "
     >
       <!-- Skill indicators (assistant only) -->
