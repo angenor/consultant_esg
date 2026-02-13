@@ -55,6 +55,28 @@ class EvolutionPoint(BaseModel):
 # ── Endpoints ──
 
 
+@router.get("/latest", response_model=CarbonDetail | None)
+async def latest_carbon(
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Dernière empreinte carbone de l'entreprise de l'utilisateur."""
+    ent_result = await db.execute(
+        select(Entreprise.id).where(Entreprise.user_id == user.id).limit(1)
+    )
+    ent_id = ent_result.scalar_one_or_none()
+    if not ent_id:
+        return None
+
+    result = await db.execute(
+        select(CarbonFootprint)
+        .where(CarbonFootprint.entreprise_id == ent_id)
+        .order_by(CarbonFootprint.annee.desc(), CarbonFootprint.mois.desc().nulls_last())
+        .limit(1)
+    )
+    return result.scalar_one_or_none()
+
+
 @router.get(
     "/entreprise/{entreprise_id}",
     response_model=list[CarbonSummary],

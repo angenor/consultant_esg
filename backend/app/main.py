@@ -14,6 +14,7 @@ from app.api.chat import router as chat_router
 from app.api.documents import router as documents_router
 from app.api.entreprises import router as entreprises_router
 from app.api.notifications import router as notifications_router
+from app.api.dashboard import router as dashboard_router
 from app.api.reports import router as reports_router
 from app.config import settings
 from app.core.database import engine
@@ -49,6 +50,7 @@ app.include_router(action_plans_router)
 app.include_router(notifications_router)
 app.include_router(benchmark_router)
 app.include_router(reports_router)
+app.include_router(dashboard_router)
 
 
 @app.get("/api/health")

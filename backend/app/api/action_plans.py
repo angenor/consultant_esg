@@ -63,6 +63,59 @@ async def _verify_plan_ownership(
 # ── Endpoints ──
 
 
+@router.get("/latest")
+async def latest_plan(
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Dernier plan d'action avec ses items (pour la vue frontend)."""
+    ent_result = await db.execute(
+        select(Entreprise.id).where(Entreprise.user_id == user.id).limit(1)
+    )
+    ent_id = ent_result.scalar_one_or_none()
+    if not ent_id:
+        return None
+
+    result = await db.execute(
+        select(ActionPlan)
+        .where(ActionPlan.entreprise_id == ent_id)
+        .order_by(ActionPlan.created_at.desc())
+        .limit(1)
+    )
+    plan = result.scalar_one_or_none()
+    if not plan:
+        return None
+
+    items_result = await db.execute(
+        select(ActionItem)
+        .where(ActionItem.plan_id == plan.id)
+        .order_by(ActionItem.echeance.asc().nulls_last())
+    )
+    items = items_result.scalars().all()
+
+    return {
+        "id": str(plan.id),
+        "titre": plan.titre,
+        "horizon": plan.horizon,
+        "score_initial": float(plan.score_initial) if plan.score_initial else None,
+        "score_cible": float(plan.score_cible) if plan.score_cible else None,
+        "items": [
+            {
+                "id": str(i.id),
+                "titre": i.titre,
+                "description": i.description,
+                "priorite": i.priorite,
+                "pilier": i.pilier,
+                "statut": i.statut,
+                "echeance": str(i.echeance) if i.echeance else None,
+                "impact_score_estime": float(i.impact_score_estime) if i.impact_score_estime else None,
+                "cout_estime": float(i.cout_estime) if i.cout_estime else None,
+            }
+            for i in items
+        ],
+    }
+
+
 @router.post("/", response_model=dict)
 async def create_plan(
     body: CreateActionPlanRequest,

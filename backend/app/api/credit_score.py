@@ -63,6 +63,40 @@ async def _verify_ownership(
 # ── Endpoints ──
 
 
+@router.get("/latest")
+async def latest_credit_score(
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Dernier score crédit vert de l'entreprise de l'utilisateur."""
+    ent_result = await db.execute(
+        select(Entreprise.id).where(Entreprise.user_id == user.id).limit(1)
+    )
+    ent_id = ent_result.scalar_one_or_none()
+    if not ent_id:
+        return None
+
+    result = await db.execute(
+        select(CreditScore)
+        .where(CreditScore.entreprise_id == ent_id)
+        .order_by(CreditScore.created_at.desc())
+        .limit(1)
+    )
+    cs = result.scalar_one_or_none()
+    if not cs:
+        return None
+
+    return {
+        "id": str(cs.id),
+        "entreprise_id": str(cs.entreprise_id),
+        "score_combine": float(cs.score_combine) if cs.score_combine else 0,
+        "score_solvabilite": float(cs.score_solvabilite) if cs.score_solvabilite else 0,
+        "score_impact_vert": float(cs.score_impact_vert) if cs.score_impact_vert else 0,
+        "facteurs_json": cs.facteurs_json or {},
+        "created_at": str(cs.created_at),
+    }
+
+
 @router.post("/calculate", response_model=CreditScoreCalculated)
 async def calculate(
     body: CalculateCreditScoreRequest,

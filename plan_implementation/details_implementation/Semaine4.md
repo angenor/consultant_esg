@@ -190,35 +190,35 @@
 
 ### À faire
 
-- [ ] 24.1 Installer Chart.js
+- [x] 24.1 Installer Chart.js
   - `npm install chart.js vue-chartjs`
 
-- [ ] 24.2 Créer `CarbonView.vue` + composants carbone
-  - [ ] `components/carbon/CarbonSummary.vue` — empreinte totale + variation vs N-1
-  - [ ] `components/carbon/CarbonBySource.vue` — pie chart (énergie, transport, déchets, achats)
-  - [ ] `components/carbon/CarbonEvolution.vue` — graphique ligne évolution mensuelle
-  - [ ] `components/carbon/SectorComparison.vue` — comparaison avec moyenne sectorielle
-  - [ ] `components/carbon/ReductionPlan.vue` — plan de réduction (quick-wins, moyen terme, long terme)
+- [x] 24.2 Créer `CarbonView.vue` + composants carbone
+  - [x] `components/carbon/CarbonSummary.vue` — empreinte totale + variation vs N-1
+  - [x] `components/carbon/CarbonBySource.vue` — pie chart (énergie, transport, déchets, achats)
+  - [x] `components/carbon/CarbonEvolution.vue` — graphique ligne évolution mensuelle
+  - [x] `components/carbon/SectorComparison.vue` — comparaison avec moyenne sectorielle
+  - [x] `components/carbon/ReductionPlan.vue` — plan de réduction (quick-wins, moyen terme, long terme)
   - Maquette dans [06_frontend.md](../06_frontend.md#5-carbonview)
 
-- [ ] 24.3 Créer `CreditScoreView.vue` + composants crédit
-  - [ ] `components/credit/CreditScoreGauge.vue` — jauge semi-circulaire du score combiné
-  - [ ] `components/credit/ScoreBreakdown.vue` — détail solvabilité vs impact vert + facteurs (+/-)
-  - [ ] `components/credit/ShareScoreButton.vue` — bouton génération lien de partage sécurisé
+- [x] 24.3 Créer `CreditScoreView.vue` + composants crédit
+  - [x] `components/credit/CreditScoreGauge.vue` — jauge semi-circulaire du score combiné
+  - [x] `components/credit/ScoreBreakdown.vue` — détail solvabilité vs impact vert + facteurs (+/-)
+  - [x] `components/credit/ShareScoreButton.vue` — bouton génération lien de partage sécurisé
   - Maquette dans [06_frontend.md](../06_frontend.md#6-creditscoreview-module-5--innovation-3)
 
-- [ ] 24.4 Créer `ActionPlanView.vue` + composants plan d'action
-  - [ ] `components/actions/ProgressTracker.vue` — barre de progression globale
-  - [ ] `components/actions/ActionItemCard.vue` — carte action avec statut, échéance, priorité, toggle statut
-  - [ ] `components/actions/ActionPlanTimeline.vue` — timeline visuelle par catégorie (quick-win, moyen, long)
+- [x] 24.4 Créer `ActionPlanView.vue` + composants plan d'action
+  - [x] `components/actions/ProgressTracker.vue` — barre de progression globale
+  - [x] `components/actions/ActionItemCard.vue` — carte action avec statut, échéance, priorité, toggle statut
+  - [x] `components/actions/ActionPlanTimeline.vue` — timeline visuelle par catégorie (quick-win, moyen, long)
   - Maquette dans [06_frontend.md](../06_frontend.md#7-actionplanview-module-6)
 
-- [ ] 24.5 Ajouter les routes dans le router
-  - `/carbon` → `CarbonView.vue`
+- [x] 24.5 Ajouter les routes dans le router
+  - `/carbon` → `CarbonView.vue` (déjà existantes)
   - `/credit-score` → `CreditScoreView.vue`
   - `/action-plan` → `ActionPlanView.vue`
 
-- [ ] 24.6 Mettre à jour la sidebar avec les nouveaux liens
+- [x] 24.6 Mettre à jour la sidebar avec les nouveaux liens (déjà existants)
 
 ### Comment
 
@@ -234,16 +234,16 @@
 
 ### À faire
 
-- [ ] 25.1 Créer les composants dashboard
-  - [ ] `components/dashboard/ReferentielSelector.vue` — dropdown pour choisir le référentiel
-  - [ ] `components/dashboard/ScoreCard.vue` — carte score E/S/G + score global
-  - [ ] `components/dashboard/ScoreComparison.vue` — barres horizontales comparant les scores par référentiel
-  - [ ] `components/dashboard/RadarChart.vue` — graphique radar E/S/G (Chart.js)
-  - [ ] `components/dashboard/ScoreHistory.vue` — graphique évolution temporelle des scores
-  - [ ] `components/dashboard/FundsMatchList.vue` — liste des fonds recommandés avec compatibilité
-  - [ ] `components/dashboard/ActionPlan.vue` — résumé du plan d'action (prochaines échéances)
+- [x] 25.1 Créer les composants dashboard
+  - [x] `components/dashboard/ReferentielSelector.vue` — dropdown pour choisir le référentiel
+  - [x] `components/dashboard/ScoreCard.vue` — carte score E/S/G + score global
+  - [x] `components/dashboard/ScoreComparison.vue` — barres horizontales comparant les scores par référentiel
+  - [x] `components/dashboard/RadarChart.vue` — graphique radar E/S/G (Chart.js)
+  - [x] `components/dashboard/ScoreHistory.vue` — graphique évolution temporelle des scores
+  - [x] `components/dashboard/FundsMatchList.vue` — liste des fonds recommandés avec compatibilité
+  - [x] `components/dashboard/ActionPlanSummary.vue` — résumé du plan d'action (prochaines échéances)
 
-- [ ] 25.2 Compléter `DashboardView.vue`
+- [x] 25.2 Compléter `DashboardView.vue`
   - Sélecteur de référentiel en haut
   - Cartes scores E/S/G + score global
   - Comparaison multi-référentiel (barres)
@@ -253,12 +253,12 @@
   - Plan d'action résumé
   - Maquette complète dans [06_frontend.md](../06_frontend.md#3-dashboardview-multi-référentiel)
 
-- [ ] 25.3 Créer `DocumentsView.vue`
+- [x] 25.3 Créer `DocumentsView.vue`
   - Liste des documents uploadés avec statut d'analyse
   - Bouton upload
   - Prévisualisation (nom, type, taille, date)
 
-- [ ] 25.4 Tester le dashboard complet avec des données réelles
+- [x] 25.4 Tester le dashboard complet avec des données réelles, utilise agent-browser --headed
 
 ### Comment
 
@@ -277,7 +277,7 @@
 | 21 | Système de notifications | ✅ |
 | 22 | Templates HTML rapports | ✅ |
 | 23 | Génération PDF (WeasyPrint + charts) | ✅ |
-| 24 | Frontend : CarbonView + CreditScoreView + ActionPlanView | ⬜ |
+| 24 | Frontend : CarbonView + CreditScoreView + ActionPlanView | ✅ |
 | 25 | Dashboard entreprise multi-référentiel | ⬜ |
 
 **Critère de fin de semaine** : Toutes les vues frontend sont fonctionnelles. L'utilisateur peut voir son dashboard multi-référentiel, son empreinte carbone, son score crédit vert, son plan d'action, recevoir des notifications, et générer un rapport PDF complet.
