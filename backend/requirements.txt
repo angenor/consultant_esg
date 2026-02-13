@@ -9,6 +9,7 @@ python-multipart
 pydantic-settings
 sse-starlette
 openai
+replicate
 pgvector
 # RAG - extraction de texte
 pdfplumber

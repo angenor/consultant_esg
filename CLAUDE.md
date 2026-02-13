@@ -80,7 +80,7 @@ Environment variables in `.env` (see `.env.example`):
 - `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` — LLM provider config
 - `JWT_SECRET` — JWT signing secret
 - `VOYAGE_API_KEY` — embeddings (optional)
-- `OPENAI_API_KEY` — speech-to-text (optional)
+- `REPLICATE_API_TOKEN` — speech-to-text Whisper via Replicate
 
 ## Implementation Status
 
