@@ -31,10 +31,11 @@ class SkillRegistry:
     def _register_builtins(self):
         """Enregistre tous les handlers builtin disponibles."""
         from app.skills.handlers import (
+            analyze_document,
             get_company_profile,
-            update_company_profile,
             list_referentiels,
             search_knowledge_base,
+            update_company_profile,
         )
 
         # Handlers implémentés
@@ -43,13 +44,13 @@ class SkillRegistry:
             "builtin.update_company_profile": update_company_profile,
             "builtin.list_referentiels": list_referentiels,
             "builtin.search_knowledge_base": search_knowledge_base,
+            "builtin.analyze_document": analyze_document,
         }
 
         # Handlers stubs — seront développés en Semaine 3-4
         from app.skills.handlers.stubs import stub_handler
 
         stub_keys = [
-            "builtin.analyze_document",
             "builtin.calculate_esg_score",
             "builtin.search_green_funds",
             "builtin.calculate_carbon",

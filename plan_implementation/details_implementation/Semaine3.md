@@ -12,33 +12,33 @@
 
 ### À faire
 
-- [ ] 11.1 Créer `backend/app/rag/__init__.py`
+- [x] 11.1 Créer `backend/app/rag/__init__.py`
 
-- [ ] 11.2 Créer `backend/app/rag/text_extractor.py`
+- [x] 11.2 Créer `backend/app/rag/text_extractor.py`
   - `extract_text_from_file(file_path, mime_type)` → str
   - Supporte : PDF (`PyPDF2` ou `pdfplumber`), Word (`python-docx`), Excel (`openpyxl`), images (`pytesseract` pour OCR)
   - Ajouter les dépendances au `requirements.txt`
 
-- [ ] 11.3 Créer `backend/app/rag/chunker.py`
+- [x] 11.3 Créer `backend/app/rag/chunker.py`
   - `chunk_text(text, chunk_size=800, overlap=200)` → list de chunks
   - Chaque chunk a : `text`, `page` (si applicable), `index`
   - Découpage intelligent : respecter les paragraphes et phrases
 
-- [ ] 11.4 Créer `backend/app/rag/embeddings.py`
+- [x] 11.4 Créer `backend/app/rag/embeddings.py`
   - `get_embedding(text)` → vector (list[float])
   - Utiliser Voyage AI (`voyage-3-large`, dim 1024) ou un modèle d'embeddings via OpenRouter
   - Configurable via `.env` : `EMBEDDING_MODEL`, `EMBEDDING_API_KEY`
 
-- [ ] 11.5 Créer `backend/app/rag/search.py`
+- [x] 11.5 Créer `backend/app/rag/search.py`
   - `semantic_search(query, table, filters, top_k)` → list de résultats
   - Utilise pgvector : `ORDER BY embedding <=> query_embedding`
   - Supporte les tables `doc_chunks` et `fonds_chunks`
   - Index HNSW déjà créé dans la migration (Semaine 1)
 
-- [ ] 11.6 Ajouter les dépendances RAG au `requirements.txt`
+- [x] 11.6 Ajouter les dépendances RAG au `requirements.txt`
   - `PyPDF2` ou `pdfplumber`, `python-docx`, `openpyxl`, `pytesseract`, `Pillow`
 
-- [ ] 11.7 Tester la pipeline RAG
+- [x] 11.7 Tester la pipeline RAG
   - Extraire le texte d'un PDF test → chunker → embeddings → insérer dans `doc_chunks` → recherche sémantique
 
 ### Comment
@@ -56,9 +56,9 @@
 
 ### À faire
 
-- [ ] 12.1 Créer `backend/app/api/documents.py` — router `/api/documents`
+- [x] 12.1 Créer `backend/app/api/documents.py` — router `/api/documents`
 
-- [ ] 12.2 Endpoint `POST /api/documents/upload`
+- [x] 12.2 Endpoint `POST /api/documents/upload`
   - Accepte `multipart/form-data` : fichier + `entreprise_id`
   - Validation : types autorisés (PDF, PNG, JPEG, DOCX, XLSX)
   - Sauvegarde le fichier dans `uploads/{entreprise_id}/`
@@ -67,25 +67,25 @@
   - Insère dans tables `documents` + `doc_chunks`
   - Voir [05_api_endpoints.md](../05_api_endpoints.md#documents)
 
-- [ ] 12.3 Endpoint `GET /api/documents/entreprise/{id}`
+- [x] 12.3 Endpoint `GET /api/documents/entreprise/{id}`
   - Liste les documents d'une entreprise
 
-- [ ] 12.4 Endpoint `GET /api/documents/{id}`
+- [x] 12.4 Endpoint `GET /api/documents/{id}`
   - Détail d'un document (métadonnées + nombre de chunks)
 
-- [ ] 12.5 Endpoint `DELETE /api/documents/{id}`
+- [x] 12.5 Endpoint `DELETE /api/documents/{id}`
   - Supprime le document, ses chunks, et le fichier physique
 
-- [ ] 12.6 Implémenter le handler `analyze_document`
+- [x] 12.6 Implémenter le handler `analyze_document`
   - Récupère le document et ses chunks depuis la BDD
   - Si pas encore chunké → lance la pipeline RAG
   - Fait des recherches sémantiques par type d'analyse (`esg_compliance`, `financial`, `carbon`)
   - Retourne les passages pertinents extraits
   - Code de référence dans [03_systeme_skills.md](../03_systeme_skills.md#skill--analyze_document)
 
-- [ ] 12.7 Créer les schemas Pydantic `backend/app/schemas/document.py`
+- [x] 12.7 Créer les schemas Pydantic `backend/app/schemas/document.py`
 
-- [ ] 12.8 Tester : uploader un PDF → vérifier les chunks en BDD → demander à l'agent "analyse ce document"
+- [x] 12.8 Tester : uploader un PDF → vérifier les chunks en BDD → demander à l'agent "analyse ce document"
 
 ### Comment
 
@@ -278,8 +278,8 @@
 
 | # | Étape | Statut |
 |---|-------|--------|
-| 11 | RAG : chunker, embeddings, search | ⬜ |
-| 12 | Upload documents + analyse | ⬜ |
+| 11 | RAG : chunker, embeddings, search | ✅ |
+| 12 | Upload documents + analyse | ✅ |
 | 13 | Score ESG multi-référentiel | ⬜ |
 | 14 | Recherche fonds verts (SQL + RAG) | ⬜ |
 | 15 | Calculateur empreinte carbone | ⬜ |

@@ -3,11 +3,13 @@ import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer'
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight'
 import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell'
+import chart from '@toast-ui/editor-plugin-chart'
 import Prism from 'prismjs'
 
 import '@toast-ui/editor/dist/toastui-editor-viewer.css'
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css'
 import '@toast-ui/editor-plugin-table-merged-cell/dist/toastui-editor-plugin-table-merged-cell.css'
+import '@toast-ui/chart/dist/toastui-chart.css'
 
 const props = defineProps<{
   content: string
@@ -17,20 +19,67 @@ const props = defineProps<{
 const containerRef = ref<HTMLElement>()
 let viewer: Viewer | null = null
 let throttleTimer: ReturnType<typeof setTimeout> | null = null
+let retryTimer: ReturnType<typeof setTimeout> | null = null
 let lastRendered = ''
 
-function createViewer() {
+function hasChartBlocks(md: string): boolean {
+  return /\$\$chart\n[\s\S]*?\n\$\$/.test(md)
+}
+
+const chartPluginOptions = { width: 560, height: 320, minWidth: 300, minHeight: 200, maxWidth: 900, maxHeight: 500 }
+
+function destroyViewer() {
+  if (viewer) {
+    viewer.destroy()
+    viewer = null
+  }
+  // Also clear the container DOM to avoid stale chart state
+  if (containerRef.value) {
+    containerRef.value.innerHTML = ''
+  }
+}
+
+function createViewer(content?: string) {
   if (!containerRef.value) return
   viewer = new Viewer({
     el: containerRef.value,
-    initialValue: props.content || '',
+    initialValue: content || '',
     plugins: [
       [codeSyntaxHighlight, { highlighter: Prism }],
       tableMergedCell,
+      [chart, chartPluginOptions],
     ],
     usageStatistics: false,
   })
-  lastRendered = props.content
+  lastRendered = content || ''
+}
+
+// Retry chart rendering until all charts have canvases.
+// The chart plugin sometimes fails to create canvases on first try.
+function ensureCharts(content: string, attempt = 0) {
+  const delays = [200, 500, 1000]
+  const delay = delays[attempt] ?? 1000
+
+  retryTimer = setTimeout(() => {
+    retryTimer = null
+    if (!containerRef.value) return
+
+    const chartEls = containerRef.value.querySelectorAll('[data-chart-id]')
+    const canvases = containerRef.value.querySelectorAll('canvas')
+
+    if (chartEls.length > 0 && canvases.length < chartEls.length && attempt < delays.length) {
+      // Some charts failed — destroy everything and recreate from scratch
+      destroyViewer()
+      createViewer(content)
+      nextTick(() => {
+        wrapTables()
+        ensureCharts(content, attempt + 1)
+      })
+    } else {
+      // All charts rendered or max retries reached — just wrap tables
+      nextTick(wrapTables)
+    }
+  }, delay)
 }
 
 function wrapTables() {
@@ -47,9 +96,32 @@ function wrapTables() {
   })
 }
 
-function updateContent(markdown: string) {
+// During streaming, replace $$chart blocks with a placeholder to avoid
+// repeated chart creation/destruction which causes flickering.
+// Complete blocks ($$chart...$$) are replaced by a text placeholder.
+// Incomplete blocks ($$chart without closing $$) are shown as-is.
+function sanitizeForStreaming(markdown: string): string {
+  // Replace complete $$chart...$ blocks with a placeholder
+  let result = markdown.replace(
+    /\$\$chart\n[\s\S]*?\n\$\$/g,
+    '\n> *Graphique en cours de chargement...*\n'
+  )
+  // If there's an incomplete $$chart block (opened but not closed), show placeholder
+  const lastOpen = result.lastIndexOf('$$chart')
+  if (lastOpen !== -1) {
+    const afterOpen = result.indexOf('\n$$', lastOpen + 7)
+    if (afterOpen === -1) {
+      // Incomplete block — truncate it and show placeholder
+      result = result.substring(0, lastOpen) + '\n> *Graphique en cours de chargement...*'
+    }
+  }
+  return result
+}
+
+function updateContent(markdown: string, streaming = false) {
   if (!viewer || markdown === lastRendered) return
-  viewer.setMarkdown(markdown)
+  const toRender = streaming ? sanitizeForStreaming(markdown) : markdown
+  viewer.setMarkdown(toRender)
   lastRendered = markdown
   nextTick(wrapTables)
 }
@@ -60,7 +132,7 @@ function throttledUpdate(markdown: string) {
     if (!throttleTimer) {
       throttleTimer = setTimeout(() => {
         throttleTimer = null
-        updateContent(markdown)
+        updateContent(markdown, true)
       }, 120)
     }
   } else {
@@ -69,7 +141,7 @@ function throttledUpdate(markdown: string) {
       clearTimeout(throttleTimer)
       throttleTimer = null
     }
-    updateContent(markdown)
+    updateContent(markdown, false)
   }
 }
 
@@ -77,24 +149,40 @@ watch(() => props.content, (newVal) => {
   throttledUpdate(newVal)
 })
 
-// When streaming ends, force a final re-render
+// When streaming ends, force a final re-render (charts need this)
 watch(() => props.isStreaming, (streaming) => {
   if (!streaming) {
-    nextTick(() => updateContent(props.content))
+    lastRendered = '' // Force re-render even if content matches
+    nextTick(() => updateContent(props.content, false))
   }
 })
 
 onMounted(() => {
-  createViewer()
-  nextTick(wrapTables)
+  const content = props.content || ''
+  if (hasChartBlocks(content) && !props.isStreaming) {
+    // For content with $$chart blocks: create viewer with empty content first
+    // to let the DOM lay out, then destroy & recreate with chart content.
+    createViewer('')
+    retryTimer = setTimeout(() => {
+      retryTimer = null
+      destroyViewer()
+      createViewer(content)
+      nextTick(() => {
+        wrapTables()
+        // Start checking if charts need retrying
+        ensureCharts(content, 0)
+      })
+    }, 100)
+  } else {
+    createViewer(content)
+    nextTick(wrapTables)
+  }
 })
 
 onBeforeUnmount(() => {
   if (throttleTimer) clearTimeout(throttleTimer)
-  if (viewer) {
-    viewer.destroy()
-    viewer = null
-  }
+  if (retryTimer) clearTimeout(retryTimer)
+  destroyViewer()
 })
 </script>
 
@@ -283,5 +371,22 @@ onBeforeUnmount(() => {
   color: #059669;
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+/* Charts */
+.tui-viewer-content .toastui-editor-contents [data-chart-id] {
+  margin: 0.75em 0;
+  min-height: 320px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.tui-viewer-content .toastui-editor-contents .toastui-chart-wrapper {
+  min-height: 320px;
+}
+
+.tui-viewer-content .toastui-editor-contents canvas {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 </style>

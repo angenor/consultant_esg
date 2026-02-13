@@ -10,3 +10,11 @@ pydantic-settings
 sse-starlette
 openai
 pgvector
+# RAG - extraction de texte
+pdfplumber
+python-docx
+openpyxl
+Pillow
+pytesseract
+# RAG - embeddings
+httpx

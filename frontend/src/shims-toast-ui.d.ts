@@ -14,3 +14,9 @@ declare module '@toast-ui/editor-plugin-table-merged-cell' {
   const plugin: PluginInfo
   export default plugin
 }
+
+declare module '@toast-ui/editor-plugin-chart' {
+  import type { PluginInfo } from '@toast-ui/editor'
+  const plugin: PluginInfo
+  export default plugin
+}
