@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 
 defineProps<{
@@ -12,6 +12,11 @@ const emit = defineEmits<{
 }>()
 
 const authStore = useAuthStore()
+const route = useRoute()
+
+function isNavActive(to: string) {
+  return route.path === to || route.path.startsWith(to + '/')
+}
 
 const mainNav = [
   { to: '/chat', label: 'Chat', icon: 'chat' },
@@ -90,8 +95,8 @@ const userInitials = computed(() => {
         v-for="item in mainNav"
         :key="item.to"
         :to="item.to"
-        active-class="!bg-emerald-600"
         class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-800 hover:text-white"
+        :class="isNavActive(item.to) && 'bg-emerald-600! text-white!'"
         @click="emit('close')"
       >
         <!-- Chat icon -->
