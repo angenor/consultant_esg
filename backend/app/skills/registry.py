@@ -33,11 +33,13 @@ class SkillRegistry:
         from app.skills.handlers import (
             analyze_document,
             calculate_carbon,
+            calculate_credit_score,
             calculate_esg_score,
             generate_reduction_plan,
             get_company_profile,
             get_sector_benchmark,
             list_referentiels,
+            manage_action_plan,
             search_green_funds,
             search_knowledge_base,
             simulate_funding,
@@ -57,14 +59,14 @@ class SkillRegistry:
             "builtin.generate_reduction_plan": generate_reduction_plan,
             "builtin.simulate_funding": simulate_funding,
             "builtin.get_sector_benchmark": get_sector_benchmark,
+            "builtin.calculate_credit_score": calculate_credit_score,
+            "builtin.manage_action_plan": manage_action_plan,
         }
 
-        # Handlers stubs — seront développés en Semaine 3-4
+        # Handlers stubs — seront développés en Semaine 4
         from app.skills.handlers.stubs import stub_handler
 
         stub_keys = [
-            "builtin.calculate_credit_score",
-            "builtin.manage_action_plan",
             "builtin.generate_report_section",
             "builtin.assemble_pdf",
         ]

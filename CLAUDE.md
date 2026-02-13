@@ -99,3 +99,8 @@ Use multiple sub-agents in parallel for efficiency:
 ## Auto-maintenance de ce fichier
 
 Après chaque modification significative du projet, vérifier si CLAUDE.md reflète toujours l'état actuel et le mettre à jour si nécessaire.
+
+
+## user de test
+logein: test@test.com
+mot de passe: test1234

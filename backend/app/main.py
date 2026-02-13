@@ -6,8 +6,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from app.api.auth import router as auth_router
+from app.api.action_plans import router as action_plans_router
 from app.api.benchmark import router as benchmark_router
 from app.api.carbon import router as carbon_router
+from app.api.credit_score import router as credit_score_router
 from app.api.chat import router as chat_router
 from app.api.documents import router as documents_router
 from app.api.entreprises import router as entreprises_router
@@ -40,6 +42,8 @@ app.include_router(entreprises_router)
 app.include_router(chat_router)
 app.include_router(documents_router)
 app.include_router(carbon_router)
+app.include_router(credit_score_router)
+app.include_router(action_plans_router)
 app.include_router(benchmark_router)
 
 

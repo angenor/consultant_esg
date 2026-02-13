@@ -12,7 +12,7 @@
 
 ### À faire
 
-- [ ] 19.1 Implémenter le handler `calculate_credit_score`
+- [x] 19.1 Implémenter le handler `calculate_credit_score`
   - **Score solvabilité (0-100)** : régularité transactions, volume activité, ancienneté, documents financiers uploadés
   - **Score impact vert (0-100)** : dernier score ESG, tendance, certifications, plan d'action actif
   - **Score combiné** : moyenne pondérée configurable (ex: 50/50)
@@ -21,14 +21,14 @@
   - Retourne : scores + facteurs + recommandations d'amélioration
   - Détail complet dans [03_systeme_skills.md](../03_systeme_skills.md#skill--calculate_credit_score)
 
-- [ ] 19.2 Créer `backend/app/api/credit_score.py`
+- [x] 19.2 Créer `backend/app/api/credit_score.py`
   - `POST /api/credit-score/calculate` — calculer le score crédit vert
   - `GET /api/credit-score/entreprise/{id}` — dernier score + historique
   - `POST /api/credit-score/entreprise/{id}/share` — générer un lien de partage sécurisé (token temporaire)
 
-- [ ] 19.3 Créer les schemas Pydantic `backend/app/schemas/credit_score.py`
+- [x] 19.3 Créer les schemas Pydantic `backend/app/schemas/credit_score.py`
 
-- [ ] 19.4 Tester via le chat : "Calcule mon score de crédit vert"
+- [x] 19.4 Tester via le chat avec agent-browser --headed : "Calcule mon score de crédit vert"
   - L'agent doit poser les questions financières puis calculer
 
 ### Comment
@@ -45,22 +45,22 @@
 
 ### À faire
 
-- [ ] 20.1 Implémenter le handler `manage_action_plan`
+- [x] 20.1 Implémenter le handler `manage_action_plan`
   - Action `create` : génère un plan basé sur les lacunes du dernier score ESG, priorise les actions, définit des échéances
   - Action `add_item` : ajoute une action au plan existant
   - Action `update_status` : met à jour le statut d'une action (a_faire → en_cours → fait), déclenche notification si palier atteint
   - Retourne : plan + items + barre de progression + prochaines échéances
 
-- [ ] 20.2 Créer `backend/app/api/action_plans.py`
+- [x] 20.2 Créer `backend/app/api/action_plans.py`
   - `POST /api/action-plans/` — créer un plan
   - `GET /api/action-plans/entreprise/{id}` — plans de l'entreprise
   - `GET /api/action-plans/{id}` — détail d'un plan avec ses actions
   - `PUT /api/action-plans/items/{item_id}` — mettre à jour le statut d'une action
   - `GET /api/action-plans/{id}/progress` — progression globale
 
-- [ ] 20.3 Créer les schemas Pydantic `backend/app/schemas/action_plan.py`
+- [x] 20.3 Créer les schemas Pydantic `backend/app/schemas/action_plan.py`
 
-- [ ] 20.4 Tester : "Crée-moi un plan d'action pour passer de 62 à 75 sur le référentiel BCEAO"
+- [x] 20.4 Tester : "Crée-moi un plan d'action pour passer de 62 à 75 sur le référentiel BCEAO"
 
 ### Comment
 
@@ -271,8 +271,8 @@
 
 | # | Étape | Statut |
 |---|-------|--------|
-| 19 | Scoring crédit vert alternatif | ⬜ |
-| 20 | Plan d'action et suivi | ⬜ |
+| 19 | Scoring crédit vert alternatif | ✅ |
+| 20 | Plan d'action et suivi | ✅ |
 | 21 | Système de notifications | ⬜ |
 | 22 | Templates HTML rapports | ⬜ |
 | 23 | Génération PDF (WeasyPrint + charts) | ⬜ |
