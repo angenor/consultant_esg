@@ -16,6 +16,7 @@ async def list_referentiels(params: dict, context: dict) -> dict:
     db: AsyncSession = context["db"]
     region = params.get("region")
     fonds_id = params.get("fonds_id")
+    include_criteres = params.get("include_criteres", False)
 
     # Référentiel lié à un fonds spécifique
     if fonds_id:
@@ -29,7 +30,7 @@ async def list_referentiels(params: dict, context: dict) -> dict:
             )
             ref = result.scalar_one_or_none()
             if ref:
-                return {"referentiels": [_format_ref(ref)]}
+                return {"referentiels": [_format_ref(ref, include_criteres)]}
         return {"referentiels": [], "note": "Ce fonds n'a pas de référentiel associé"}
 
     # Liste tous les référentiels actifs (optionnellement filtrés par région)
@@ -43,24 +44,38 @@ async def list_referentiels(params: dict, context: dict) -> dict:
 
     return {
         "nombre": len(refs),
-        "referentiels": [_format_ref(r) for r in refs],
+        "referentiels": [_format_ref(r, include_criteres) for r in refs],
     }
 
 
-def _format_ref(ref: ReferentielESG) -> dict:
+def _format_ref(ref: ReferentielESG, include_criteres: bool = False) -> dict:
     grille = ref.grille_json or {}
-    return {
+    result = {
         "id": str(ref.id),
         "code": ref.code,
         "nom": ref.nom,
         "institution": ref.institution,
         "region": ref.region,
         "methode": grille.get("methode_aggregation"),
-        "piliers": {
-            pilier: {
-                "poids": config.get("poids_global"),
-                "nb_criteres": len(config.get("criteres", [])),
-            }
-            for pilier, config in grille.get("piliers", {}).items()
-        },
+        "piliers": {},
     }
+    for pilier, config in grille.get("piliers", {}).items():
+        pilier_info: dict = {
+            "poids": config.get("poids_global"),
+            "nb_criteres": len(config.get("criteres", [])),
+        }
+        if include_criteres:
+            pilier_info["criteres"] = [
+                {
+                    "id": c["id"],
+                    "label": c["label"],
+                    "type": c["type"],
+                    "poids": c["poids"],
+                    "question_collecte": c.get("question_collecte", ""),
+                    **({"options": [o["label"] for o in c["options"]]} if c["type"] == "qualitatif" else {}),
+                    **({"unite": c.get("unite", "")} if c["type"] == "quantitatif" else {}),
+                }
+                for c in config.get("criteres", [])
+            ]
+        result["piliers"][pilier] = pilier_info
+    return result

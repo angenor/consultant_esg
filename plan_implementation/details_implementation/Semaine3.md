@@ -101,30 +101,33 @@
 
 ### À faire
 
-- [ ] 13.1 Implémenter le handler `calculate_esg_score` (version multi-référentiel)
+- [x] 13.1 Implémenter le handler `calculate_esg_score` (version multi-référentiel)
   - Entrées : `entreprise_id`, `data` (réponses aux critères), `referentiel_codes` (optionnel)
   - Charge la grille du/des référentiel(s) depuis la BDD
   - Pour chaque critère : calcule le score selon son type (quantitatif → seuils, qualitatif → options)
   - Agrège par pilier (poids des critères) puis en score global (poids des piliers)
   - Gère 2 méthodes : `weighted_average` et `threshold`
   - Sauvegarde dans `esg_scores`
-  - Identifie les données manquantes
-  - Code complet dans [03_systeme_skills.md](../03_systeme_skills.md#skill--calculate_esg_score-v2--multi-référentiel)
+  - Identifie les données manquantes + retourne les `questions_manquantes`
+  - → `backend/app/skills/handlers/calculate_esg_score.py`
 
-- [ ] 13.2 Fonctions utilitaires de scoring
-  - `_score_quantitatif(valeur, seuils)` → score 0-100
-  - `_score_qualitatif(valeur, options)` → score 0-100
+- [x] 13.2 Fonctions utilitaires de scoring
+  - `_score_quantitatif(valeur, seuils)` → score 0-100 (avec conversion auto string→float)
+  - `_score_qualitatif(valeur, options)` → score 0-100 (insensible à la casse + correspondance partielle)
   - `_statut(score)` → "conforme" / "partiel" / "non_conforme"
   - `_niveau(score)` → "Excellent" / "Bon" / "À améliorer" / "Insuffisant"
 
-- [ ] 13.3 Compléter le handler `list_referentiels`
-  - Filtrage par région et par fonds
-  - Retourne les piliers, poids, nombre de critères pour chaque référentiel
+- [x] 13.3 Compléter le handler `list_referentiels`
+  - Ajout paramètre `include_criteres` → retourne les questions_collecte, options, unités
+  - Filtrage par région et par fonds (déjà en place)
+  - Schema du skill mis à jour en BDD
 
-- [ ] 13.4 Créer `backend/app/api/entreprises.py` — ajouter endpoint scores
-  - `GET /api/entreprises/{id}/scores` — historique des scores ESG (tous référentiels)
+- [x] 13.4 Ajouter endpoints scores dans `backend/app/api/entreprises.py`
+  - `GET /api/entreprises/{id}/scores` — historique avec filtre par référentiel + pagination
+  - `GET /api/entreprises/{id}/scores/{score_id}` — détail complet par critère
+  - Schemas Pydantic dans `backend/app/schemas/esg.py`
 
-- [ ] 13.5 Tester le scoring
+- [ ] 13.5 Tester le scoring via le chat
   - Via le chat : "Calcule mon score ESG selon le référentiel BCEAO"
   - L'agent doit poser les questions correspondant aux critères de la grille
   - Vérifier le résultat en BDD
@@ -280,7 +283,7 @@
 |---|-------|--------|
 | 11 | RAG : chunker, embeddings, search | ✅ |
 | 12 | Upload documents + analyse | ✅ |
-| 13 | Score ESG multi-référentiel | ⬜ |
+| 13 | Score ESG multi-référentiel | ✅ |
 | 14 | Recherche fonds verts (SQL + RAG) | ⬜ |
 | 15 | Calculateur empreinte carbone | ⬜ |
 | 16 | Plan de réduction carbone | ⬜ |

@@ -63,6 +63,15 @@ BUILTIN_SKILLS = [
             "properties": {
                 "region": {"type": "string", "description": "Filtrer par région (UEMOA, International, Europe)"},
                 "fonds_id": {"type": "string", "description": "ID d'un fonds pour trouver son référentiel associé"},
+                "include_criteres": {
+                    "type": "boolean",
+                    "default": False,
+                    "description": (
+                        "Si true, inclut les critères détaillés de chaque pilier "
+                        "(id, label, type, poids, question_collecte, options/unité). "
+                        "Utile pour poser les bonnes questions à l'utilisateur."
+                    ),
+                },
             },
         },
     },
