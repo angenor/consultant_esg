@@ -55,6 +55,23 @@ async function renderMermaidDiagrams() {
       const id = el.id || `mermaid-${Date.now()}-${mermaidIdCounter++}`
       const { svg } = await mermaid.render(id + '-svg', code)
       el.innerHTML = svg
+
+      // Remove Mermaid's inline max-width which clips the diagram
+      const svgEl = el.querySelector('svg')
+      if (svgEl) {
+        svgEl.style.maxWidth = 'none'
+        svgEl.removeAttribute('width')
+        // Add tooltips to all nodes so full text shows on hover
+        svgEl.querySelectorAll('.node, .nodeLabel').forEach((node) => {
+          const text = node.textContent?.trim()
+          if (text) {
+            const titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'title')
+            titleEl.textContent = text
+            node.prepend(titleEl)
+          }
+        })
+      }
+
       el.setAttribute('data-mermaid-rendered', 'true')
     } catch {
       el.innerHTML = '<p class="text-red-500 text-sm">Erreur de rendu du diagramme Mermaid</p>'
@@ -473,33 +490,38 @@ onBeforeUnmount(() => {
   image-rendering: crisp-edges;
 }
 
-/* Mermaid diagrams */
-.tui-viewer-content .mermaid-container {
+/* Mermaid diagrams — higher specificity to override generic pre styles */
+.tui-viewer-content .toastui-editor-contents .mermaid-container {
   margin: 0.75em 0;
   overflow-x: auto;
+  max-width: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
-.tui-viewer-content .mermaid-container::-webkit-scrollbar {
+.tui-viewer-content .toastui-editor-contents .mermaid-container::-webkit-scrollbar {
   height: 4px;
 }
 
-.tui-viewer-content .mermaid-container::-webkit-scrollbar-thumb {
+.tui-viewer-content .toastui-editor-contents .mermaid-container::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 2px;
 }
 
-.tui-viewer-content pre.mermaid {
-  background-color: #ffffff;
+.tui-viewer-content .toastui-editor-contents pre.mermaid {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   padding: 1em;
+  margin: 0;
   text-align: center;
   width: max-content;
   min-width: 100%;
+  overflow: visible;
 }
 
-.tui-viewer-content pre.mermaid svg {
+.tui-viewer-content .toastui-editor-contents pre.mermaid svg {
   height: auto;
+  overflow: visible;
 }
 </style>
