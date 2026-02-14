@@ -3,3 +3,45 @@
 @theme {
   --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
+/* ── Background decorations ── */
+.main-content {
+  position: relative;
+}
+
+.bg-leaf,
+.bg-tree {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.bg-leaf {
+  width: 180px;
+  opacity: 0.08;
+}
+
+.bg-leaf--top-right {
+  top: 80px;
+  right: 20px;
+}
+
+.bg-leaf--bottom-left {
+  bottom: 20px;
+  left: 280px;
+  transform: rotate(180deg);
+}
+
+.bg-tree {
+  bottom: 0;
+  right: 30px;
+  width: 260px;
+  opacity: 0.04;
+}
+
+/* Ensure page content stays above decorations */
+.main-content > :not(.bg-leaf):not(.bg-tree) {
+  position: relative;
+  z-index: 1;
+}

@@ -27,7 +27,12 @@ onMounted(() => {
     <AppSidebar :open="sidebarOpen" @close="sidebarOpen = false" />
     <div class="flex flex-1 flex-col overflow-hidden md:ml-64">
       <AppHeader @toggle-sidebar="sidebarOpen = !sidebarOpen" />
-      <main class="flex-1 overflow-auto p-6">
+      <main class="main-content flex-1 overflow-auto p-6">
+        <!-- Background decorations -->
+        <img src="/feuilles-fond-blanc.png" class="bg-leaf bg-leaf--top-right" alt="" aria-hidden="true" />
+        <img src="/feuilles-fond-blanc.png" class="bg-leaf bg-leaf--bottom-left" alt="" aria-hidden="true" />
+        <img src="/arbre_png.png" class="bg-tree" alt="" aria-hidden="true" />
+
         <router-view v-slot="{ Component }">
           <Transition
             enter-active-class="transition-opacity duration-200 ease-out"
