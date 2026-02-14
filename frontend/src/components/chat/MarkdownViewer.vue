@@ -693,10 +693,14 @@ onBeforeUnmount(() => {
   margin: 0;
 }
 
-/* Horizontal rule */
+/* Horizontal rule — custom separator */
 .tui-viewer-content .toastui-editor-contents hr {
-  margin: 0.75em 0;
-  border-color: #e5e7eb;
+  border: none;
+  height: 14px;
+  margin: 1.25em 0;
+  background: url('/separateur2.png') center no-repeat;
+  background-size: 80% auto;
+  opacity: 0.07;
 }
 
 /* Bold/strong */
