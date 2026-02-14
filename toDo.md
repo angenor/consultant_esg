@@ -1,0 +1,1 @@
+- Lorsque le LLM est entrains de donner la réponse(stream), et que l'utilisateur quitte la page et meme s'il ferme son navigateur, il faut continuer de recevoir la réponse. S'il reviens que le stream n'est pas terminé, ca doit continuer a streamer devant lui dans le cas contraire il affiche le resultat
