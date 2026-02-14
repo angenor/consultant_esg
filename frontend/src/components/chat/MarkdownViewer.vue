@@ -392,11 +392,14 @@ onBeforeUnmount(() => {
 /* ── TUI Viewer overrides to blend with chat bubbles ── */
 .markdown-viewer-wrapper {
   min-width: 0;
+  max-width: 100%;
   overflow: hidden;
 }
 
 .tui-viewer-content {
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .tui-viewer-content .toastui-editor-contents {
@@ -611,6 +614,7 @@ onBeforeUnmount(() => {
 /* Tables — horizontal scroll wrapper */
 .tui-viewer-content .table-scroll-wrapper {
   overflow-x: auto;
+  max-width: 100%;
   margin: 0.75em -0.5em;
   padding: 0 0.5em;
   -webkit-overflow-scrolling: touch;
@@ -628,8 +632,8 @@ onBeforeUnmount(() => {
 .tui-viewer-content .toastui-editor-contents table {
   border-collapse: collapse;
   font-size: 0.8125rem;
-  width: max-content;
-  min-width: 100%;
+  width: 100%;
+  table-layout: auto;
 }
 
 .tui-viewer-content .toastui-editor-contents th {
@@ -639,7 +643,7 @@ onBeforeUnmount(() => {
   text-align: left;
   padding: 0.5em 0.75em;
   border: 1px solid #047857;
-  white-space: nowrap;
+  word-break: break-word;
 }
 
 .tui-viewer-content .toastui-editor-contents td {
@@ -647,6 +651,7 @@ onBeforeUnmount(() => {
   border: 1px solid #e5e7eb;
   color: #1f2937 !important;
   background-color: #ffffff !important;
+  word-break: break-word;
 }
 
 .tui-viewer-content .toastui-editor-contents tr:nth-child(even) td {
