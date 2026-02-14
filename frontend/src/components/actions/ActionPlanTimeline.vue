@@ -11,6 +11,16 @@ const emit = defineEmits<{
   toggleStatus: [id: string, newStatus: string]
 }>()
 
+// Normalise les valeurs de priorité inconnues vers les clés attendues
+const normalizePriorite = (p: string): string => {
+  const map: Record<string, string> = {
+    haute: 'quick_win',
+    moyenne: 'moyen_terme',
+    basse: 'long_terme',
+  }
+  return map[p] || p
+}
+
 const grouped = computed(() => {
   const groups: Record<string, ActionItemData[]> = {
     quick_win: [],
@@ -18,7 +28,7 @@ const grouped = computed(() => {
     long_terme: [],
   }
   for (const item of props.items) {
-    const cat = item.priorite || 'moyen_terme'
+    const cat = normalizePriorite(item.priorite || 'moyen_terme')
     if (!groups[cat]) groups[cat] = []
     groups[cat].push(item)
   }

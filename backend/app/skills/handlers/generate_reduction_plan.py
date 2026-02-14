@@ -222,7 +222,6 @@ def _calculer_echeance(horizon: str) -> date:
 
 
 def _priorite_from_horizon(horizon: str) -> str:
-    """Convertit un horizon en priorité."""
-    return {"quick_win": "haute", "moyen_terme": "moyenne", "long_terme": "basse"}.get(
-        horizon, "moyenne"
-    )
+    """Convertit un horizon en priorité compatible avec le frontend."""
+    valid = {"quick_win", "moyen_terme", "long_terme"}
+    return horizon if horizon in valid else "moyen_terme"
