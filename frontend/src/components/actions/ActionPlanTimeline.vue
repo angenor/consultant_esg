@@ -25,31 +25,37 @@ const grouped = computed(() => {
   return groups
 })
 
-const categoryMeta: Record<string, { label: string; sublabel: string; color: string }> = {
-  quick_win: { label: 'Quick-wins', sublabel: '< 3 mois', color: 'border-emerald-400' },
-  moyen_terme: { label: 'Moyen terme', sublabel: '3-12 mois', color: 'border-blue-400' },
-  long_terme: { label: 'Long terme', sublabel: '> 12 mois', color: 'border-amber-400' },
+const categoryMeta: Record<string, { label: string; sublabel: string; color: string; iconBg: string; iconColor: string }> = {
+  quick_win: { label: 'Quick-wins', sublabel: '< 3 mois', color: 'border-emerald-300', iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600' },
+  moyen_terme: { label: 'Moyen terme', sublabel: '3-12 mois', color: 'border-blue-300', iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
+  long_terme: { label: 'Long terme', sublabel: '> 12 mois', color: 'border-amber-300', iconBg: 'bg-amber-100', iconColor: 'text-amber-600' },
+}
+
+function completedCount(key: string): number {
+  return (grouped.value[key] || []).filter(i => i.statut === 'fait').length
 }
 </script>
 
 <template>
   <div class="space-y-8">
     <div v-for="(cat, key) in categoryMeta" :key="key">
-      <div v-if="grouped[key] && grouped[key].length > 0" class="relative">
+      <div v-if="grouped[key] && grouped[key].length > 0">
         <!-- Category header -->
-        <div class="mb-3 flex items-center gap-3">
-          <div class="h-0.5 w-6 rounded" :class="cat.color.replace('border-', 'bg-')" />
-          <h3 class="text-sm font-semibold text-gray-700">
-            {{ cat.label }}
-            <span class="ml-1 text-xs font-normal text-gray-400">{{ cat.sublabel }}</span>
-          </h3>
-          <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
-            {{ grouped[key].length }}
+        <div class="mb-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="h-1 w-8 rounded-full" :class="cat.iconBg.replace('bg-', 'bg-').replace('100', '400')" :style="{ backgroundColor: cat.iconColor === 'text-emerald-600' ? '#34d399' : cat.iconColor === 'text-blue-600' ? '#60a5fa' : '#fbbf24' }" />
+            <h3 class="text-sm font-bold text-gray-900">
+              {{ cat.label }}
+            </h3>
+            <span class="text-xs text-gray-400">{{ cat.sublabel }}</span>
+          </div>
+          <span class="rounded-full px-2.5 py-1 text-xs font-semibold" :class="[cat.iconBg, cat.iconColor]">
+            {{ completedCount(key) }}/{{ grouped[key].length }}
           </span>
         </div>
 
         <!-- Timeline items -->
-        <div class="space-y-3 border-l-2 pl-4" :class="cat.color">
+        <div class="space-y-3 border-l-2 pl-5" :class="cat.color">
           <ActionItemCard
             v-for="item in grouped[key]"
             :key="item.id"
