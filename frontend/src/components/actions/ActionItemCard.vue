@@ -21,7 +21,7 @@ const emit = defineEmits<{
 function nextStatus(current: string): string {
   if (current === 'a_faire') return 'en_cours'
   if (current === 'en_cours') return 'fait'
-  return 'fait'
+  return 'a_faire'
 }
 
 function statusLabel(s: string): string {
@@ -90,11 +90,16 @@ function isOverdue(d: string | null | undefined, statut: string): boolean {
         >
           <span v-if="item.statut === 'en_cours'" class="h-2 w-2 rounded-full bg-blue-500" />
         </button>
-        <div v-else class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-emerald-500 text-white">
+        <button
+          v-else
+          class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-emerald-500 text-white transition-colors hover:bg-red-400"
+          :title="`Passer à : ${statusLabel(nextStatus(item.statut))}`"
+          @click="emit('toggleStatus', item.id, nextStatus(item.statut))"
+        >
           <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
-        </div>
+        </button>
 
         <div>
           <p class="text-sm font-medium text-gray-800" :class="{ 'line-through': item.statut === 'fait' }">
