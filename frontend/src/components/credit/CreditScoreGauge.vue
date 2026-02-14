@@ -31,38 +31,44 @@ const scoreLabel = computed(() => {
 
 <template>
   <div class="flex flex-col items-center">
-    <svg width="200" height="120" viewBox="0 0 200 120">
+    <svg width="240" height="140" viewBox="0 0 240 140">
       <!-- Background arc -->
       <path
-        d="M 10 110 A 80 80 0 0 1 190 110"
+        d="M 20 130 A 100 100 0 0 1 220 130"
         fill="none"
         stroke="#e2e8f0"
-        stroke-width="12"
+        stroke-width="14"
         stroke-linecap="round"
       />
       <!-- Score arc -->
       <path
-        d="M 10 110 A 80 80 0 0 1 190 110"
+        d="M 20 130 A 100 100 0 0 1 220 130"
         fill="none"
         :stroke="scoreColor"
-        stroke-width="12"
+        stroke-width="14"
         stroke-linecap="round"
-        :stroke-dasharray="circumference"
-        :stroke-dashoffset="offset"
-        style="transition: stroke-dashoffset 0.8s ease-out"
+        :stroke-dasharray="Math.PI * 100"
+        :stroke-dashoffset="Math.PI * 100 * (1 - Math.min(Math.max(score, 0), 100) / 100)"
+        class="gauge-arc"
       />
       <!-- Score text -->
-      <text x="100" y="90" text-anchor="middle" class="text-3xl font-bold" fill="#1e293b" font-size="36" font-weight="700">
+      <text x="120" y="105" text-anchor="middle" fill="#111827" font-size="44" font-weight="800">
         {{ score }}
       </text>
-      <text x="100" y="110" text-anchor="middle" fill="#94a3b8" font-size="12">/ 100</text>
+      <text x="120" y="128" text-anchor="middle" fill="#9ca3af" font-size="13" font-weight="500">sur 100</text>
     </svg>
     <span
-      class="mt-1 inline-block rounded-full px-3 py-1 text-xs font-semibold"
-      :style="{ backgroundColor: scoreColor + '20', color: scoreColor }"
+      class="mt-2 inline-block rounded-full px-4 py-1.5 text-xs font-bold tracking-wide uppercase"
+      :style="{ backgroundColor: scoreColor + '15', color: scoreColor }"
     >
       {{ scoreLabel }}
     </span>
     <p v-if="label" class="mt-2 text-sm font-medium text-gray-600">{{ label }}</p>
   </div>
 </template>
+
+<style scoped>
+.gauge-arc {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+</style>
