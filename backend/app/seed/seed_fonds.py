@@ -30,8 +30,15 @@ async def seed_fonds(db: AsyncSession) -> int:
                 FondsVert.institution == fonds_data["institution"],
             )
         )
-        if result.scalar_one_or_none() is None:
+        existing = result.scalar_one_or_none()
+        if existing is None:
             db.add(FondsVert(**fonds_data))
+            count += 1
+        else:
+            # Mettre à jour les champs existants avec les nouvelles données
+            for key, value in fonds_data.items():
+                if key not in ("nom", "institution") and value is not None:
+                    setattr(existing, key, value)
             count += 1
 
     await db.commit()

@@ -10,6 +10,15 @@ from app.models.referentiel_esg import ReferentielESG
 
 logger = logging.getLogger(__name__)
 
+_MODE_ACCES_LABELS = {
+    "banque_partenaire": "Via banque partenaire locale",
+    "entite_accreditee": "Via entité nationale accréditée",
+    "appel_propositions": "Appel à propositions périodique",
+    "banque_multilaterale": "Via banque multilatérale de développement",
+    "direct": "Candidature directe",
+    "garantie_bancaire": "Demande via votre banque (garantie)",
+}
+
 
 async def search_green_funds(params: dict, context: dict) -> dict:
     """
@@ -154,6 +163,9 @@ async def search_green_funds(params: dict, context: dict) -> dict:
             "description": fonds.criteres_json.get("description", "") if fonds.criteres_json else "",
             "date_limite": str(fonds.date_limite) if fonds.date_limite else None,
             "url": fonds.url_source,
+            "mode_acces": fonds.mode_acces,
+            "mode_acces_label": _MODE_ACCES_LABELS.get(fonds.mode_acces or "", "Non spécifié"),
+            "acces_details": fonds.criteres_json.get("acces_details") if fonds.criteres_json else None,
         })
 
     # Trier par compatibilité décroissante

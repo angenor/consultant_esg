@@ -97,6 +97,7 @@ export interface Fonds {
   criteres_json: Record<string, unknown> | null
   date_limite: string | null
   url_source: string | null
+  mode_acces: string | null
   is_active: boolean
   created_at: string
 }

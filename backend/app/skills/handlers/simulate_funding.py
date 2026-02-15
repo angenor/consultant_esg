@@ -15,6 +15,15 @@ from app.models.action_plan import ActionPlan
 
 logger = logging.getLogger(__name__)
 
+_MODE_ACCES_LABELS = {
+    "banque_partenaire": "Via banque partenaire locale",
+    "entite_accreditee": "Via entité nationale accréditée",
+    "appel_propositions": "Appel à propositions périodique",
+    "banque_multilaterale": "Via banque multilatérale de développement",
+    "direct": "Candidature directe",
+    "garantie_bancaire": "Demande via votre banque (garantie)",
+}
+
 # Mapping pays nom → ISO 3
 _PAYS_MAPPING = {
     "côte d'ivoire": "CIV", "cote d'ivoire": "CIV", "ivory coast": "CIV",
@@ -328,6 +337,9 @@ async def simulate_funding(params: dict, context: dict) -> dict:
             "montant_min": montant_min,
             "montant_max": montant_max,
             "description": criteres.get("description", ""),
+            "mode_acces": fonds.mode_acces,
+            "mode_acces_label": _MODE_ACCES_LABELS.get(fonds.mode_acces or "", "Non spécifié"),
+            "acces_details": criteres.get("acces_details"),
         },
         "entreprise": {
             "nom": entreprise.nom,
@@ -343,6 +355,7 @@ async def simulate_funding(params: dict, context: dict) -> dict:
         "roi_vert": roi_vert,
         "date_limite": str(fonds.date_limite) if fonds.date_limite else None,
         "recommandations": _generer_recommandations(criteres_manquants, eligible),
+        "prochaines_etapes": _generer_etapes(criteres, eligible),
     }
 
 
@@ -378,3 +391,14 @@ def _generer_recommandations(criteres_manquants: list[dict], eligible: bool) -> 
             )
 
     return recommandations
+
+
+def _generer_etapes(criteres: dict, eligible: bool) -> list[str]:
+    """Génère les prochaines étapes basées sur le mode d'accès du fonds."""
+    acces = criteres.get("acces_details", {})
+    etapes = acces.get("etapes", [])
+
+    if not eligible:
+        return ["Remplir les critères manquants (voir critères ci-dessus)"] + etapes[:2]
+
+    return etapes

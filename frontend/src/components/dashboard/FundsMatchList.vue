@@ -11,6 +11,8 @@ export interface FundMatch {
   score_esg_minimum: number | null
   compatibilite: number
   date_limite: string | null
+  mode_acces: string | null
+  mode_acces_label: string | null
 }
 
 import { computed } from 'vue'
@@ -47,6 +49,18 @@ function compatBadgeBg(pct: number): string {
   if (pct >= 30) return 'bg-amber-50'
   return 'bg-red-50'
 }
+
+function modeAccesBadge(mode: string | null): { bg: string; text: string; label: string } {
+  const map: Record<string, { bg: string; text: string; label: string }> = {
+    banque_partenaire: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'Via banque' },
+    entite_accreditee: { bg: 'bg-violet-50', text: 'text-violet-700', label: 'Via entité accréditée' },
+    appel_propositions: { bg: 'bg-orange-50', text: 'text-orange-700', label: 'Appel à propositions' },
+    banque_multilaterale: { bg: 'bg-indigo-50', text: 'text-indigo-700', label: 'Via BMD' },
+    direct: { bg: 'bg-emerald-50', text: 'text-emerald-700', label: 'Candidature directe' },
+    garantie_bancaire: { bg: 'bg-cyan-50', text: 'text-cyan-700', label: 'Via votre banque' },
+  }
+  return map[mode ?? ''] ?? { bg: 'bg-gray-50', text: 'text-gray-600', label: 'Non spécifié' }
+}
 </script>
 
 <template>
@@ -80,6 +94,13 @@ function compatBadgeBg(pct: number): string {
             <span v-if="f.institution" class="text-xs text-gray-500">{{ f.institution }}</span>
             <span v-if="f.referentiel_nom" class="rounded-md bg-gray-100 px-1.5 py-0.5 text-[11px] font-medium text-gray-600">
               {{ f.referentiel_nom }}
+            </span>
+            <span
+              v-if="f.mode_acces"
+              class="rounded-md px-1.5 py-0.5 text-[11px] font-medium"
+              :class="[modeAccesBadge(f.mode_acces).bg, modeAccesBadge(f.mode_acces).text]"
+            >
+              {{ modeAccesBadge(f.mode_acces).label }}
             </span>
             <span v-if="f.montant_range" class="text-xs text-gray-400">{{ f.montant_range }}</span>
           </div>

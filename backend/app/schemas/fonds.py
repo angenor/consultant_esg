@@ -19,6 +19,7 @@ class FondsCreateRequest(BaseModel):
     criteres_json: dict | None = None
     date_limite: date | None = None
     url_source: str | None = Field(None, max_length=500)
+    mode_acces: str | None = Field(None, max_length=30)
 
 
 class FondsUpdateRequest(BaseModel):
@@ -34,6 +35,7 @@ class FondsUpdateRequest(BaseModel):
     criteres_json: dict | None = None
     date_limite: date | None = None
     url_source: str | None = Field(None, max_length=500)
+    mode_acces: str | None = Field(None, max_length=30)
     is_active: bool | None = None
 
 
@@ -51,6 +53,7 @@ class FondsResponse(BaseModel):
     criteres_json: dict | None
     date_limite: date | None
     url_source: str | None
+    mode_acces: str | None
     is_active: bool
     created_at: datetime
 

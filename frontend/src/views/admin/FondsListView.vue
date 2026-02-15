@@ -34,6 +34,19 @@ function getReferentielNom(refId: string | null) {
   return ref ? ref.nom : refId.slice(0, 8) + '...'
 }
 
+const MODE_ACCES_LABELS: Record<string, string> = {
+  banque_partenaire: 'Via banque partenaire',
+  entite_accreditee: 'Via entité accréditée',
+  appel_propositions: 'Appel à propositions',
+  banque_multilaterale: 'Via BMD',
+  direct: 'Candidature directe',
+  garantie_bancaire: 'Via votre banque',
+}
+
+function modeAccesLabel(mode: string): string {
+  return MODE_ACCES_LABELS[mode] || mode
+}
+
 async function handleDelete(f: Fonds) {
   if (!confirm(`Supprimer le fonds "${f.nom}" ?`)) return
   try {
@@ -98,6 +111,7 @@ onMounted(async () => {
             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>
             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Institution</th>
             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Montants</th>
+            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Accès</th>
             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Référentiel</th>
             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
             <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
@@ -115,6 +129,10 @@ onMounted(async () => {
                 {{ formatMontant(f.montant_min) }} - {{ formatMontant(f.montant_max) }} {{ f.devise }}
               </span>
               <span v-else>-</span>
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-600">
+              <span v-if="f.mode_acces" class="text-xs">{{ modeAccesLabel(f.mode_acces) }}</span>
+              <span v-else class="text-xs text-gray-400">-</span>
             </td>
             <td class="px-4 py-3 text-sm text-gray-600">{{ getReferentielNom(f.referentiel_id) }}</td>
             <td class="px-4 py-3">

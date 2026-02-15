@@ -18,6 +18,7 @@ const form = ref({
   nom: '',
   institution: '',
   type: '',
+  mode_acces: '',
   referentiel_id: '' as string,
   montant_min: null as number | null,
   montant_max: null as number | null,
@@ -37,6 +38,7 @@ async function loadFonds() {
       nom: f.nom,
       institution: f.institution || '',
       type: f.type || '',
+      mode_acces: f.mode_acces || '',
       referentiel_id: f.referentiel_id || '',
       montant_min: f.montant_min,
       montant_max: f.montant_max,
@@ -61,6 +63,7 @@ async function handleSubmit() {
     nom: form.value.nom,
     institution: form.value.institution || null,
     type: form.value.type || null,
+    mode_acces: form.value.mode_acces || null,
     referentiel_id: form.value.referentiel_id || null,
     montant_min: form.value.montant_min,
     montant_max: form.value.montant_max,
@@ -138,7 +141,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-3 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
           <select v-model="form.type"
@@ -149,6 +152,19 @@ onMounted(async () => {
             <option value="garantie">Garantie</option>
             <option value="equity">Equity</option>
             <option value="ligne_credit">Ligne de crédit</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mode d'accès</label>
+          <select v-model="form.mode_acces"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500">
+            <option value="">-- Non spécifié --</option>
+            <option value="banque_partenaire">Via banque partenaire</option>
+            <option value="entite_accreditee">Via entité accréditée</option>
+            <option value="appel_propositions">Appel à propositions</option>
+            <option value="banque_multilaterale">Via banque multilatérale</option>
+            <option value="direct">Candidature directe</option>
+            <option value="garantie_bancaire">Via votre banque (garantie)</option>
           </select>
         </div>
         <div>

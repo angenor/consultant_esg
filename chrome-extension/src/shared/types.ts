@@ -58,6 +58,7 @@ export interface FondsVert {
   criteres_json: Record<string, unknown> | null
   date_limite: string | null
   url_source: string | null
+  mode_acces: string | null
   is_active: boolean
   compatibility_score?: number
 }

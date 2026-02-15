@@ -18,6 +18,15 @@ from app.models.user import User
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
+_MODE_ACCES_LABELS = {
+    "banque_partenaire": "Via banque partenaire locale",
+    "entite_accreditee": "Via entité nationale accréditée",
+    "appel_propositions": "Appel à propositions périodique",
+    "banque_multilaterale": "Via banque multilatérale de développement",
+    "direct": "Candidature directe",
+    "garantie_bancaire": "Demande via votre banque (garantie)",
+}
+
 
 def _niveau(score: float | None) -> str:
     if score is None:
@@ -211,6 +220,8 @@ async def dashboard_data(
             "score_esg_minimum": score_min,
             "compatibilite": compatibilite,
             "date_limite": str(fonds.date_limite) if fonds.date_limite else None,
+            "mode_acces": fonds.mode_acces,
+            "mode_acces_label": _MODE_ACCES_LABELS.get(fonds.mode_acces or "", "Non spécifié"),
         })
 
     # Trier par compatibilité décroissante

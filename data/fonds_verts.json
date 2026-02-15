@@ -9,10 +9,29 @@
     "devise": "XOF",
     "secteurs_json": ["agriculture", "energie", "recyclage", "agroalimentaire", "transport"],
     "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "TGO", "BEN", "NER", "GNB"],
+    "mode_acces": "banque_partenaire",
     "criteres_json": {
       "score_esg_minimum": 40,
       "anciennete_minimum_mois": 12,
-      "description": "Prêt à taux préférentiel pour PME de l'UEMOA engagées dans la transition verte. Score ESG minimum de 40/100 requis."
+      "description": "Prêt à taux préférentiel pour PME de l'UEMOA engagées dans la transition verte. Score ESG minimum de 40/100 requis.",
+      "acces_details": {
+        "intermediaire": "Banque commerciale partenaire de la BOAD",
+        "etapes": [
+          "Contacter une banque partenaire BOAD dans votre pays",
+          "Soumettre le dossier de crédit standard + complément vert",
+          "Due diligence environnementale et sociale par la banque",
+          "Comité de crédit et décision",
+          "Signature et décaissement"
+        ],
+        "delai_estime": "8-12 semaines",
+        "periodicite": "Continu (pas de date limite)",
+        "documents_requis": [
+          "États financiers des 2 derniers exercices",
+          "Rapport ESG ou auto-évaluation",
+          "Plan d'affaires vert",
+          "Registre de commerce et statuts"
+        ]
+      }
     },
     "url_source": "https://www.boad.org"
   },
@@ -26,10 +45,29 @@
     "devise": "USD",
     "secteurs_json": ["agriculture", "eau", "energie", "infrastructure"],
     "pays_eligibles": ["CIV", "SEN", "CMR", "GHA", "KEN", "TZA", "ETH"],
+    "mode_acces": "appel_propositions",
     "criteres_json": {
       "score_esg_minimum": 30,
       "impact_climatique_requis": true,
-      "description": "Subvention pour projets d'adaptation au changement climatique en Afrique. Focus sur l'agriculture résiliente et les énergies renouvelables."
+      "description": "Subvention pour projets d'adaptation au changement climatique en Afrique. Focus sur l'agriculture résiliente et les énergies renouvelables.",
+      "acces_details": {
+        "intermediaire": null,
+        "etapes": [
+          "Surveiller les appels à propositions BAD (mars et septembre)",
+          "Soumettre une note conceptuelle (5 pages max) en ligne",
+          "Si présélectionné : développer une proposition complète avec budget détaillé",
+          "Évaluation technique par un panel d'experts climat",
+          "Validation par le Comité de pilotage BAD"
+        ],
+        "delai_estime": "4-8 mois",
+        "periodicite": "2 fois par an (mars et septembre)",
+        "documents_requis": [
+          "Note conceptuelle (5 pages max)",
+          "Budget détaillé du projet",
+          "Plan de suivi-évaluation avec indicateurs climatiques",
+          "Preuve de composante genre (30% femmes bénéficiaires)"
+        ]
+      }
     },
     "url_source": "https://www.afdb.org"
   },
@@ -43,10 +81,32 @@
     "devise": "USD",
     "secteurs_json": ["energie", "transport", "agriculture", "dechets"],
     "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "GHA", "CMR", "TGO", "BEN"],
+    "mode_acces": "entite_accreditee",
     "criteres_json": {
       "score_esg_minimum": 50,
       "plan_reduction_carbone_requis": true,
-      "description": "Financement de projets à fort impact climatique. Nécessite un plan de réduction carbone chiffré et un score ESG d'au moins 50/100."
+      "description": "Financement de projets à fort impact climatique. Nécessite un plan de réduction carbone chiffré et un score ESG d'au moins 50/100.",
+      "acces_details": {
+        "intermediaire": "Entité Nationale Accréditée (ENA) + Autorité Nationale Désignée (AND)",
+        "etapes": [
+          "Identifier l'Autorité Nationale Désignée (AND) de votre pays (rattachée au Ministère de l'Environnement)",
+          "Obtenir la lettre de non-objection de l'AND",
+          "S'associer à une Entité Nationale Accréditée (ENA) partenaire (PNUD, BAD, entité nationale)",
+          "Soumettre une note conceptuelle via l'ENA",
+          "Développer la proposition complète (funding proposal) avec l'ENA",
+          "Revue technique par le Secrétariat GCF",
+          "Validation par le Board du GCF (réunion trimestrielle)"
+        ],
+        "delai_estime": "6-18 mois",
+        "periodicite": "Soumissions continues — examen par le Board GCF 3 fois par an",
+        "documents_requis": [
+          "Note conceptuelle via l'ENA",
+          "Funding proposal complet",
+          "Plan de réduction carbone chiffré et vérifié",
+          "Étude de faisabilité environnementale et sociale",
+          "Lettre de non-objection de l'AND"
+        ]
+      }
     },
     "url_source": "https://www.greenclimate.fund"
   },
@@ -60,10 +120,29 @@
     "devise": "USD",
     "secteurs_json": ["energie", "industrie", "batiment", "transport"],
     "pays_eligibles": ["CIV", "SEN", "CMR", "GHA", "KEN", "NGA"],
+    "mode_acces": "banque_partenaire",
     "criteres_json": {
       "score_esg_minimum": 45,
       "conformite_ifc_requise": true,
-      "description": "Crédit via banques partenaires pour projets de transition énergétique et efficacité des ressources. Conformité aux standards IFC requise."
+      "description": "Crédit via banques partenaires pour projets de transition énergétique et efficacité des ressources. Conformité aux standards IFC requise.",
+      "acces_details": {
+        "intermediaire": "Banque partenaire IFC (Société Générale CI, BICICI, Ecobank)",
+        "etapes": [
+          "Contacter une banque partenaire IFC dans votre pays",
+          "Soumettre le dossier de crédit standard + complément vert",
+          "Évaluation E&S par la banque (critères IFC simplifiés)",
+          "Accord de crédit avec composante verte",
+          "Assistance technique IFC pour le projet vert (gratuite)"
+        ],
+        "delai_estime": "4-8 semaines",
+        "periodicite": "Continu (pas de date limite)",
+        "documents_requis": [
+          "États financiers audités des 3 derniers exercices",
+          "Projet d'investissement vert identifié",
+          "Plan d'affaires avec composante verte",
+          "Vérification conformité liste d'exclusion IFC"
+        ]
+      }
     },
     "url_source": "https://www.ifc.org"
   },
@@ -77,9 +156,28 @@
     "devise": "XOF",
     "secteurs_json": ["agriculture", "energie", "recyclage", "eau"],
     "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "TGO", "BEN", "NER", "CMR"],
+    "mode_acces": "garantie_bancaire",
     "criteres_json": {
       "score_esg_minimum": 35,
-      "description": "Garantie partielle de crédit pour PME vertes de la zone franc. Facilite l'accès au crédit bancaire classique avec un engagement ESG démontré."
+      "description": "Garantie partielle de crédit pour PME vertes de la zone franc. Facilite l'accès au crédit bancaire classique avec un engagement ESG démontré.",
+      "acces_details": {
+        "intermediaire": "Votre banque commerciale habituelle (c'est elle qui soumet la demande au FAGACE)",
+        "etapes": [
+          "Solliciter un crédit vert auprès de votre banque habituelle",
+          "La banque soumet la demande de garantie au FAGACE en votre nom",
+          "Évaluation du profil ESG et du projet par le FAGACE (2-3 semaines)",
+          "Émission de la lettre de garantie par le FAGACE",
+          "La banque accorde le crédit avec la garantie FAGACE"
+        ],
+        "delai_estime": "4-8 semaines",
+        "periodicite": "Continu (pas de date limite)",
+        "documents_requis": [
+          "Dossier de crédit standard auprès de votre banque",
+          "Politique environnementale documentée ou certification en cours",
+          "États financiers récents",
+          "Historique de paiement (pas d'incidents majeurs sur 12 mois)"
+        ]
+      }
     },
     "url_source": "https://www.fagace.org"
   },
@@ -93,11 +191,30 @@
     "devise": "XOF",
     "secteurs_json": ["agriculture", "energie", "recyclage", "agroalimentaire", "BTP", "transport"],
     "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "TGO", "BEN", "NER", "GNB"],
+    "mode_acces": "banque_partenaire",
     "criteres_json": {
       "score_esg_minimum": 35,
       "anciennete_minimum_mois": 6,
       "taux_preferentiel": "3.5-5.5%",
-      "description": "Ligne de refinancement de la BCEAO à taux bonifié pour les banques commerciales finançant des projets verts dans l'UEMOA. Taux de 3,5% à 5,5% selon la notation ESG."
+      "description": "Ligne de refinancement de la BCEAO à taux bonifié pour les banques commerciales finançant des projets verts dans l'UEMOA. Taux de 3,5% à 5,5% selon la notation ESG.",
+      "acces_details": {
+        "intermediaire": "Banque commerciale de l'UEMOA (votre banque habituelle)",
+        "etapes": [
+          "Contacter votre banque commerciale habituelle",
+          "La banque évalue votre dossier de crédit classique + profil ESG",
+          "La banque soumet la demande de refinancement à la BCEAO",
+          "La BCEAO valide l'éligibilité verte du projet (2-3 semaines)",
+          "La banque accorde le prêt au taux bonifié BCEAO"
+        ],
+        "delai_estime": "3-6 semaines",
+        "periodicite": "Continu (pas de date limite)",
+        "documents_requis": [
+          "Dossier de crédit bancaire standard",
+          "Projet d'investissement vert identifié et chiffré",
+          "Profil ESG de l'entreprise",
+          "Compte bancaire actif dans une banque UEMOA"
+        ]
+      }
     },
     "url_source": "https://www.bceao.int"
   },
@@ -111,11 +228,31 @@
     "devise": "XOF",
     "secteurs_json": ["energie", "batiment", "industrie", "agroalimentaire"],
     "pays_eligibles": ["CIV", "SEN", "CMR", "BFA"],
+    "mode_acces": "banque_partenaire",
     "criteres_json": {
       "score_esg_minimum": 30,
       "prime_investissement_pct": 15,
       "audit_energetique_requis": true,
-      "description": "Ligne de crédit verte via banques partenaires + prime d'investissement de 10-15% pour projets d'efficacité énergétique et énergies renouvelables. Audit énergétique gratuit inclus."
+      "description": "Ligne de crédit verte via banques partenaires + prime d'investissement de 10-15% pour projets d'efficacité énergétique et énergies renouvelables. Audit énergétique gratuit inclus.",
+      "acces_details": {
+        "intermediaire": "Banque partenaire SUNREF (Société Générale, Ecobank, BICICI)",
+        "etapes": [
+          "Contacter une banque partenaire SUNREF",
+          "Audit énergétique gratuit réalisé par un expert SUNREF agréé",
+          "L'expert identifie les investissements éligibles et le potentiel d'économies",
+          "La banque monte le dossier de crédit avec le rapport d'audit",
+          "Accord de prêt aux conditions SUNREF",
+          "Après réalisation : vérification et versement de la prime (10-15%)"
+        ],
+        "delai_estime": "4-10 semaines",
+        "periodicite": "Continu (pas de date limite)",
+        "documents_requis": [
+          "Identification du projet d'investissement vert",
+          "Rapport d'audit énergétique SUNREF (fourni gratuitement)",
+          "Dossier de crédit bancaire standard",
+          "Preuve d'existence formelle (minimum 2 ans)"
+        ]
+      }
     },
     "url_source": "https://www.sunref.org"
   },
@@ -129,10 +266,31 @@
     "devise": "USD",
     "secteurs_json": ["agriculture", "agroalimentaire", "eau"],
     "pays_eligibles": ["CIV", "SEN", "MLI", "BFA", "NER", "TGO", "BEN", "GNB"],
+    "mode_acces": "appel_propositions",
     "criteres_json": {
       "score_esg_minimum": 25,
       "pct_femmes_beneficiaires": 40,
-      "description": "Subventions pour renforcer la résilience climatique des petits producteurs agricoles en Afrique de l'Ouest. Priorité aux coopératives et aux femmes entrepreneures. 40% minimum de bénéficiaires femmes requis."
+      "description": "Subventions pour renforcer la résilience climatique des petits producteurs agricoles en Afrique de l'Ouest. Priorité aux coopératives et aux femmes entrepreneures. 40% minimum de bénéficiaires femmes requis.",
+      "acces_details": {
+        "intermediaire": null,
+        "etapes": [
+          "Surveiller les appels à propositions FIDA (avril et octobre)",
+          "Soumettre une note conceptuelle (3-5 pages) via le portail en ligne FIDA",
+          "Présélection et invitation à soumettre une proposition complète",
+          "Atelier de formulation avec l'équipe FIDA pays",
+          "Évaluation technique et approbation par le comité régional",
+          "Signature de la convention de subvention"
+        ],
+        "delai_estime": "3-6 mois",
+        "periodicite": "2 fois par an (avril et octobre)",
+        "documents_requis": [
+          "Note conceptuelle (3-5 pages)",
+          "Preuve de statut juridique (coopérative, GIE, PME agricole)",
+          "Plan démontrant l'impact sur l'adaptation climatique",
+          "Preuve d'apport propre minimum 20%",
+          "Engagement de formation en pratiques agricoles durables"
+        ]
+      }
     },
     "url_source": "https://www.ifad.org"
   },
@@ -146,10 +304,30 @@
     "devise": "EUR",
     "secteurs_json": ["energie", "transport", "industrie", "batiment", "services"],
     "pays_eligibles": ["CIV", "SEN", "CMR", "GHA", "KEN", "TZA"],
+    "mode_acces": "direct",
     "criteres_json": {
       "score_esg_minimum": 40,
       "composante_at_gratuite": true,
-      "description": "Co-financement BEI/Proparco pour PME en croissance engagées dans la transition climatique. Prêts à moyen-long terme (5-12 ans) avec composante d'assistance technique gratuite et possibilité de conversion en devises locales."
+      "description": "Co-financement BEI/Proparco pour PME en croissance engagées dans la transition climatique. Prêts à moyen-long terme (5-12 ans) avec composante d'assistance technique gratuite et possibilité de conversion en devises locales.",
+      "acces_details": {
+        "intermediaire": "Contact direct via portail BEI ou bureau Proparco local",
+        "etapes": [
+          "Expression d'intérêt via le portail BEI ou contact avec le bureau Proparco local",
+          "Diagnostic ESG préliminaire gratuit (réalisé par un consultant BEI)",
+          "Soumission du dossier complet : business plan + plan d'investissement vert",
+          "Due diligence financière et environnementale (4-6 semaines)",
+          "Comité d'investissement BEI/Proparco",
+          "Négociation des termes et signature"
+        ],
+        "delai_estime": "2-4 mois",
+        "periodicite": "Continu (pas de date limite)",
+        "documents_requis": [
+          "Business plan complet",
+          "Plan d'investissement vert détaillé",
+          "États financiers audités des 2 derniers exercices",
+          "Engagement de reporting ESG annuel"
+        ]
+      }
     },
     "url_source": "https://www.proparco.fr"
   },
@@ -163,10 +341,31 @@
     "devise": "USD",
     "secteurs_json": ["energie"],
     "pays_eligibles": ["MLI", "BFA", "NER", "ETH", "KEN", "TZA", "GHA"],
+    "mode_acces": "banque_multilaterale",
     "criteres_json": {
       "score_esg_minimum": 35,
       "focus_energie_renouvelable": true,
-      "description": "Programme de mise à échelle des énergies renouvelables (SREP) pour les pays à faible revenu. Financement de projets solaires, éoliens et biomasse. Subventions + prêts concessionnels combinés."
+      "description": "Programme de mise à échelle des énergies renouvelables (SREP) pour les pays à faible revenu. Financement de projets solaires, éoliens et biomasse. Subventions + prêts concessionnels combinés.",
+      "acces_details": {
+        "intermediaire": "Banque Multilatérale de Développement (Banque Mondiale, BAD, BID, BERD)",
+        "etapes": [
+          "Vérifier que votre projet s'inscrit dans le Plan d'Investissement SREP de votre pays",
+          "Identifier et contacter une BMD partenaire (Banque Mondiale, BAD)",
+          "Soumission du projet via la BMD partenaire",
+          "Évaluation technique par les experts CIF (6-8 semaines)",
+          "Validation par le sous-comité SREP (réunion semestrielle)",
+          "Approbation finale par la BMD partenaire"
+        ],
+        "delai_estime": "6-12 mois",
+        "periodicite": "Selon calendrier du sous-comité SREP (semestriel)",
+        "documents_requis": [
+          "Projet 100% énergie renouvelable documenté",
+          "Preuve de viabilité financière sur 10 ans",
+          "Partenariat avec entité locale (gouvernement, ONG, coopérative)",
+          "Plan de maintenance et de durabilité post-projet",
+          "Alignement avec le Plan d'Investissement SREP national"
+        ]
+      }
     },
     "url_source": "https://www.cif.org"
   }
