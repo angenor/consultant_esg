@@ -121,6 +121,23 @@ async def calculate_esg_score(params: dict, context: dict) -> dict:
 
         score_global = round(score_global, 1)
 
+        # Ne pas sauvegarder un score entièrement à 0 (aucune donnée réelle)
+        all_zero = score_global == 0 and all(
+            p["score"] == 0 for p in scores_piliers.values()
+        )
+        if all_zero:
+            resultats.append({
+                "referentiel": ref.nom,
+                "referentiel_code": ref.code,
+                "institution": ref.institution,
+                "score_global": 0,
+                "niveau": "Non calculé",
+                "scores_piliers": {k: v["score"] for k, v in scores_piliers.items()},
+                "details": scores_piliers,
+                "avertissement": "Aucune donnée fournie — score non enregistré.",
+            })
+            continue
+
         # Sauvegarder en BDD
         details = {
             "referentiel": ref.nom,

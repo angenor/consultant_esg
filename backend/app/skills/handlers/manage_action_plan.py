@@ -91,6 +91,7 @@ async def _create_plan(db: AsyncSession, entreprise_id: str, params: dict) -> di
     plan = ActionPlan(
         entreprise_id=entreprise_id,
         titre=titre,
+        type_plan="esg",
         horizon=horizon,
         referentiel_id=referentiel_id,
         score_initial=score_initial,
@@ -416,6 +417,7 @@ def _format_plan_response(plan: ActionPlan, items: list[ActionItem]) -> dict:
         "plan": {
             "id": str(plan.id),
             "titre": plan.titre,
+            "type_plan": plan.type_plan,
             "horizon": plan.horizon,
             "score_initial": float(plan.score_initial) if plan.score_initial else None,
             "score_cible": float(plan.score_cible) if plan.score_cible else None,

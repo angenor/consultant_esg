@@ -3,9 +3,12 @@ import { computed } from 'vue'
 import type { ActionItemData } from './ActionItemCard.vue'
 import ActionItemCard from './ActionItemCard.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   items: ActionItemData[]
-}>()
+  unitImpact?: string
+}>(), {
+  unitImpact: 'pts ESG',
+})
 
 const emit = defineEmits<{
   toggleStatus: [id: string, newStatus: string]
@@ -70,6 +73,7 @@ function completedCount(key: string): number {
             v-for="item in grouped[key]"
             :key="item.id"
             :item="item"
+            :unit-impact="unitImpact"
             @toggle-status="(id, status) => emit('toggleStatus', id, status)"
           />
         </div>

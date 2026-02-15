@@ -65,10 +65,11 @@ async def _verify_plan_ownership(
 
 @router.get("/latest")
 async def latest_plan(
+    type_plan: str = Query("esg", pattern="^(esg|carbone)$"),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    """Dernier plan d'action avec ses items (pour la vue frontend)."""
+    """Dernier plan d'action filtré par type (esg ou carbone)."""
     ent_result = await db.execute(
         select(Entreprise.id).where(Entreprise.user_id == user.id).limit(1)
     )
@@ -78,7 +79,10 @@ async def latest_plan(
 
     result = await db.execute(
         select(ActionPlan)
-        .where(ActionPlan.entreprise_id == ent_id)
+        .where(
+            ActionPlan.entreprise_id == ent_id,
+            ActionPlan.type_plan == type_plan,
+        )
         .order_by(ActionPlan.created_at.desc())
         .limit(1)
     )
@@ -96,6 +100,7 @@ async def latest_plan(
     return {
         "id": str(plan.id),
         "titre": plan.titre,
+        "type_plan": plan.type_plan,
         "horizon": plan.horizon,
         "score_initial": float(plan.score_initial) if plan.score_initial else None,
         "score_cible": float(plan.score_cible) if plan.score_cible else None,
@@ -110,6 +115,7 @@ async def latest_plan(
                 "echeance": str(i.echeance) if i.echeance else None,
                 "impact_score_estime": float(i.impact_score_estime) if i.impact_score_estime else None,
                 "cout_estime": float(i.cout_estime) if i.cout_estime else None,
+                "benefice_estime": float(i.benefice_estime) if i.benefice_estime else None,
             }
             for i in items
         ],
@@ -145,17 +151,22 @@ async def create_plan(
 @router.get("/entreprise/{entreprise_id}", response_model=list[ActionPlanSummary])
 async def list_plans(
     entreprise_id: uuid.UUID,
+    type_plan: str | None = Query(None, pattern="^(esg|carbone)$"),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    """Liste les plans d'action d'une entreprise."""
+    """Liste les plans d'action d'une entreprise, avec filtre optionnel par type."""
     await _verify_ownership(db, entreprise_id, user)
 
-    result = await db.execute(
+    query = (
         select(ActionPlan)
         .where(ActionPlan.entreprise_id == entreprise_id)
-        .order_by(ActionPlan.created_at.desc())
     )
+    if type_plan:
+        query = query.where(ActionPlan.type_plan == type_plan)
+    query = query.order_by(ActionPlan.created_at.desc())
+
+    result = await db.execute(query)
     plans = result.scalars().all()
 
     summaries = []
@@ -177,6 +188,7 @@ async def list_plans(
                 id=plan.id,
                 entreprise_id=plan.entreprise_id,
                 titre=plan.titre,
+                type_plan=plan.type_plan,
                 horizon=plan.horizon,
                 referentiel_id=plan.referentiel_id,
                 score_initial=float(plan.score_initial) if plan.score_initial else None,
@@ -211,6 +223,7 @@ async def get_plan(
         id=plan.id,
         entreprise_id=plan.entreprise_id,
         titre=plan.titre,
+        type_plan=plan.type_plan,
         horizon=plan.horizon,
         referentiel_id=plan.referentiel_id,
         score_initial=float(plan.score_initial) if plan.score_initial else None,
@@ -267,7 +280,7 @@ async def update_item_status(
         raise HTTPException(status_code=404, detail="Action introuvable")
 
     # Vérifier la propriété via le plan
-    await _verify_plan_ownership(db, item.plan_id, user)
+    plan_obj = await _verify_plan_ownership(db, item.plan_id, user)
 
     ancien_statut = item.statut
     item.statut = body.statut
@@ -276,13 +289,14 @@ async def update_item_status(
 
     # Notification si action complétée
     if body.statut == "fait" and ancien_statut != "fait":
+        lien = "/carbon" if plan_obj.type_plan == "carbone" else "/action-plan"
         await create_notification(
             db,
             user_id=user.id,
             type="action_completee",
             titre=f"Action terminée : {item.titre}",
             contenu=f"L'action \"{item.titre}\" a été marquée comme terminée.",
-            lien=f"/action-plan",
+            lien=lien,
         )
         await db.commit()
 
@@ -331,6 +345,7 @@ async def get_progress(
     return ProgressResponse(
         plan_id=plan.id,
         titre=plan.titre,
+        type_plan=plan.type_plan,
         horizon=plan.horizon,
         score_initial=float(plan.score_initial) if plan.score_initial else None,
         score_cible=float(plan.score_cible) if plan.score_cible else None,

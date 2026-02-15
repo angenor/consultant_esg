@@ -32,7 +32,7 @@ const impactTotal = computed(() => {
 async function loadData() {
   loading.value = true
   try {
-    const data = await get<any>('/api/action-plans/latest')
+    const data = await get<any>('/api/action-plans/latest?type_plan=esg')
     if (!data || data.error) {
       hasData.value = false
       return

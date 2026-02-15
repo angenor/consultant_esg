@@ -56,13 +56,16 @@ async def dashboard_data(
     referentiels = ref_result.scalars().all()
     ref_map = {r.id: r for r in referentiels}
 
-    # 3. Dernier score par référentiel (subquery)
+    # 3. Dernier score par référentiel (subquery) — exclut les scores à 0
     latest_sub = (
         select(
             ESGScore.referentiel_id,
             func.max(ESGScore.created_at).label("max_date"),
         )
-        .where(ESGScore.entreprise_id == ent_id)
+        .where(
+            ESGScore.entreprise_id == ent_id,
+            ESGScore.score_global > 0,
+        )
         .group_by(ESGScore.referentiel_id)
         .subquery()
     )

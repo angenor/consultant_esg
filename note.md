@@ -23,3 +23,7 @@ https://fr.freepik.com/photos-vecteurs-libre/feuille-svg
 
 
 https://svgsilh.com/fr/tag/feuilles-1.html
+
+
+
+lorsque je change de Référentiels ESG dans le tableau de bord, cela n'a aucun effet sur les autres éléments autre que les afficheure E, S, G et Score global

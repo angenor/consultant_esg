@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useApi } from '../composables/useApi'
 import CarbonSummary from '../components/carbon/CarbonSummary.vue'
@@ -7,10 +7,13 @@ import CarbonBySource from '../components/carbon/CarbonBySource.vue'
 import CarbonEvolution from '../components/carbon/CarbonEvolution.vue'
 import SectorComparison from '../components/carbon/SectorComparison.vue'
 import ReductionPlan from '../components/carbon/ReductionPlan.vue'
+import ProgressTracker from '../components/actions/ProgressTracker.vue'
+import ActionPlanTimeline from '../components/actions/ActionPlanTimeline.vue'
 import type { ReductionAction } from '../components/carbon/ReductionPlan.vue'
+import type { ActionItemData } from '../components/actions/ActionItemCard.vue'
 
 const router = useRouter()
-const { get } = useApi()
+const { get, put } = useApi()
 
 const loading = ref(true)
 const hasData = ref(false)
@@ -25,6 +28,22 @@ const evolutionValues = ref<number[]>([])
 const benchmarkSecteur = ref('')
 const benchmarkMoyenne = ref(0)
 const reductionActions = ref<ReductionAction[]>([])
+
+// Carbon reduction plan from DB
+const carbonPlan = ref<{
+  id: string
+  titre: string
+  score_initial: number | null
+  score_cible: number | null
+  items: ActionItemData[]
+} | null>(null)
+
+const carbonPlanItems = computed(() => carbonPlan.value?.items || [])
+const carbonNbTotal = computed(() => carbonPlanItems.value.length)
+const carbonNbFait = computed(() => carbonPlanItems.value.filter(i => i.statut === 'fait').length)
+const carbonPourcentage = computed(() =>
+  carbonNbTotal.value > 0 ? Math.round((carbonNbFait.value / carbonNbTotal.value) * 100) : 0
+)
 
 async function loadData() {
   loading.value = true
@@ -61,14 +80,53 @@ async function loadData() {
       benchmarkMoyenne.value = (details.benchmark.moyenne_tco2e || 0) * 1000
     }
 
-    // Reduction plan
+    // Reduction plan (fallback from details_json)
     if (details.plan_reduction) {
       reductionActions.value = details.plan_reduction
+    }
+
+    // Load carbon reduction plan from DB
+    try {
+      const planData = await get<any>('/api/action-plans/latest?type_plan=carbone')
+      if (planData && !planData.error && planData.items?.length > 0) {
+        carbonPlan.value = {
+          id: planData.id,
+          titre: planData.titre,
+          score_initial: planData.score_initial ?? null,
+          score_cible: planData.score_cible ?? null,
+          items: (planData.items || []).map((item: any) => ({
+            id: item.id,
+            titre: item.titre,
+            description: item.description,
+            priorite: item.priorite || 'moyen_terme',
+            pilier: item.pilier,
+            statut: item.statut || 'a_faire',
+            echeance: item.echeance,
+            impact_score_estime: item.impact_score_estime,
+            cout_estime: item.cout_estime,
+            benefice_estime: item.benefice_estime,
+          })),
+        }
+      }
+    } catch {
+      // Carbon plan not available, that's ok
     }
   } catch {
     hasData.value = false
   } finally {
     loading.value = false
+  }
+}
+
+async function handleToggleStatus(itemId: string, newStatus: string) {
+  try {
+    await put(`/api/action-plans/items/${itemId}`, { statut: newStatus })
+    if (carbonPlan.value) {
+      const item = carbonPlan.value.items.find((i) => i.id === itemId)
+      if (item) item.statut = newStatus
+    }
+  } catch {
+    // silent
   }
 }
 
@@ -145,8 +203,25 @@ onMounted(loadData)
         :values="evolutionValues"
       />
 
-      <!-- Reduction plan -->
-      <ReductionPlan :actions="reductionActions" />
+      <!-- Carbon Reduction Plan (from DB, with status tracking) -->
+      <template v-if="carbonPlan && carbonPlan.items.length > 0">
+        <ProgressTracker
+          :titre="carbonPlan.titre"
+          :pourcentage="carbonPourcentage"
+          :nb-total="carbonNbTotal"
+          :nb-fait="carbonNbFait"
+          :score-initial="carbonPlan.score_initial"
+          :score-cible="carbonPlan.score_cible"
+        />
+        <ActionPlanTimeline
+          :items="carbonPlan.items"
+          unit-impact="tCO2e"
+          @toggle-status="handleToggleStatus"
+        />
+      </template>
+
+      <!-- Fallback: simplified reduction plan from details_json -->
+      <ReductionPlan v-else :actions="reductionActions" />
     </template>
   </div>
 </template>

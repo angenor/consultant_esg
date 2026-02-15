@@ -124,9 +124,12 @@ BUILTIN_SKILLS = [
     {
         "nom": "generate_reduction_plan",
         "description": (
-            "Génère un plan de réduction carbone priorisé basé sur l'empreinte calculée. "
-            "Identifie les sources émettrices, interroge la knowledge base pour des actions adaptées, "
-            "et classe en quick_win, moyen_terme, long_terme."
+            "Génère un plan de RÉDUCTION CARBONE priorisé à partir de l'empreinte carbone calculée. "
+            "À UTILISER UNIQUEMENT pour réduire les émissions de CO2/GES. "
+            "Prérequis : avoir déjà calculé l'empreinte carbone avec calculate_carbon. "
+            "Identifie les sources les plus émettrices et propose des actions classées en "
+            "quick_win, moyen_terme, long_terme avec coûts et économies estimées en XOF. "
+            "NE PAS utiliser pour améliorer le score ESG global — utiliser manage_action_plan à la place."
         ),
         "category": "carbon",
         "handler_key": "builtin.generate_reduction_plan",
@@ -211,9 +214,15 @@ BUILTIN_SKILLS = [
     {
         "nom": "manage_action_plan",
         "description": (
-            "Crée ou met à jour un plan d'action structuré pour l'entreprise. "
-            "Actions supportées : create (nouveau plan), add_item (ajouter une action), "
-            "update_status (changer le statut d'une action)."
+            "Crée ou met à jour un plan d'action d'AMÉLIORATION ESG pour l'entreprise. "
+            "Fonctionne avec TOUS les référentiels disponibles : BCEAO Finance Durable, "
+            "Green Climate Fund (GCF), IFC Performance Standards, etc. "
+            "Utilise le paramètre referentiel_code pour cibler un référentiel précis "
+            "(ex: 'gcf_standards', 'bceao_fd_2024', 'ifc_standards'). "
+            "Analyse les lacunes du dernier score ESG et génère des actions priorisées. "
+            "Actions supportées : create (nouveau plan ESG), add_item (ajouter une action), "
+            "update_status (changer le statut d'une action). "
+            "NE PAS utiliser pour la réduction carbone — utiliser generate_reduction_plan à la place."
         ),
         "category": "utils",
         "handler_key": "builtin.manage_action_plan",
@@ -225,6 +234,22 @@ BUILTIN_SKILLS = [
                     "type": "string",
                     "enum": ["create", "add_item", "update_status"],
                     "description": "Action à effectuer",
+                },
+                "referentiel_code": {
+                    "type": "string",
+                    "description": (
+                        "Code du référentiel ESG ciblé (ex: 'gcf_standards', 'bceao_fd_2024', 'ifc_standards'). "
+                        "Si omis, utilise le dernier score ESG disponible."
+                    ),
+                },
+                "horizon": {
+                    "type": "string",
+                    "enum": ["6_mois", "12_mois", "24_mois"],
+                    "description": "Horizon temporel du plan (défaut: 12_mois)",
+                },
+                "score_cible": {
+                    "type": "number",
+                    "description": "Score ESG cible à atteindre (0-100). Si omis, score actuel + 15.",
                 },
                 "plan_id": {"type": "string", "description": "ID du plan (pour add_item, update_status)"},
                 "titre": {"type": "string", "description": "Titre du plan ou de l'action"},
@@ -299,6 +324,31 @@ BUILTIN_SKILLS = [
         },
     },
     {
+        "nom": "get_action_plans",
+        "description": (
+            "Récupère les plans d'action EXISTANTS de l'entreprise (ESG et/ou carbone). "
+            "Retourne le dernier plan de chaque type avec ses actions, leur statut et la progression. "
+            "À UTILISER quand l'utilisateur demande où en est son plan d'action, "
+            "quelles actions sont en cours, ou veut consulter un plan existant. "
+            "Paramètre type_plan : 'esg' pour le plan ESG, 'carbone' pour le plan de réduction carbone, "
+            "ou ne pas spécifier pour récupérer tous les plans."
+        ),
+        "category": "utils",
+        "handler_key": "builtin.get_action_plans",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "entreprise_id": {"type": "string", "description": "ID de l'entreprise"},
+                "type_plan": {
+                    "type": "string",
+                    "enum": ["esg", "carbone"],
+                    "description": "Type de plan à récupérer. Omettre pour récupérer tous les plans.",
+                },
+            },
+            "required": ["entreprise_id"],
+        },
+    },
+    {
         "nom": "get_company_profile",
         "description": (
             "Récupère le profil complet d'une entreprise : informations générales, "
@@ -350,8 +400,13 @@ async def seed_skills(db: AsyncSession) -> int:
     count = 0
     for skill_data in BUILTIN_SKILLS:
         result = await db.execute(select(Skill).where(Skill.nom == skill_data["nom"]))
-        if result.scalar_one_or_none() is None:
+        existing = result.scalar_one_or_none()
+        if existing is None:
             db.add(Skill(**skill_data))
             count += 1
+        else:
+            # Update description and input_schema for builtin skills
+            existing.description = skill_data["description"]
+            existing.input_schema = skill_data["input_schema"]
     await db.commit()
     return count

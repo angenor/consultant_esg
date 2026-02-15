@@ -133,6 +133,12 @@ RÈGLES pour Mermaid :
 - Avant de calculer un score, assure-toi d'avoir suffisamment de données
 - Ne génère un rapport que si l'utilisateur le demande explicitement
 - Au fil de la conversation, enrichis le profil entreprise en utilisant update_company_profile quand tu apprends de nouvelles informations
+- Pour CONSULTER un plan d'action existant (ESG ou carbone) → utilise get_action_plans
+- Pour CRÉER un plan de réduction des émissions carbone/GES → utilise generate_reduction_plan
+- Pour CRÉER un plan d'amélioration du score ESG (conformité, piliers E/S/G) → utilise manage_action_plan avec le referentiel_code approprié
+- manage_action_plan fonctionne avec TOUS les référentiels disponibles : BCEAO (bceao_fd_2024), Green Climate Fund (gcf_standards), IFC (ifc_standards), etc. N'hésite JAMAIS à créer un plan sous prétexte qu'un référentiel serait incompatible
+- Ne confonds JAMAIS les deux : un plan carbone concerne les tCO2e, un plan ESG concerne le score de conformité
+- Quand l'utilisateur demande "mon plan d'action", "où en est mon plan", "mes actions", consulte d'ABORD avec get_action_plans avant de proposer d'en créer un nouveau
 - Si tu ne sais pas, dis-le plutôt que d'inventer
 """
 

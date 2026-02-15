@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 class CreateActionPlanRequest(BaseModel):
     entreprise_id: uuid.UUID
     titre: str | None = None
+    type_plan: str = Field("esg", pattern="^(esg|carbone)$")
     horizon: str = Field("12_mois", pattern="^(6_mois|12_mois|24_mois)$")
     referentiel_code: str | None = None
     score_cible: float | None = Field(None, ge=0, le=100)
@@ -59,6 +60,7 @@ class ActionPlanSummary(BaseModel):
     id: uuid.UUID
     entreprise_id: uuid.UUID
     titre: str
+    type_plan: str = "esg"
     horizon: str | None = None
     referentiel_id: uuid.UUID | None = None
     score_initial: float | None = None
@@ -75,6 +77,7 @@ class ActionPlanDetail(BaseModel):
     id: uuid.UUID
     entreprise_id: uuid.UUID
     titre: str
+    type_plan: str = "esg"
     horizon: str | None = None
     referentiel_id: uuid.UUID | None = None
     score_initial: float | None = None
@@ -111,6 +114,7 @@ class EcheanceInfo(BaseModel):
 class ProgressResponse(BaseModel):
     plan_id: uuid.UUID
     titre: str
+    type_plan: str | None = None
     horizon: str | None = None
     score_initial: float | None = None
     score_cible: float | None = None

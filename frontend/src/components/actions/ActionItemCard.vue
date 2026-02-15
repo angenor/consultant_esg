@@ -8,11 +8,16 @@ export interface ActionItemData {
   statut: string
   echeance?: string | null
   impact_score_estime?: number
+  cout_estime?: number
+  benefice_estime?: number
 }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   item: ActionItemData
-}>()
+  unitImpact?: string
+}>(), {
+  unitImpact: 'pts ESG',
+})
 
 const emit = defineEmits<{
   toggleStatus: [id: string, newStatus: string]
@@ -39,7 +44,14 @@ function statusClass(s: string): string {
 }
 
 function pilierLabel(p: string | undefined): string {
-  const map: Record<string, string> = { E: 'Environnement', S: 'Social', G: 'Gouvernance' }
+  const map: Record<string, string> = {
+    E: 'Environnement',
+    S: 'Social',
+    G: 'Gouvernance',
+    environnement: 'Environnement',
+    social: 'Social',
+    gouvernance: 'Gouvernance',
+  }
   return map[p || ''] || ''
 }
 
@@ -48,6 +60,9 @@ function pilierClass(p: string | undefined): string {
     E: 'bg-green-100 text-green-700',
     S: 'bg-purple-100 text-purple-700',
     G: 'bg-indigo-100 text-indigo-700',
+    environnement: 'bg-green-100 text-green-700',
+    social: 'bg-purple-100 text-purple-700',
+    gouvernance: 'bg-indigo-100 text-indigo-700',
   }
   return map[p || ''] || 'bg-gray-100 text-gray-600'
 }
@@ -64,6 +79,10 @@ function formatDate(d: string | null | undefined): string {
 function isOverdue(d: string | null | undefined, statut: string): boolean {
   if (!d || statut === 'fait') return false
   return new Date(d) < new Date()
+}
+
+function formatXOF(n: number): string {
+  return n.toLocaleString('fr-FR') + ' XOF'
 }
 </script>
 
@@ -124,6 +143,21 @@ function isOverdue(d: string | null | undefined, statut: string): boolean {
             </svg>
             {{ formatDate(item.echeance) }}
           </span>
+          <span
+            v-if="item.cout_estime"
+            class="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700"
+          >
+            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75" />
+            </svg>
+            {{ formatXOF(item.cout_estime) }}
+          </span>
+          <span
+            v-if="item.benefice_estime"
+            class="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-600"
+          >
+            {{ formatXOF(item.benefice_estime) }}/an
+          </span>
         </div>
       </div>
 
@@ -131,7 +165,7 @@ function isOverdue(d: string | null | undefined, statut: string): boolean {
       <div v-if="item.impact_score_estime" class="shrink-0 text-right">
         <div class="rounded-lg bg-emerald-50 px-2.5 py-1.5">
           <span class="text-sm font-bold text-emerald-600">+{{ item.impact_score_estime }}</span>
-          <p class="text-[10px] font-medium text-emerald-500">pts ESG</p>
+          <p class="text-[10px] font-medium text-emerald-500">{{ unitImpact }}</p>
         </div>
       </div>
     </div>

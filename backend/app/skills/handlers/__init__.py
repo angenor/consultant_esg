@@ -5,6 +5,7 @@ from app.skills.handlers.calculate_credit_score import calculate_credit_score
 from app.skills.handlers.calculate_esg_score import calculate_esg_score
 from app.skills.handlers.generate_reduction_plan import generate_reduction_plan
 from app.skills.handlers.generate_report_section import generate_report_section
+from app.skills.handlers.get_action_plans import get_action_plans
 from app.skills.handlers.get_company_profile import get_company_profile
 from app.skills.handlers.manage_action_plan import manage_action_plan
 from app.skills.handlers.get_sector_benchmark import get_sector_benchmark
@@ -22,6 +23,7 @@ __all__ = [
     "calculate_esg_score",
     "generate_reduction_plan",
     "generate_report_section",
+    "get_action_plans",
     "get_company_profile",
     "get_sector_benchmark",
     "manage_action_plan",

@@ -149,6 +149,7 @@ async def generate_reduction_plan(params: dict, context: dict) -> dict:
     plan = ActionPlan(
         entreprise_id=entreprise_id,
         titre=f"Plan de réduction carbone - {entreprise.nom}",
+        type_plan="carbone",
         horizon="12_mois",
         score_initial=total,
         score_cible=round(total * (1 - objectif_pct / 100), 2),

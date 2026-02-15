@@ -13,6 +13,7 @@ class ActionPlan(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     entreprise_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("entreprises.id", ondelete="CASCADE"), nullable=False)
     titre: Mapped[str] = mapped_column(String(255), nullable=False)
+    type_plan: Mapped[str] = mapped_column(String(20), default="esg", nullable=False)
     horizon: Mapped[str | None] = mapped_column(String(20))
     referentiel_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("referentiels_esg.id"))
     score_initial: Mapped[float | None] = mapped_column(Numeric(5, 2))
