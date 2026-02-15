@@ -1,6 +1,7 @@
 import { authManager } from '@shared/auth'
 import { apiClient } from '@shared/api-client'
 import { storageManager } from '@shared/storage'
+import { checkDeadlinesAndReminders } from './notifications'
 import type {
   ExtensionMessage,
   SyncedData,
@@ -17,6 +18,12 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
     console.log('[ESG Advisor] Extension installee')
   }
+  // Verifier les deadlines au demarrage
+  checkDeadlinesAndReminders()
+})
+
+chrome.runtime.onStartup.addListener(() => {
+  checkDeadlinesAndReminders()
 })
 
 // ========================================
@@ -239,6 +246,7 @@ function matchUrl(url: string, pattern: string): boolean {
 
 chrome.alarms.create('check-auth', { periodInMinutes: 30 })
 chrome.alarms.create('sync-data', { periodInMinutes: 5 })
+chrome.alarms.create('check-deadlines', { periodInMinutes: 360 })
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   switch (alarm.name) {
@@ -247,6 +255,9 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       break
     case 'sync-data':
       await handleSyncData()
+      break
+    case 'check-deadlines':
+      await checkDeadlinesAndReminders()
       break
   }
 })

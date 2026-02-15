@@ -69,15 +69,21 @@ alembic revision --autogenerate -m "msg"     # Generate new migration
 - **SSE streaming:** planned for real-time LLM responses via `sse-starlette`
 
 ### Chrome Extension structure (`chrome-extension/`)
-- **Manifest V3** extension with popup, side panel, service worker, content scripts
-- `src/shared/` — types.ts, constants.ts, api-client.ts, auth.ts, storage.ts
-- `src/popup/` — Vue 3 popup with LoginPanel and DashboardPanel
-- `src/sidepanel/` — Vue 3 step-by-step guide with components: NoFundDetected, ProgressBar, StepNavigator, StepContent, FieldHelper, DocChecklist, MiniChat
-- `src/background/service-worker.ts` — message handling (11 message types), data sync, alarms, side panel opening
+- **Manifest V3** extension with popup, side panel, service worker, content scripts, i18n (FR/EN)
+- `_locales/` — fr/messages.json, en/messages.json (Chrome i18n with `default_locale: "fr"`)
+- `src/shared/` — types.ts, constants.ts, api-client.ts, auth.ts, storage.ts, data-mapper.ts, i18n.ts
+- `src/shared/stores/applications.ts` — reactive composable for candidature CRUD and progress tracking
+- `src/popup/` — Vue 3 popup with LoginPanel, DashboardPanel, ApplicationCard, FundRecommendation, ApplicationDetail
+- `src/sidepanel/` — Vue 3 step-by-step guide with components: NoFundDetected, ProgressBar, StepNavigator, StepContent (batch autofill), FieldHelper, DocChecklist, MiniChat
+- `src/background/service-worker.ts` — message handling (12 message types), data sync, alarms (auth 30m, sync 5m, deadlines 6h), side panel opening
+- `src/background/notifications.ts` — deadline alerts (J-30/J-7/J-1), inactive application reminders (3+ days), deduplication via chrome.storage.local
 - `src/content/detector.ts` — FundDetector class: URL pattern matching, SPA observation (pushState/popstate), Shadow DOM detection banner
 - `src/content/highlighter.ts` — FieldHighlighter class: colored field highlighting (green=auto, blue=AI, orange=manual), Shadow DOM tooltips
-- `src/content/autofill.ts` — listens for AUTOFILL_FIELD/HIGHLIGHT_FIELDS messages, fills form fields with event dispatching
-- Build: `npm run build` from `chrome-extension/`, produces `dist/` loadable in Chrome
+- `src/content/autofill.ts` — listens for AUTOFILL_FIELD/BATCH_AUTOFILL/HIGHLIGHT_FIELDS messages, fills form fields with event dispatching
+- `src/content/batch-autofill.ts` — sequential multi-field filling with animation and error reporting
+- `src/shared/data-mapper.ts` — DataMapper class: resolves company data paths with formatters (currency, date, percentage, case)
+- `tests/` — vitest unit tests: data-mapper (13), auth (5), detector (9) = 27 tests total
+- Build: `npm run build` from `chrome-extension/`, produces `dist/` + `esg-advisor-extension.zip`
 
 ### Data flow
 ```
@@ -103,6 +109,7 @@ Extension Week 1 complete: Chrome extension project initialized (Manifest V3 + V
 
 Extension Week 2 complete: Content script FundDetector (URL pattern matching, SPA observation, Shadow DOM banner), FieldHighlighter (colored highlighting with tooltips), Side Panel guide (7 Vue components: NoFundDetected, ProgressBar, StepNavigator, StepContent, FieldHelper, DocChecklist, MiniChat), autofill integration (content script ↔ side panel communication), service worker updated with OPEN_SIDEPANEL and GET_FUND_CONFIGS handlers. Extension roadmap in `plan_implementation/details_implementation_extension/Semaine1-3.md`.
 
+Extension Week 3 complete: DataMapper class with path resolution and formatters (currency, date, percentage, case), batch autofill with sequential animation, "Tout remplir" button in StepContent. Applications store (useApplications composable), ApplicationDetail popup component, auto-creation of candidature on fund detection, progress saving between sessions. Notifications system (deadlines J-30/J-7/J-1, inactive reminders, deduplication), 6h alarm cycle. i18n FR/EN (_locales, chrome.i18n.getMessage, components updated). Unit tests (27 tests: DataMapper 13, auth 5, detector 9). Privacy policy FR/EN, production build + zip ready for Chrome Web Store.
 
 ## Parallel Sub-agents Strategy
 

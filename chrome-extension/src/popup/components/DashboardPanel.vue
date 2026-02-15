@@ -20,32 +20,32 @@
           <div class="text-lg font-bold" :class="scoreColor">
             {{ latestScore.score_global }}/100
           </div>
-          <div class="text-xs text-gray-500">Score ESG</div>
+          <div class="text-xs text-gray-500">{{ t('esg_score') }}</div>
         </div>
       </div>
     </div>
 
     <!-- Pas d'entreprise -->
     <div v-else class="bg-amber-50 rounded-xl border border-amber-200 p-4 text-center">
-      <p class="text-sm text-amber-700">Aucune entreprise configuree</p>
+      <p class="text-sm text-amber-700">{{ t('no_company') }}</p>
       <a href="http://localhost:5173/dashboard" target="_blank"
          class="text-xs text-amber-600 hover:underline mt-1 inline-block">
-        Configurez votre entreprise sur la plateforme
+        {{ t('configure_company') }}
       </a>
     </div>
 
     <!-- Candidatures en cours -->
     <section>
       <div class="flex items-center justify-between mb-2">
-        <h3 class="font-semibold text-gray-800 text-sm">Candidatures en cours</h3>
+        <h3 class="font-semibold text-gray-800 text-sm">{{ t('applications_title') }}</h3>
         <span class="text-xs text-gray-400">{{ activeApplications.length }}</span>
       </div>
 
       <div v-if="activeApplications.length === 0"
            class="bg-white rounded-xl border border-dashed border-gray-300 p-4 text-center">
-        <p class="text-sm text-gray-500">Aucune candidature en cours</p>
+        <p class="text-sm text-gray-500">{{ t('no_applications') }}</p>
         <p class="text-xs text-gray-400 mt-1">
-          Naviguez vers un site de fonds vert pour commencer
+          {{ t('no_applications_hint') }}
         </p>
       </div>
 
@@ -54,13 +54,14 @@
           v-for="app in activeApplications"
           :key="app.id"
           :application="app"
+          @click="$emit('select-application', app)"
         />
       </div>
     </section>
 
     <!-- Fonds recommandes -->
     <section v-if="data?.fonds_recommandes?.length">
-      <h3 class="font-semibold text-gray-800 text-sm mb-2">Fonds recommandes</h3>
+      <h3 class="font-semibold text-gray-800 text-sm mb-2">{{ t('funds_recommended') }}</h3>
       <div class="space-y-2">
         <FundRecommendation
           v-for="fonds in data.fonds_recommandes.slice(0, 3)"
@@ -86,7 +87,7 @@
                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11
                 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
-        Actualiser
+        {{ t('sync_refresh') }}
       </button>
     </div>
   </div>
@@ -94,7 +95,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { SyncedData, ESGScore } from '@shared/types'
+import type { SyncedData, ESGScore, FundApplication } from '@shared/types'
+import { t } from '@shared/i18n'
 import ApplicationCard from './ApplicationCard.vue'
 import FundRecommendation from './FundRecommendation.vue'
 
@@ -105,6 +107,7 @@ const props = defineProps<{
 
 defineEmits<{
   refresh: []
+  'select-application': [app: FundApplication]
 }>()
 
 const latestScore = computed<ESGScore | null>(() => {

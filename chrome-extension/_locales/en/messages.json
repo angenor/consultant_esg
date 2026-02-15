@@ -1,0 +1,233 @@
+{
+  "appName": {
+    "message": "ESG Advisor Guide",
+    "description": "Extension name"
+  },
+  "appDescription": {
+    "message": "Step-by-step guide for your green fund applications in Africa",
+    "description": "Extension description"
+  },
+  "login_title": {
+    "message": "Sign in",
+    "description": "Login page title"
+  },
+  "login_subtitle": {
+    "message": "Use your ESG Advisor credentials",
+    "description": "Login page subtitle"
+  },
+  "login_email": {
+    "message": "Email",
+    "description": "Email label"
+  },
+  "login_password": {
+    "message": "Password",
+    "description": "Password label"
+  },
+  "login_button": {
+    "message": "Sign in",
+    "description": "Login button"
+  },
+  "login_loading": {
+    "message": "Signing in...",
+    "description": "Login loading"
+  },
+  "logout": {
+    "message": "Sign out",
+    "description": "Logout button"
+  },
+  "fund_detected": {
+    "message": "$FUND$ detected — ESG Advisor can guide you",
+    "description": "Fund detected banner",
+    "placeholders": {
+      "fund": { "content": "$1", "example": "BOAD" }
+    }
+  },
+  "open_guide": {
+    "message": "Open guide",
+    "description": "Open guide button"
+  },
+  "step_of": {
+    "message": "Step $CURRENT$ / $TOTAL$",
+    "description": "Step progress",
+    "placeholders": {
+      "current": { "content": "$1" },
+      "total": { "content": "$2" }
+    }
+  },
+  "autofill_all": {
+    "message": "Fill all",
+    "description": "Autofill all button"
+  },
+  "autofill_filling": {
+    "message": "Filling...",
+    "description": "Autofill in progress"
+  },
+  "autofill_field": {
+    "message": "Fill",
+    "description": "Autofill single field"
+  },
+  "autofill_count": {
+    "message": "$COUNT$ auto-fillable fields",
+    "description": "Autofillable fields count",
+    "placeholders": {
+      "count": { "content": "$1" }
+    }
+  },
+  "autofill_source": {
+    "message": "Data from your ESG Advisor profile",
+    "description": "Autofill data source"
+  },
+  "autofill_result": {
+    "message": "$FILLED$ fields filled",
+    "description": "Autofill result",
+    "placeholders": {
+      "filled": { "content": "$1" }
+    }
+  },
+  "autofill_failures": {
+    "message": "$COUNT$ failures",
+    "description": "Autofill failures",
+    "placeholders": {
+      "count": { "content": "$1" }
+    }
+  },
+  "ai_suggest": {
+    "message": "Generate with AI",
+    "description": "AI suggestion button"
+  },
+  "ai_generating": {
+    "message": "Generating...",
+    "description": "AI generating"
+  },
+  "docs_required": {
+    "message": "Required documents",
+    "description": "Required docs title"
+  },
+  "doc_available": {
+    "message": "Available on the platform",
+    "description": "Document available"
+  },
+  "doc_missing": {
+    "message": "Upload on the platform",
+    "description": "Document missing"
+  },
+  "applications_title": {
+    "message": "Active applications",
+    "description": "Applications section title"
+  },
+  "no_applications": {
+    "message": "No active applications",
+    "description": "No applications"
+  },
+  "no_applications_hint": {
+    "message": "Navigate to a green fund website to get started",
+    "description": "No applications hint"
+  },
+  "funds_recommended": {
+    "message": "Recommended funds",
+    "description": "Recommended funds"
+  },
+  "apply_button": {
+    "message": "Apply",
+    "description": "Apply button"
+  },
+  "resume_application": {
+    "message": "Resume application",
+    "description": "Resume button"
+  },
+  "mark_submitted": {
+    "message": "Mark as submitted",
+    "description": "Mark as submitted"
+  },
+  "abandon": {
+    "message": "Abandon this application",
+    "description": "Abandon button"
+  },
+  "ask_question": {
+    "message": "Ask a question",
+    "description": "Chat toggle"
+  },
+  "chat_placeholder": {
+    "message": "E.g.: What should I put in this field?",
+    "description": "Chat input placeholder"
+  },
+  "sync_refresh": {
+    "message": "Refresh",
+    "description": "Refresh button"
+  },
+  "open_platform": {
+    "message": "Open ESG Advisor platform",
+    "description": "Platform link"
+  },
+  "no_fund_title": {
+    "message": "No fund detected",
+    "description": "No fund detected title"
+  },
+  "no_fund_description": {
+    "message": "Navigate to a green fund website to activate the step-by-step guide.",
+    "description": "No fund detected description"
+  },
+  "no_fund_supported": {
+    "message": "Currently supported funds:",
+    "description": "Supported funds label"
+  },
+  "previous": {
+    "message": "Previous",
+    "description": "Previous button"
+  },
+  "next": {
+    "message": "Next",
+    "description": "Next button"
+  },
+  "finish": {
+    "message": "Finish",
+    "description": "Finish button"
+  },
+  "copy": {
+    "message": "Copy",
+    "description": "Copy button"
+  },
+  "insert": {
+    "message": "Insert",
+    "description": "Insert button"
+  },
+  "back": {
+    "message": "Back",
+    "description": "Back button"
+  },
+  "progression": {
+    "message": "Progress",
+    "description": "Progress label"
+  },
+  "steps": {
+    "message": "Steps",
+    "description": "Steps label"
+  },
+  "personal_notes": {
+    "message": "Personal notes",
+    "description": "Personal notes label"
+  },
+  "add_notes": {
+    "message": "Add notes...",
+    "description": "Add notes placeholder"
+  },
+  "started_on": {
+    "message": "Started on $DATE$",
+    "description": "Started on date",
+    "placeholders": {
+      "date": { "content": "$1" }
+    }
+  },
+  "no_company": {
+    "message": "No company configured",
+    "description": "No company configured"
+  },
+  "configure_company": {
+    "message": "Configure your company on the platform",
+    "description": "Configure company link"
+  },
+  "esg_score": {
+    "message": "ESG Score",
+    "description": "ESG score label"
+  }
+}

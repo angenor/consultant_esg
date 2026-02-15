@@ -57,6 +57,14 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     }
   }
 
+  if (message.type === 'BATCH_AUTOFILL') {
+    import('./batch-autofill').then(async ({ batchAutofill }) => {
+      const result = await batchAutofill(message.payload.mappings)
+      sendResponse(result)
+    })
+    return true // async response
+  }
+
   if (message.type === 'HIGHLIGHT_FIELDS') {
     const { step, companyData } = message.payload
     // Importer dynamiquement le highlighter pour eviter le chargement initial

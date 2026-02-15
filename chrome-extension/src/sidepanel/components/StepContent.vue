@@ -6,6 +6,38 @@
       <p class="text-sm text-gray-500 mt-1">{{ step.description }}</p>
     </div>
 
+    <!-- Bouton remplissage automatique global -->
+    <div v-if="autoFillableCount > 0" class="mb-4 bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <div class="flex-1">
+          <p class="text-sm font-medium text-emerald-800">
+            {{ t('autofill_count', String(autoFillableCount)) }}
+          </p>
+          <p class="text-xs text-emerald-600">
+            {{ t('autofill_source') }}
+          </p>
+        </div>
+        <button
+          @click="handleBatchAutofill"
+          :disabled="batchFilling"
+          class="bg-emerald-600 text-white px-4 py-1.5 rounded-lg text-xs font-medium
+                 hover:bg-emerald-700 disabled:opacity-50 transition-colors flex items-center gap-1"
+        >
+          <span v-if="batchFilling" class="w-3 h-3 border-2 border-white border-t-transparent
+                                            rounded-full animate-spin"></span>
+          {{ batchFilling ? t('autofill_filling') : t('autofill_all') }}
+        </button>
+      </div>
+      <div v-if="batchResult" class="mt-2 text-xs text-emerald-700">
+        {{ t('autofill_result', String(batchResult.filled)) }}
+        <span v-if="batchResult.failed.length"> · {{ t('autofill_failures', String(batchResult.failed.length)) }}</span>
+      </div>
+    </div>
+
     <!-- Liste des champs -->
     <div class="space-y-3">
       <FieldHelper
@@ -39,14 +71,14 @@
         class="flex-1 border border-gray-300 text-gray-700 rounded-lg px-4 py-2 text-sm
                font-medium hover:bg-gray-50 transition-colors"
       >
-        Precedent
+        {{ t('previous') }}
       </button>
       <button
         @click="$emit('next')"
         class="flex-1 bg-emerald-600 text-white rounded-lg px-4 py-2 text-sm
                font-medium hover:bg-emerald-700 transition-colors"
       >
-        {{ isLastStep ? 'Terminer' : 'Suivant' }}
+        {{ isLastStep ? t('finish') : t('next') }}
       </button>
     </div>
   </div>
@@ -55,6 +87,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { FundStep, FundSiteConfig, FundField } from '@shared/types'
+import { DataMapper } from '@shared/data-mapper'
+import { t } from '@shared/i18n'
 import FieldHelper from './FieldHelper.vue'
 
 const props = defineProps<{
@@ -66,12 +100,15 @@ const props = defineProps<{
 const emit = defineEmits<{
   'field-autofill': [payload: { selector: string; value: string }]
   'field-ai-suggest': [payload: { field_name: string; field_label: string }]
+  'batch-autofill': [mappings: Record<string, string>]
   next: []
   prev: []
 }>()
 
 const suggestions = ref<Record<string, string>>({})
 const suggestingFields = ref<Set<string>>(new Set())
+const batchFilling = ref(false)
+const batchResult = ref<{ filled: number; failed: string[] } | null>(null)
 
 const isLastStep = computed(() =>
   props.step.order === props.fundConfig.steps.length
@@ -85,6 +122,33 @@ const tip = computed(() => {
   }
   return props.fundConfig.tips.general || null
 })
+
+const autoFillableCount = computed(() => {
+  if (!props.companyData) return 0
+  const mapper = new DataMapper(props.companyData as never)
+  return props.step.fields.filter(f => f.source && mapper.resolve(f.source)).length
+})
+
+async function handleBatchAutofill() {
+  if (!props.companyData) return
+  batchFilling.value = true
+  batchResult.value = null
+
+  const mapper = new DataMapper(props.companyData as never)
+  const mappings = mapper.mapStep(props.step.fields)
+
+  // Envoyer au content script via le tab actif
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  if (tab?.id) {
+    const result = await chrome.tabs.sendMessage(tab.id, {
+      type: 'BATCH_AUTOFILL',
+      payload: { mappings },
+    })
+    batchResult.value = result || { filled: 0, failed: [] }
+  }
+
+  batchFilling.value = false
+}
 
 async function requestSuggestion(field: FundField) {
   suggestingFields.value.add(field.selector)

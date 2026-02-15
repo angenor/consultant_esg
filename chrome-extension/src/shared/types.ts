@@ -141,6 +141,7 @@ export type MessageType =
   | 'GET_FUND_CONFIGS'
   | 'AUTOFILL_FIELD'
   | 'HIGHLIGHT_FIELDS'
+  | 'BATCH_AUTOFILL'
 
 export interface ExtensionMessage {
   type: MessageType

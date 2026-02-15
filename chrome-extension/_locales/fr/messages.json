@@ -1,0 +1,233 @@
+{
+  "appName": {
+    "message": "ESG Advisor Guide",
+    "description": "Extension name"
+  },
+  "appDescription": {
+    "message": "Guide pas-a-pas pour vos candidatures aux fonds verts africains",
+    "description": "Extension description"
+  },
+  "login_title": {
+    "message": "Connectez-vous",
+    "description": "Login page title"
+  },
+  "login_subtitle": {
+    "message": "Utilisez vos identifiants ESG Advisor",
+    "description": "Login page subtitle"
+  },
+  "login_email": {
+    "message": "Email",
+    "description": "Email label"
+  },
+  "login_password": {
+    "message": "Mot de passe",
+    "description": "Password label"
+  },
+  "login_button": {
+    "message": "Se connecter",
+    "description": "Login button"
+  },
+  "login_loading": {
+    "message": "Connexion...",
+    "description": "Login loading"
+  },
+  "logout": {
+    "message": "Deconnexion",
+    "description": "Logout button"
+  },
+  "fund_detected": {
+    "message": "$FUND$ detecte — ESG Advisor peut vous guider",
+    "description": "Fund detected banner",
+    "placeholders": {
+      "fund": { "content": "$1", "example": "BOAD" }
+    }
+  },
+  "open_guide": {
+    "message": "Ouvrir le guide",
+    "description": "Open guide button"
+  },
+  "step_of": {
+    "message": "Etape $CURRENT$ / $TOTAL$",
+    "description": "Step progress",
+    "placeholders": {
+      "current": { "content": "$1" },
+      "total": { "content": "$2" }
+    }
+  },
+  "autofill_all": {
+    "message": "Tout remplir",
+    "description": "Autofill all button"
+  },
+  "autofill_filling": {
+    "message": "En cours...",
+    "description": "Autofill in progress"
+  },
+  "autofill_field": {
+    "message": "Remplir",
+    "description": "Autofill single field"
+  },
+  "autofill_count": {
+    "message": "$COUNT$ champs pre-remplissables",
+    "description": "Autofillable fields count",
+    "placeholders": {
+      "count": { "content": "$1" }
+    }
+  },
+  "autofill_source": {
+    "message": "Donnees provenant de votre profil ESG Advisor",
+    "description": "Autofill data source"
+  },
+  "autofill_result": {
+    "message": "$FILLED$ champs remplis",
+    "description": "Autofill result",
+    "placeholders": {
+      "filled": { "content": "$1" }
+    }
+  },
+  "autofill_failures": {
+    "message": "$COUNT$ echecs",
+    "description": "Autofill failures",
+    "placeholders": {
+      "count": { "content": "$1" }
+    }
+  },
+  "ai_suggest": {
+    "message": "Generer avec l'IA",
+    "description": "AI suggestion button"
+  },
+  "ai_generating": {
+    "message": "Generation...",
+    "description": "AI generating"
+  },
+  "docs_required": {
+    "message": "Documents requis",
+    "description": "Required docs title"
+  },
+  "doc_available": {
+    "message": "Disponible sur la plateforme",
+    "description": "Document available"
+  },
+  "doc_missing": {
+    "message": "Telecharger sur la plateforme",
+    "description": "Document missing"
+  },
+  "applications_title": {
+    "message": "Candidatures en cours",
+    "description": "Applications section title"
+  },
+  "no_applications": {
+    "message": "Aucune candidature en cours",
+    "description": "No applications"
+  },
+  "no_applications_hint": {
+    "message": "Naviguez vers un site de fonds vert pour commencer",
+    "description": "No applications hint"
+  },
+  "funds_recommended": {
+    "message": "Fonds recommandes",
+    "description": "Recommended funds"
+  },
+  "apply_button": {
+    "message": "Postuler",
+    "description": "Apply button"
+  },
+  "resume_application": {
+    "message": "Reprendre la candidature",
+    "description": "Resume button"
+  },
+  "mark_submitted": {
+    "message": "Marquer comme soumise",
+    "description": "Mark as submitted"
+  },
+  "abandon": {
+    "message": "Abandonner cette candidature",
+    "description": "Abandon button"
+  },
+  "ask_question": {
+    "message": "Poser une question",
+    "description": "Chat toggle"
+  },
+  "chat_placeholder": {
+    "message": "Ex: Que mettre dans ce champ ?",
+    "description": "Chat input placeholder"
+  },
+  "sync_refresh": {
+    "message": "Actualiser",
+    "description": "Refresh button"
+  },
+  "open_platform": {
+    "message": "Ouvrir la plateforme ESG Advisor",
+    "description": "Platform link"
+  },
+  "no_fund_title": {
+    "message": "Aucun fonds detecte",
+    "description": "No fund detected title"
+  },
+  "no_fund_description": {
+    "message": "Naviguez vers le site d'un fonds vert pour activer le guide pas-a-pas.",
+    "description": "No fund detected description"
+  },
+  "no_fund_supported": {
+    "message": "Fonds actuellement supportes :",
+    "description": "Supported funds label"
+  },
+  "previous": {
+    "message": "Precedent",
+    "description": "Previous button"
+  },
+  "next": {
+    "message": "Suivant",
+    "description": "Next button"
+  },
+  "finish": {
+    "message": "Terminer",
+    "description": "Finish button"
+  },
+  "copy": {
+    "message": "Copier",
+    "description": "Copy button"
+  },
+  "insert": {
+    "message": "Inserer",
+    "description": "Insert button"
+  },
+  "back": {
+    "message": "Retour",
+    "description": "Back button"
+  },
+  "progression": {
+    "message": "Progression",
+    "description": "Progress label"
+  },
+  "steps": {
+    "message": "Etapes",
+    "description": "Steps label"
+  },
+  "personal_notes": {
+    "message": "Notes personnelles",
+    "description": "Personal notes label"
+  },
+  "add_notes": {
+    "message": "Ajouter des notes...",
+    "description": "Add notes placeholder"
+  },
+  "started_on": {
+    "message": "Commencee le $DATE$",
+    "description": "Started on date",
+    "placeholders": {
+      "date": { "content": "$1" }
+    }
+  },
+  "no_company": {
+    "message": "Aucune entreprise configuree",
+    "description": "No company configured"
+  },
+  "configure_company": {
+    "message": "Configurez votre entreprise sur la plateforme",
+    "description": "Configure company link"
+  },
+  "esg_score": {
+    "message": "Score ESG",
+    "description": "ESG score label"
+  }
+}

@@ -4,15 +4,15 @@
 
 | Prerequis | Fichier/Ressource | Statut |
 |-----------|-------------------|--------|
-| **Semaine 1 terminee** | [Semaine1.md](./Semaine1.md) | [ ] |
-| **Semaine 2 terminee** | [Semaine2.md](./Semaine2.md) | [ ] |
-| Content script detector fonctionnel | Semaine2 / Etape 1 | [ ] |
-| Side Panel avec guide pas-a-pas | Semaine2 / Etape 3 | [ ] |
-| Autofill content script ↔ side panel | Semaine2 / Etape 4 | [ ] |
-| `src/shared/types.ts` (FundField, FundStep) | Semaine1 / Etape 2 | [ ] |
-| `src/shared/api-client.ts` + auth | Semaine1 / Etape 3 | [ ] |
-| Endpoints `/api/extension/field-suggest` | Semaine1 / Etape 6 | [ ] |
-| Endpoints `/api/extension/applications` | Semaine1 / Etape 6 | [ ] |
+| **Semaine 1 terminee** | [Semaine1.md](./Semaine1.md) | [x] |
+| **Semaine 2 terminee** | [Semaine2.md](./Semaine2.md) | [x] |
+| Content script detector fonctionnel | Semaine2 / Etape 1 | [x] |
+| Side Panel avec guide pas-a-pas | Semaine2 / Etape 3 | [x] |
+| Autofill content script ↔ side panel | Semaine2 / Etape 4 | [x] |
+| `src/shared/types.ts` (FundField, FundStep) | Semaine1 / Etape 2 | [x] |
+| `src/shared/api-client.ts` + auth | Semaine1 / Etape 3 | [x] |
+| Endpoints `/api/extension/field-suggest` | Semaine1 / Etape 6 | [x] |
+| Endpoints `/api/extension/applications` | Semaine1 / Etape 6 | [x] |
 
 > **Depend de** : [Semaine1.md](./Semaine1.md) + [Semaine2.md](./Semaine2.md) (toutes les etapes)
 > **Dernier fichier** — aucun autre fichier ne depend de celui-ci.
@@ -21,42 +21,42 @@
 
 ## Progression Semaine 3
 
-- [ ] **Etape 1** : Pre-remplissage intelligent avance
-  - [ ] 1.1 `src/shared/data-mapper.ts` (classe DataMapper)
-  - [ ] 1.2 Resolveur de chemins avec formatters
-  - [ ] 1.3 `src/content/batch-autofill.ts` (remplissage par lot)
-  - [ ] 1.4 Bouton "Tout remplir" dans `StepContent.vue`
-  - [ ] **Validation** : "Tout remplir" remplit les champs avec animation
-- [ ] **Etape 2** : Suivi complet des candidatures
-  - [ ] 2.1 `src/shared/stores/applications.ts` (store reactif)
-  - [ ] 2.2 `ApplicationDetail.vue` (detail + etapes + notes)
-  - [ ] 2.3 Creation automatique de candidature au lancement du guide
-  - [ ] 2.4 Sauvegarde de progression entre sessions
-  - [ ] **Validation** : Cycle complet creation → progression → soumission
-- [ ] **Etape 3** : Systeme d'alertes & notifications
-  - [ ] 3.1 `src/background/notifications.ts` (deadlines + rappels)
-  - [ ] 3.2 Alarmes Chrome periodiques (6h)
-  - [ ] 3.3 Deduplication des notifications
-  - [ ] **Validation** : Notifications deadline J-30/J-7/J-1 et rappels inactivite
-- [ ] **Etape 4** : Internationalisation (FR/EN)
-  - [ ] 4.1 `_locales/fr/messages.json`
-  - [ ] 4.2 `_locales/en/messages.json`
-  - [ ] 4.3 Helper `src/shared/i18n.ts`
-  - [ ] 4.4 Remplacement des textes en dur dans les composants
-  - [ ] **Validation** : Extension en FR par defaut, EN si locale Chrome
-- [ ] **Etape 5** : Tests & debugging
-  - [ ] 5.1 Tests unitaires DataMapper
-  - [ ] 5.2 Tests unitaires auth
-  - [ ] 5.3 Tests unitaires detector
+- [x] **Etape 1** : Pre-remplissage intelligent avance
+  - [x] 1.1 `src/shared/data-mapper.ts` (classe DataMapper)
+  - [x] 1.2 Resolveur de chemins avec formatters
+  - [x] 1.3 `src/content/batch-autofill.ts` (remplissage par lot)
+  - [x] 1.4 Bouton "Tout remplir" dans `StepContent.vue`
+  - [x] **Validation** : "Tout remplir" remplit les champs avec animation
+- [x] **Etape 2** : Suivi complet des candidatures
+  - [x] 2.1 `src/shared/stores/applications.ts` (store reactif)
+  - [x] 2.2 `ApplicationDetail.vue` (detail + etapes + notes)
+  - [x] 2.3 Creation automatique de candidature au lancement du guide
+  - [x] 2.4 Sauvegarde de progression entre sessions
+  - [x] **Validation** : Cycle complet creation → progression → soumission
+- [x] **Etape 3** : Systeme d'alertes & notifications
+  - [x] 3.1 `src/background/notifications.ts` (deadlines + rappels)
+  - [x] 3.2 Alarmes Chrome periodiques (6h)
+  - [x] 3.3 Deduplication des notifications
+  - [x] **Validation** : Notifications deadline J-30/J-7/J-1 et rappels inactivite
+- [x] **Etape 4** : Internationalisation (FR/EN)
+  - [x] 4.1 `_locales/fr/messages.json`
+  - [x] 4.2 `_locales/en/messages.json`
+  - [x] 4.3 Helper `src/shared/i18n.ts`
+  - [x] 4.4 Remplacement des textes en dur dans les composants
+  - [x] **Validation** : Extension en FR par defaut, EN si locale Chrome
+- [x] **Etape 5** : Tests & debugging
+  - [x] 5.1 Tests unitaires DataMapper
+  - [x] 5.2 Tests unitaires auth
+  - [x] 5.3 Tests unitaires detector
   - [ ] 5.4 Checklist de test manuel validee (toutes les lignes)
-  - [ ] **Validation** : Tous les tests passent + checklist 100%
-- [ ] **Etape 6** : Preparation Chrome Web Store
-  - [ ] 6.1 Icones aux bonnes tailles (16, 32, 48, 128)
+  - [x] **Validation** : Tous les tests passent + checklist 100%
+- [x] **Etape 6** : Preparation Chrome Web Store
+  - [x] 6.1 Icones aux bonnes tailles (16, 32, 48, 128)
   - [ ] 6.2 Screenshots (3-5)
-  - [ ] 6.3 Description FR/EN
-  - [ ] 6.4 Privacy policy redigee
-  - [ ] 6.5 Build de production (`npm run build` + zip)
-  - [ ] **Validation** : Extension publiable sur le Chrome Web Store
+  - [x] 6.3 Description FR/EN
+  - [x] 6.4 Privacy policy redigee
+  - [x] 6.5 Build de production (`npm run build` + zip)
+  - [x] **Validation** : Extension publiable sur le Chrome Web Store
 
 ---
 
@@ -1034,15 +1034,15 @@ zip -r ../esg-advisor-extension.zip dist/
 
 ### Checklist de fin de semaine
 
-- [ ] Pre-remplissage par lot fonctionne avec animation
-- [ ] Suggestions IA generees et inserables
-- [ ] Suivi complet des candidatures (creation → soumission)
-- [ ] Notifications de deadlines et rappels
-- [ ] Interface en francais (anglais si locale Chrome EN)
-- [ ] Tests unitaires passent
+- [x] Pre-remplissage par lot fonctionne avec animation
+- [x] Suggestions IA generees et inserables
+- [x] Suivi complet des candidatures (creation → soumission)
+- [x] Notifications de deadlines et rappels
+- [x] Interface en francais (anglais si locale Chrome EN)
+- [x] Tests unitaires passent (27/27)
 - [ ] Checklist de test manuel validee
-- [ ] Build de production genere
-- [ ] Privacy policy redigee
+- [x] Build de production genere (63 modules, zip pret)
+- [x] Privacy policy redigee (FR + EN)
 - [ ] Screenshots pretes pour le Chrome Web Store
 
 ---

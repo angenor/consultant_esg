@@ -63,6 +63,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import type { FundSiteConfig, SyncedData } from '@shared/types'
+import { useApplications } from '@shared/stores/applications'
 import NoFundDetected from './components/NoFundDetected.vue'
 import ProgressBar from './components/ProgressBar.vue'
 import StepNavigator from './components/StepNavigator.vue'
@@ -73,6 +74,9 @@ import MiniChat from './components/MiniChat.vue'
 const fundConfig = ref<FundSiteConfig | null>(null)
 const companyData = ref<SyncedData | null>(null)
 const currentStep = ref(0)
+const activeApplicationId = ref<string | null>(null)
+
+const { createApplication, saveProgress: saveAppProgress } = useApplications()
 
 const progressPct = computed(() => {
   if (!fundConfig.value) return 0
@@ -96,9 +100,24 @@ onMounted(async () => {
     if (message.type === 'FUND_DETECTED' && message.payload?.config) {
       fundConfig.value = message.payload.config
       currentStep.value = 0
+      autoCreateApplication(message.payload.config)
     }
   })
 })
+
+async function autoCreateApplication(config: FundSiteConfig) {
+  if (!companyData.value?.entreprise) return
+
+  const app = await createApplication({
+    entreprise_id: companyData.value.entreprise.id,
+    fonds_id: config.fonds_id,
+    url_candidature: window.location?.href || '',
+  })
+
+  if (app) {
+    activeApplicationId.value = app.id
+  }
+}
 
 function goToStep(index: number) {
   currentStep.value = index
@@ -141,13 +160,13 @@ async function handleAiSuggest(payload: { field_name: string; field_label: strin
 }
 
 async function saveProgress() {
-  await chrome.runtime.sendMessage({
-    type: 'SAVE_PROGRESS',
-    payload: {
-      application_id: '',
-      form_data: {},
-      current_step: currentStep.value,
-    },
-  })
+  if (!activeApplicationId.value) return
+
+  await saveAppProgress(
+    activeApplicationId.value,
+    {},
+    currentStep.value,
+    progressPct.value
+  )
 }
 </script>
