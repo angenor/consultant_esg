@@ -248,10 +248,13 @@ async def _calculer_impact_vert(
     # Récupérer les données ESG depuis la BDD
     donnees_esg: dict[str, Any] = {}
 
-    # Dernier score ESG — poids 40%
+    # Dernier score ESG — poids 40% (exclure les scores à zéro)
     result = await db.execute(
         select(ESGScore)
-        .where(ESGScore.entreprise_id == entreprise_id)
+        .where(
+            ESGScore.entreprise_id == entreprise_id,
+            ESGScore.score_global > 0,
+        )
         .order_by(ESGScore.created_at.desc())
         .limit(2)
     )
