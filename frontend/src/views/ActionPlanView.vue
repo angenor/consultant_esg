@@ -29,7 +29,7 @@ const nbEnCours = computed(() => items.value.filter((i) => i.statut === 'en_cour
 const pourcentage = computed(() => (nbTotal.value > 0 ? Math.round((nbFait.value / nbTotal.value) * 100) : 0))
 
 const impactTotal = computed(() => {
-  return items.value.reduce((sum, i) => sum + (i.impact_score_estime || 0), 0)
+  return Math.round(items.value.reduce((sum, i) => sum + (i.impact_score_estime || 0), 0))
 })
 
 async function ensureReferentiels() {

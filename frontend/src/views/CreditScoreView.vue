@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useApi } from '../composables/useApi'
+import { useReferentielStore } from '../stores/referentiel'
+import ReferentielSelector from '../components/dashboard/ReferentielSelector.vue'
 import CreditScoreGauge from '../components/credit/CreditScoreGauge.vue'
 import ScoreBreakdown from '../components/credit/ScoreBreakdown.vue'
 import ShareScoreButton from '../components/credit/ShareScoreButton.vue'
 import type { ScoreFactor } from '../components/credit/ScoreBreakdown.vue'
 
 const router = useRouter()
-const { get } = useApi()
+const { get, post } = useApi()
+const refStore = useReferentielStore()
 
 const loading = ref(true)
 const hasData = ref(false)
+const recalculating = ref(false)
 
 const scoreCombine = ref(0)
 const scoreSolvabilite = ref(0)
@@ -21,9 +25,34 @@ const facteursNegatifs = ref<ScoreFactor[]>([])
 const recommandations = ref<string[]>([])
 const entrepriseId = ref('')
 
+function applyFacteurs(facteurs: any, recs?: string[]) {
+  facteursPositifs.value = (facteurs.facteurs_positifs || []).map((f: any) => ({
+    label: f.facteur || f.label,
+    impact: f.impact ?? 0,
+  }))
+  facteursNegatifs.value = (facteurs.facteurs_negatifs || []).map((f: any) => ({
+    label: f.facteur || f.label,
+    impact: f.impact ?? 0,
+  }))
+  recommandations.value = recs || facteurs.recommandations || []
+}
+
+async function ensureReferentiels() {
+  if (refStore.referentiels.length > 0) return
+  try {
+    const data = await get<any>('/api/dashboard/data')
+    if (data?.referentiels) {
+      refStore.setReferentiels(data.referentiels)
+    }
+  } catch {
+    // silent
+  }
+}
+
 async function loadData() {
   loading.value = true
   try {
+    await ensureReferentiels()
     const data = await get<any>('/api/credit-score/latest')
     if (!data || data.error) {
       hasData.value = false
@@ -35,23 +64,45 @@ async function loadData() {
     scoreSolvabilite.value = Math.round(data.score_solvabilite || 0)
     scoreImpactVert.value = Math.round(data.score_impact_vert || 0)
     entrepriseId.value = data.entreprise_id || ''
-
-    const facteurs = data.facteurs_json || {}
-    facteursPositifs.value = (facteurs.facteurs_positifs || []).map((f: any) => ({
-      label: f.facteur || f.label,
-      impact: f.impact ?? 0,
-    }))
-    facteursNegatifs.value = (facteurs.facteurs_negatifs || []).map((f: any) => ({
-      label: f.facteur || f.label,
-      impact: f.impact ?? 0,
-    }))
-    recommandations.value = facteurs.recommandations || data.recommandations || []
+    applyFacteurs(data.facteurs_json || {}, data.recommandations)
   } catch {
     hasData.value = false
   } finally {
     loading.value = false
   }
 }
+
+async function recalculate() {
+  recalculating.value = true
+  try {
+    const code = refStore.selectedCode
+    let url = '/api/credit-score/recalculate'
+    if (code) {
+      url += `?referentiel_code=${encodeURIComponent(code)}`
+    }
+    const data = await post<any>(url, {})
+    if (!data || data.error) return
+
+    scoreCombine.value = Math.round(data.score_combine || 0)
+    scoreSolvabilite.value = Math.round(data.score_solvabilite || 0)
+    scoreImpactVert.value = Math.round(data.score_impact_vert || 0)
+    applyFacteurs(data.facteurs || {}, data.recommandations)
+  } catch {
+    // silent
+  } finally {
+    recalculating.value = false
+  }
+}
+
+function onSelectRef(code: string | null) {
+  refStore.select(code)
+}
+
+watch(() => refStore.selectedCode, () => {
+  if (hasData.value) {
+    recalculate()
+  }
+})
 
 onMounted(loadData)
 </script>
@@ -89,20 +140,28 @@ onMounted(loadData)
     <!-- Data -->
     <template v-else>
       <!-- Page Header -->
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 class="text-2xl font-bold text-gray-900">Score Crédit Vert</h1>
           <p class="mt-1 text-sm text-gray-500">Votre évaluation combinée solvabilité + impact ESG</p>
         </div>
-        <button
-          class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-600 shadow-sm transition-colors hover:bg-gray-50"
-          @click="loadData"
-        >
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
-          </svg>
-          Actualiser
-        </button>
+        <div class="flex items-center gap-3">
+          <ReferentielSelector
+            :model-value="refStore.selectedCode"
+            :referentiels="refStore.referentiels"
+            @update:model-value="onSelectRef"
+          />
+          <button
+            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-600 shadow-sm transition-colors hover:bg-gray-50"
+            :disabled="recalculating"
+            @click="recalculate"
+          >
+            <svg class="h-4 w-4" :class="{ 'animate-spin': recalculating }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+            </svg>
+            Actualiser
+          </button>
+        </div>
       </div>
 
       <!-- Hero Gauge -->

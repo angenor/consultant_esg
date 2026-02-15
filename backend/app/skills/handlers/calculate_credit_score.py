@@ -49,6 +49,7 @@ async def calculate_credit_score(params: dict, context: dict) -> dict:
     donnees_decl = params.get("donnees_declaratives", {})
     poids_solv = params.get("poids_solvabilite", POIDS_SOLVABILITE)
     poids_vert = params.get("poids_impact_vert", POIDS_IMPACT_VERT)
+    referentiel_id = params.get("referentiel_id")
 
     facteurs_positifs: list[dict] = []
     facteurs_negatifs: list[dict] = []
@@ -64,7 +65,7 @@ async def calculate_credit_score(params: dict, context: dict) -> dict:
     # ── 2. Score impact vert (0-100) ──
 
     score_vert, f_pos, f_neg, donnees_esg = await _calculer_impact_vert(
-        db, entreprise_id, donnees_decl
+        db, entreprise_id, donnees_decl, referentiel_id=referentiel_id
     )
     facteurs_positifs.extend(f_pos)
     facteurs_negatifs.extend(f_neg)
@@ -238,7 +239,8 @@ async def _calculer_solvabilite(
 
 
 async def _calculer_impact_vert(
-    db: AsyncSession, entreprise_id: str, donnees_decl: dict
+    db: AsyncSession, entreprise_id: str, donnees_decl: dict,
+    referentiel_id: str | None = None,
 ) -> tuple[float, list[dict], list[dict], dict]:
     """Score d'impact vert basé sur les données ESG et pratiques déclarées."""
     facteurs_pos: list[dict] = []
@@ -249,12 +251,15 @@ async def _calculer_impact_vert(
     donnees_esg: dict[str, Any] = {}
 
     # Dernier score ESG — poids 40% (exclure les scores à zéro)
+    esg_filters = [
+        ESGScore.entreprise_id == entreprise_id,
+        ESGScore.score_global > 0,
+    ]
+    if referentiel_id:
+        esg_filters.append(ESGScore.referentiel_id == referentiel_id)
     result = await db.execute(
         select(ESGScore)
-        .where(
-            ESGScore.entreprise_id == entreprise_id,
-            ESGScore.score_global > 0,
-        )
+        .where(*esg_filters)
         .order_by(ESGScore.created_at.desc())
         .limit(2)
     )

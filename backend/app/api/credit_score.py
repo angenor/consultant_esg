@@ -13,6 +13,7 @@ from app.core.database import get_db
 from app.core.dependencies import get_current_user
 from app.models.credit_score import CreditScore
 from app.models.entreprise import Entreprise
+from app.models.referentiel_esg import ReferentielESG
 from app.models.user import User
 from app.schemas.credit_score import (
     CalculateCreditScoreRequest,
@@ -95,6 +96,42 @@ async def latest_credit_score(
         "facteurs_json": cs.facteurs_json or {},
         "created_at": str(cs.created_at),
     }
+
+
+@router.post("/recalculate")
+async def recalculate(
+    referentiel_code: str | None = Query(None),
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Recalcule le score crédit vert, optionnellement filtré par référentiel."""
+    ent_result = await db.execute(
+        select(Entreprise.id).where(Entreprise.user_id == user.id).limit(1)
+    )
+    ent_id = ent_result.scalar_one_or_none()
+    if not ent_id:
+        raise HTTPException(status_code=404, detail="Entreprise introuvable")
+
+    # Résoudre referentiel_code → referentiel_id
+    referentiel_id = None
+    if referentiel_code:
+        ref_result = await db.execute(
+            select(ReferentielESG.id).where(ReferentielESG.code == referentiel_code)
+        )
+        referentiel_id = ref_result.scalar_one_or_none()
+
+    params = {
+        "entreprise_id": str(ent_id),
+        "referentiel_id": str(referentiel_id) if referentiel_id else None,
+    }
+    context = {"db": db, "entreprise_id": str(ent_id)}
+
+    result = await calculate_credit_score(params, context)
+
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+
+    return result
 
 
 @router.post("/calculate", response_model=CreditScoreCalculated)
