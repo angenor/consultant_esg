@@ -92,7 +92,7 @@ class FundDetector {
    */
   private async onFundDetected(config: FundSiteConfig) {
     this.currentConfig = config
-    console.log(`[ESG Advisor] Fonds detecte : ${config.fonds_nom}`)
+    console.log(`[ESG Mefali] Fonds detecte : ${config.fonds_nom}`)
 
     // Notifier le service worker
     await chrome.runtime.sendMessage({
@@ -201,7 +201,7 @@ class FundDetector {
           </svg>
         </div>
         <div class="esg-banner-text">
-          <strong>${config.fonds_nom}</strong> detecte — ESG Advisor peut vous guider
+          <strong>${config.fonds_nom}</strong> detecte — ESG Mefali peut vous guider
         </div>
         <button class="esg-banner-btn" id="esg-open-guide">
           Ouvrir le guide

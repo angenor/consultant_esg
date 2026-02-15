@@ -4,7 +4,7 @@
     <header class="bg-emerald-600 text-white px-4 py-3 flex items-center gap-3">
       <img src="../../assets/icons/icon-32.png" alt="ESG" class="w-8 h-8">
       <div>
-        <h1 class="text-lg font-bold leading-tight">ESG Advisor</h1>
+        <h1 class="text-lg font-bold leading-tight">ESG Mefali</h1>
         <p class="text-emerald-100 text-xs">Guide Fonds Verts</p>
       </div>
       <button

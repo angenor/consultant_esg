@@ -90,7 +90,7 @@ async def engine(db_session):
 class TestPromptBuilder:
     def test_build_without_entreprise(self):
         prompt = build_system_prompt(None, [])
-        assert "ESG Advisor AI" in prompt
+        assert "ESG Mefali" in prompt
         assert "Ton rôle" in prompt
 
     def test_build_with_entreprise(self):

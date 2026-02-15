@@ -162,7 +162,7 @@ class FundDetector {
    */
   private async onFundDetected(config: FundSiteConfig) {
     this.currentConfig = config
-    console.log(`[ESG Advisor] Fonds detecte : ${config.fonds_nom}`)
+    console.log(`[ESG Mefali] Fonds detecte : ${config.fonds_nom}`)
 
     // Notifier le service worker
     await chrome.runtime.sendMessage({
@@ -271,7 +271,7 @@ class FundDetector {
           </svg>
         </div>
         <div class="esg-banner-text">
-          <strong>${config.fonds_nom}</strong> detecte — ESG Advisor peut vous guider
+          <strong>${config.fonds_nom}</strong> detecte — ESG Mefali peut vous guider
         </div>
         <button class="esg-banner-btn" id="esg-open-guide">
           Ouvrir le guide
@@ -566,7 +566,7 @@ export const fieldHighlighter = new FieldHighlighter()
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ESG Advisor - Guide</title>
+  <title>ESG Mefali - Guide</title>
 </head>
 <body>
   <div id="app"></div>
@@ -596,7 +596,7 @@ app.mount('#app')
     <!-- Header -->
     <header class="bg-emerald-600 text-white px-4 py-3 flex items-center gap-2 shrink-0">
       <img src="../assets/icons/icon-32.png" alt="" class="w-6 h-6">
-      <h1 class="text-sm font-bold flex-1">ESG Advisor Guide</h1>
+      <h1 class="text-sm font-bold flex-1">ESG Mefali Guide</h1>
       <span v-if="fundConfig" class="text-xs bg-emerald-500 px-2 py-0.5 rounded">
         {{ fundConfig.fonds_nom }}
       </span>

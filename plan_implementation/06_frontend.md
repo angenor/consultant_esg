@@ -36,7 +36,7 @@
 /chat/:conversationId    → Conversation existante
 
 ┌──────────────────────────────────────────────────┐
-│  Conversation avec ESG Advisor AI                 │
+│  Conversation avec ESG Mefali                 │
 ├──────────────────────────────────────────────────┤
 │                                                    │
 │  ┌─────────────────────────────────────────────┐  │

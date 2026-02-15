@@ -12,7 +12,7 @@
 
     <h2 class="text-lg font-semibold text-gray-800 mb-1">Connectez-vous</h2>
     <p class="text-sm text-gray-500 mb-6 text-center">
-      Utilisez vos identifiants ESG Advisor
+      Utilisez vos identifiants ESG Mefali
     </p>
 
     <form @submit.prevent="handleLogin" class="w-full space-y-4">

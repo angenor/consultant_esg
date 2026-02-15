@@ -83,7 +83,7 @@ onUnmounted(() => {
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
       </div>
-      <h3 class="text-lg font-semibold text-gray-900">ESG Advisor</h3>
+      <h3 class="text-lg font-semibold text-gray-900">ESG Mefali</h3>
       <p class="mt-1 max-w-sm text-sm text-gray-500">
         Posez vos questions sur l'ESG, la finance durable, ou le profil de votre entreprise.
       </p>

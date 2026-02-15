@@ -12,7 +12,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 
 const pageTitle = computed(() => {
-  return (route.meta?.title as string) || (route.name as string) || 'ESG Advisor'
+  return (route.meta?.title as string) || (route.name as string) || 'ESG Mefali'
 })
 
 const userInitials = computed(() => {

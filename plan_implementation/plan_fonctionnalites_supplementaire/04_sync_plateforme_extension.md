@@ -354,7 +354,7 @@ async function handleExtensionAction(action: any) {
     </div>
 
     <div v-else class="mt-3 p-3 bg-amber-50 rounded-lg text-sm">
-      <p>L'extension Chrome ESG Advisor n'est pas detectee.</p>
+      <p>L'extension Chrome ESG Mefali n'est pas detectee.</p>
       <a :href="skillResult.extension_action.url" target="_blank"
          class="text-emerald-600 underline">
         Ouvrir le site dans un nouvel onglet

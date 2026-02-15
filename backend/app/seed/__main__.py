@@ -27,7 +27,7 @@ from app.seed.seed_demo import seed_demo
 
 async def main():
     async with async_session() as db:
-        print("=== Seed ESG Advisor ===\n")
+        print("=== Seed ESG Mefali ===\n")
 
         n = await seed_skills(db)
         print(f"[1/7] Skills builtin : {n} insérés")

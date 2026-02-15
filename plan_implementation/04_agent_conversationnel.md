@@ -11,7 +11,7 @@ def build_system_prompt(entreprise: dict | None, skills: list[dict]) -> str:
     """Construit le system prompt en fonction du contexte."""
 
     # --- Partie fixe : identité et rôle ---
-    prompt = """Tu es ESG Advisor AI, un conseiller expert en finance durable et conformité ESG
+    prompt = """Tu es ESG Mefali, un conseiller expert en finance durable et conformité ESG
 pour les PME africaines francophones.
 
 ## Ton rôle

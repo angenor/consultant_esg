@@ -5,7 +5,7 @@
 | Prerequis | Fichier/Ressource | Statut |
 |-----------|-------------------|--------|
 | Lire le document d'architecture | [00_vision_et_architecture.md](./00_vision_et_architecture.md) | [x] |
-| Backend ESG Advisor fonctionnel | `docker compose up -d` (db + backend) | [x] |
+| Backend ESG Mefali fonctionnel | `docker compose up -d` (db + backend) | [x] |
 | Node.js 20+ installe | `node -v` | [x] |
 | Chrome installe (mode developpeur) | `chrome://extensions` | [x] |
 
@@ -112,7 +112,7 @@ npm init -y
 // chrome-extension/manifest.json
 {
   "manifest_version": 3,
-  "name": "ESG Advisor Guide",
+  "name": "ESG Mefali Guide",
   "description": "Guide pas-a-pas pour vos candidatures aux fonds verts africains",
   "version": "1.0.0",
   "default_locale": "fr",
@@ -130,7 +130,7 @@ npm init -y
       "16": "assets/icons/icon-16.png",
       "32": "assets/icons/icon-32.png"
     },
-    "default_title": "ESG Advisor Guide"
+    "default_title": "ESG Mefali Guide"
   },
 
   "side_panel": {
@@ -767,7 +767,7 @@ import type {
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
-    console.log('[ESG Advisor] Extension installee')
+    console.log('[ESG Mefali] Extension installee')
     // Ouvrir le popup pour la premiere connexion
   }
 })
@@ -814,7 +814,7 @@ async function handleMessage(
       })
 
     default:
-      console.warn('[ESG Advisor] Message inconnu:', message.type)
+      console.warn('[ESG Mefali] Message inconnu:', message.type)
       return null
   }
 }
@@ -869,7 +869,7 @@ async function handleSyncData(): Promise<SyncedData | null> {
     await storageManager.saveSyncedData(syncedData)
     return { ...syncedData, last_synced: new Date().toISOString() }
   } catch (error) {
-    console.error('[ESG Advisor] Erreur de synchronisation:', error)
+    console.error('[ESG Mefali] Erreur de synchronisation:', error)
     return null
   }
 }
@@ -920,7 +920,7 @@ async function handleFieldSuggestion(payload: {
     )
     return response
   } catch (error) {
-    console.error('[ESG Advisor] Erreur suggestion:', error)
+    console.error('[ESG Mefali] Erreur suggestion:', error)
     return { suggestion: null, error: 'Impossible de generer une suggestion' }
   }
 }
@@ -933,7 +933,7 @@ async function handleSaveProgress(payload: {
   try {
     return await apiClient.post('/api/extension/progress', payload)
   } catch (error) {
-    console.error('[ESG Advisor] Erreur sauvegarde:', error)
+    console.error('[ESG Mefali] Erreur sauvegarde:', error)
     return { error: 'Impossible de sauvegarder' }
   }
 }
@@ -1014,7 +1014,7 @@ chrome.notifications.onClicked.addListener(async (notificationId) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ESG Advisor Guide</title>
+  <title>ESG Mefali Guide</title>
 </head>
 <body>
   <div id="app"></div>
@@ -1049,7 +1049,7 @@ Le popup fait 400px x 500px et affiche soit :
     <header class="bg-emerald-600 text-white px-4 py-3 flex items-center gap-3">
       <img src="../assets/icons/icon-32.png" alt="ESG" class="w-8 h-8">
       <div>
-        <h1 class="text-lg font-bold leading-tight">ESG Advisor</h1>
+        <h1 class="text-lg font-bold leading-tight">ESG Mefali</h1>
         <p class="text-emerald-100 text-xs">Guide Fonds Verts</p>
       </div>
       <button
@@ -1074,7 +1074,7 @@ Le popup fait 400px x 500px et affiche soit :
         target="_blank"
         class="text-xs text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
       >
-        Ouvrir la plateforme ESG Advisor
+        Ouvrir la plateforme ESG Mefali
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -1103,7 +1103,7 @@ Le popup fait 400px x 500px et affiche soit :
 
     <h2 class="text-lg font-semibold text-gray-800 mb-1">Connectez-vous</h2>
     <p class="text-sm text-gray-500 mb-6 text-center">
-      Utilisez vos identifiants ESG Advisor
+      Utilisez vos identifiants ESG Mefali
     </p>
 
     <form @submit.prevent="handleLogin" class="w-full space-y-4">
@@ -1648,7 +1648,7 @@ app.include_router(extension_router)
             "selector": "[name='doc_esg'], #upload-esg-report",
             "label": "Rapport ESG",
             "source": null,
-            "help_text": "Vous pouvez generer ce rapport depuis la plateforme ESG Advisor",
+            "help_text": "Vous pouvez generer ce rapport depuis la plateforme ESG Mefali",
             "type": "file",
             "required": false,
             "ai_suggest": false
@@ -1680,7 +1680,7 @@ app.include_router(extension_router)
         "name": "Rapport ESG / Bilan carbone",
         "type": "esg",
         "format": "PDF",
-        "description": "Generable depuis la plateforme ESG Advisor"
+        "description": "Generable depuis la plateforme ESG Mefali"
       },
       {
         "name": "Business plan du projet vert",

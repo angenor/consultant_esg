@@ -149,7 +149,7 @@
             "selector": "[name='doc_esg'], #upload-esg-report",
             "label": "Rapport ESG",
             "source": null,
-            "help_text": "Vous pouvez generer ce rapport depuis la plateforme ESG Advisor",
+            "help_text": "Vous pouvez generer ce rapport depuis la plateforme ESG Mefali",
             "type": "file",
             "required": false,
             "ai_suggest": false
@@ -181,7 +181,7 @@
         "name": "Rapport ESG / Bilan carbone",
         "type": "esg",
         "format": "PDF",
-        "description": "Generable depuis la plateforme ESG Advisor"
+        "description": "Generable depuis la plateforme ESG Mefali"
       },
       {
         "name": "Business plan du projet vert",

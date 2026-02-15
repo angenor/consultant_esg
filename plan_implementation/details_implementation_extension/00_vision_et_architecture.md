@@ -1,4 +1,4 @@
-# Extension Chrome ESG Advisor Guide
+# Extension Chrome ESG Mefali Guide
 
 > **Fichier racine** — Ce document est le point d'entree. Il n'a aucune dependance.
 > Les 3 fichiers Semaine suivants dependent de ce document.
@@ -30,7 +30,7 @@
 
 ## Vision
 
-L'extension Chrome "ESG Advisor Guide" est le **pont entre la plateforme ESG Advisor et les sites de candidature des fonds verts**. Elle accompagne pas-a-pas les PME francophones africaines dans leurs demarches de candidature aux financements verts, directement depuis leur navigateur.
+L'extension Chrome "ESG Mefali Guide" est le **pont entre la plateforme ESG Mefali et les sites de candidature des fonds verts**. Elle accompagne pas-a-pas les PME francophones africaines dans leurs demarches de candidature aux financements verts, directement depuis leur navigateur.
 
 ### Probleme resolu
 
@@ -45,7 +45,7 @@ Les PME abandonnent souvent leurs candidatures aux fonds verts a cause de :
 Une extension Chrome qui :
 1. **Detecte** quand l'utilisateur navigue sur un site de fonds vert reference
 2. **Guide** pas-a-pas avec des instructions contextuelles
-3. **Pre-remplit** les champs avec les donnees de la plateforme ESG Advisor
+3. **Pre-remplit** les champs avec les donnees de la plateforme ESG Mefali
 4. **Sauvegarde** la progression pour reprendre plus tard
 5. **Assiste** via un chatbot IA contextuel
 
@@ -77,7 +77,7 @@ Extension Chrome (Manifest V3)
 │
 ├── background/         → Service Worker (Manifest V3)
 │   ├── service-worker.ts → Orchestration principale
-│   ├── api-client.ts   → Communication avec backend ESG Advisor
+│   ├── api-client.ts   → Communication avec backend ESG Mefali
 │   ├── auth.ts         → Gestion JWT (chrome.storage.session)
 │   ├── sync.ts         → Synchronisation donnees plateforme
 │   └── notifications.ts→ Alertes deadlines et progres
@@ -102,7 +102,7 @@ Extension Chrome (Manifest V3)
 ### Communication avec le Backend
 
 ```
-Extension Chrome ←→ Backend ESG Advisor API
+Extension Chrome ←→ Backend ESG Mefali API
                      │
                      ├── /api/auth/login          → Authentification JWT
                      ├── /api/auth/me             → Verification token
@@ -239,7 +239,7 @@ class FundSiteConfig(Base):
    ┌─────────────────────────────────────┐
    │  Clic sur l'icone → Popup           │
    │  → Connexion avec ses identifiants  │
-   │    ESG Advisor (email + mot de passe)│
+   │    ESG Mefali (email + mot de passe)│
    └──────────────┬──────────────────────┘
                   ▼
    ┌─────────────────────────────────────┐

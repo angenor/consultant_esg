@@ -276,7 +276,7 @@ Ajouter dans `StepContent.vue` :
         {{ autoFillableCount }} champs pre-remplissables
       </p>
       <p class="text-xs text-emerald-600">
-        Donnees provenant de votre profil ESG Advisor
+        Donnees provenant de votre profil ESG Mefali
       </p>
     </div>
     <button
@@ -672,7 +672,7 @@ chrome-extension/
 // _locales/fr/messages.json
 {
   "appName": {
-    "message": "ESG Advisor Guide",
+    "message": "ESG Mefali Guide",
     "description": "Extension name"
   },
   "appDescription": {
@@ -684,7 +684,7 @@ chrome-extension/
     "description": "Login page title"
   },
   "login_subtitle": {
-    "message": "Utilisez vos identifiants ESG Advisor",
+    "message": "Utilisez vos identifiants ESG Mefali",
     "description": "Login page subtitle"
   },
   "login_email": {
@@ -708,7 +708,7 @@ chrome-extension/
     "description": "Logout button"
   },
   "fund_detected": {
-    "message": "$FUND$ detecte — ESG Advisor peut vous guider",
+    "message": "$FUND$ detecte — ESG Mefali peut vous guider",
     "description": "Fund detected banner",
     "placeholders": {
       "fund": { "content": "$1", "example": "BOAD" }
@@ -795,7 +795,7 @@ chrome-extension/
     "description": "Refresh button"
   },
   "open_platform": {
-    "message": "Ouvrir la plateforme ESG Advisor",
+    "message": "Ouvrir la plateforme ESG Mefali",
     "description": "Platform link"
   }
 }
@@ -978,7 +978,7 @@ Preparer :
 - 3-5 screenshots montrant le popup, le side panel et la detection
 - Une description en francais et en anglais
 - Une politique de confidentialite
-- Un lien vers la plateforme ESG Advisor
+- Un lien vers la plateforme ESG Mefali
 
 ### 6.2 Privacy Policy (obligatoire)
 
@@ -987,7 +987,7 @@ Points a couvrir :
 - Le token JWT est stocke en session (efface a la fermeture)
 - Les donnees entreprise sont cachees localement pour 5 minutes
 - Aucune donnee n'est partagee avec des tiers
-- L'extension communique uniquement avec le serveur ESG Advisor
+- L'extension communique uniquement avec le serveur ESG Mefali
 
 ### 6.3 Build de production
 

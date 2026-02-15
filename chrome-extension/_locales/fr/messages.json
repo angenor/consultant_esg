@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "ESG Advisor Guide",
+    "message": "ESG Mefali Guide",
     "description": "Extension name"
   },
   "appDescription": {
@@ -12,7 +12,7 @@
     "description": "Login page title"
   },
   "login_subtitle": {
-    "message": "Utilisez vos identifiants ESG Advisor",
+    "message": "Utilisez vos identifiants ESG Mefali",
     "description": "Login page subtitle"
   },
   "login_email": {
@@ -36,7 +36,7 @@
     "description": "Logout button"
   },
   "fund_detected": {
-    "message": "$FUND$ detecte — ESG Advisor peut vous guider",
+    "message": "$FUND$ detecte — ESG Mefali peut vous guider",
     "description": "Fund detected banner",
     "placeholders": {
       "fund": { "content": "$1", "example": "BOAD" }
@@ -74,7 +74,7 @@
     }
   },
   "autofill_source": {
-    "message": "Donnees provenant de votre profil ESG Advisor",
+    "message": "Donnees provenant de votre profil ESG Mefali",
     "description": "Autofill data source"
   },
   "autofill_result": {
@@ -156,7 +156,7 @@
     "description": "Refresh button"
   },
   "open_platform": {
-    "message": "Ouvrir la plateforme ESG Advisor",
+    "message": "Ouvrir la plateforme ESG Mefali",
     "description": "Platform link"
   },
   "no_fund_title": {

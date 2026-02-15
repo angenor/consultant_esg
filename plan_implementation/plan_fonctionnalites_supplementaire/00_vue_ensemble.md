@@ -2,7 +2,7 @@
 
 ## Vision
 
-Transformer la plateforme ESG Advisor en un assistant complet de candidature aux fonds verts :
+Transformer la plateforme ESG Mefali en un assistant complet de candidature aux fonds verts :
 - Le LLM guide l'utilisateur de bout en bout, de la recherche du fonds a la soumission
 - Si la candidature directe est possible : redirection vers le site + extension Chrome prend le relais
 - Si un intermediaire est necessaire : le LLM identifie les intermediaires, explique le processus, et aide a preparer le dossier

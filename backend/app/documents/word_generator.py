@@ -95,7 +95,7 @@ def _setup_document(doc: Document, entreprise_nom: str) -> None:
         footer.is_linked_to_previous = False
         fp = footer.paragraphs[0] if footer.paragraphs else footer.add_paragraph()
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = fp.add_run("Document confidentiel — Généré par ESG Advisor AI")
+        run = fp.add_run("Document confidentiel — Généré par ESG Mefali")
         run.font.size = Pt(7)
         run.font.color.rgb = MEDIUM_GRAY
 

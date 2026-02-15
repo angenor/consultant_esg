@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-ESG Advisor AI — a conversational AI platform for sustainable finance targeting Francophone African SMEs. Combines ESG compliance analysis, green financing advice, and alternative credit scoring. Built with Vue 3 + FastAPI + PostgreSQL (pgvector) + Claude via OpenRouter.
+ESG Mefali — a conversational AI platform for sustainable finance targeting Francophone African SMEs. Combines ESG compliance analysis, green financing advice, and alternative credit scoring. Built with Vue 3 + FastAPI + PostgreSQL (pgvector) + Claude via OpenRouter.
 
 ## Commands
 
@@ -92,7 +92,7 @@ npm run test      # Vitest unit tests (27 tests)
 - `src/content/batch-autofill.ts` — sequential multi-field filling with animation and error reporting
 - `src/shared/data-mapper.ts` — DataMapper class: resolves company data paths with formatters (currency, date, percentage, case)
 - `tests/` — vitest unit tests: data-mapper (13), auth (5), detector (9) = 27 tests total
-- Build: `npm run build` from `chrome-extension/`, produces `dist/` + `esg-advisor-extension.zip`
+- Build: `npm run build` from `chrome-extension/`, produces `dist/` + `esg-mefali-extension.zip`
 
 ### Data flow
 ```

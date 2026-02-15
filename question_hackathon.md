@@ -4,9 +4,9 @@
 
 ## Pitch (200 mots max)
 
-ESG Advisor AI est une plateforme conversationnelle d'IA qui démocratise l'accès à la finance verte pour les PME francophones africaines.
+ESG Mefali est une plateforme conversationnelle d'IA qui démocratise l'accès à la finance verte pour les PME francophones africaines.
 
-En Afrique francophone, 90 % des PME sont exclues des fonds verts : dossiers complexes, consultants inabordables (5 000–20 000 $), barrières linguistiques. ESG Advisor AI résout ce problème grâce à un agent conversationnel intelligent qui guide les entrepreneurs en français.
+En Afrique francophone, 90 % des PME sont exclues des fonds verts : dossiers complexes, consultants inabordables (5 000–20 000 $), barrières linguistiques. ESG Mefali résout ce problème grâce à un agent conversationnel intelligent qui guide les entrepreneurs en français.
 
 La plateforme combine : un scoring ESG multi-référentiel (BCEAO, IFC, GCF, etc) adapté aux réalités ouest-africaines, un calculateur d'empreinte carbone contextualisé, un matching intelligent vers 10 fonds verts régionaux et internationaux, un crédit scoring alternatif intégrant mobile money et pratiques vertes, et la génération automatique de dossiers PDF prêts à soumettre.
 
@@ -60,7 +60,7 @@ L'IA est au cœur de chaque fonctionnalité :
 
 Les solutions ESG existantes (Refinitiv, Sustainalytics, CDP) ciblent les grandes entreprises occidentales avec des abonnements à 10 000+ $/an, des interfaces en anglais et des référentiels inadaptés à l'Afrique.
 
-ESG Advisor AI se distingue sur 5 axes :
+ESG Mefali se distingue sur 5 axes :
 
 1. **Conversationnel-first** — Zéro formulaire. L'agent IA pose les bonnes questions, extrait les données du dialogue naturel, et enrichit le profil progressivement. Accessible aux entrepreneurs peu alphabétisés grâce à la saisie vocale.
 

@@ -46,7 +46,7 @@ async function handleLogin() {
             />
           </svg>
         </div>
-        <h1 class="text-3xl font-bold text-gray-900">ESG Advisor AI</h1>
+        <h1 class="text-3xl font-bold text-gray-900">ESG Mefali</h1>
         <p class="text-gray-500 mt-2">Votre assistant intelligent en conseil ESG</p>
       </div>
 

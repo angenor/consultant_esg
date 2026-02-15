@@ -5,7 +5,7 @@ describe('Chat', () => {
   })
 
   it('shows empty state with suggestion chips', () => {
-    cy.contains('ESG Advisor').should('be.visible')
+    cy.contains('ESG Mefali').should('be.visible')
     cy.contains('Calculer mon score ESG').should('be.visible')
     cy.contains('Mon empreinte carbone').should('be.visible')
     cy.contains('Trouver des fonds verts').should('be.visible')

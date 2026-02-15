@@ -9,7 +9,7 @@ describe('Authentication', () => {
     cy.get('button[type="submit"]').click()
 
     cy.url().should('include', '/chat')
-    cy.contains('ESG Advisor').should('be.visible')
+    cy.contains('ESG Mefali').should('be.visible')
     cy.contains('Nouvelle conversation').should('be.visible')
   })
 

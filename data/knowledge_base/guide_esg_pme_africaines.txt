@@ -81,7 +81,7 @@ Actions structurantes :
 === Comment améliorer son score ESG ===
 
 Étape 1 : Diagnostic (1-2 semaines)
-- Réaliser une auto-évaluation ESG via l'outil ESG Advisor
+- Réaliser une auto-évaluation ESG via l'outil ESG Mefali
 - Identifier les forces et faiblesses de l'entreprise
 - Se comparer aux benchmarks sectoriels de son pays
 

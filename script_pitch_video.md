@@ -1,4 +1,4 @@
-# Script Vidéo Pitch — ESG Advisor AI (2 minutes)
+# Script Vidéo Pitch — ESG Mefali (2 minutes)
 
 ## Conseils avant d'enregistrer
 
@@ -15,7 +15,7 @@
 
 ### ACCROCHE — Face caméra (0:00 – 0:15)
 
-> « Bonjour, je suis [TON NOM], fondateur d'ESG Advisor AI.
+> « Bonjour, je suis [TON NOM], createur d'ESG Mefali.
 >
 > Saviez-vous que moins de 10 % des financements climat en Afrique atteignent les PME ? Pourtant, elles représentent 80 % de l'emploi sur le continent.
 >
@@ -37,7 +37,7 @@
 
 ### LA SOLUTION — Montrer l'écran / démo (0:40 – 1:20)
 
-> « ESG Advisor AI change la donne. C'est un conseiller ESG virtuel, accessible en français, qui accompagne les PME de A à Z. »
+> « ESG Mefali change la donne. C'est un conseiller ESG virtuel, accessible en français, qui accompagne les PME de A à Z. »
 
 *[Montre l'interface du chat]*
 
@@ -63,7 +63,7 @@
 
 > « Notre vision : que chaque PME africaine puisse financer sa transition verte, sans intermédiaire coûteux. On cible d'abord la zone UEMOA — Côte d'Ivoire, Sénégal, Mali — avant de s'étendre à toute l'Afrique francophone.
 >
-> ESG Advisor AI, c'est la finance verte rendue accessible à ceux qui en ont le plus besoin. Merci. »
+> ESG Mefali, c'est la finance verte rendue accessible à ceux qui en ont le plus besoin. Merci. »
 
 ---
 

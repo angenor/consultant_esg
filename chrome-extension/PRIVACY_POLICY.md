@@ -1,20 +1,20 @@
-# Politique de Confidentialite — ESG Advisor Guide
+# Politique de Confidentialite — ESG Mefali Guide
 
 **Derniere mise a jour : 15 fevrier 2026**
 
 ## Introduction
 
-ESG Advisor Guide est une extension Chrome developpee par ESG Advisor AI pour aider les PME africaines francophones dans leurs candidatures aux fonds verts. Cette politique explique comment l'extension traite vos donnees.
+ESG Mefali Guide est une extension Chrome developpee par ESG Mefali AI pour aider les PME africaines francophones dans leurs candidatures aux fonds verts. Cette politique explique comment l'extension traite vos donnees.
 
 ## Donnees collectees
 
 ### Donnees d'authentification
 - **Token JWT** : stocke en memoire de session Chrome (efface a la fermeture du navigateur)
-- **Identifiants** : email et mot de passe transmis uniquement au serveur ESG Advisor pour l'authentification
+- **Identifiants** : email et mot de passe transmis uniquement au serveur ESG Mefali pour l'authentification
 
 ### Donnees d'entreprise
-- Les donnees de votre entreprise (nom, secteur, scores ESG, documents) sont recuperees depuis la plateforme ESG Advisor et mises en cache localement pendant 5 minutes pour ameliorer les performances
-- Ces donnees sont celles que vous avez vous-meme saisies sur la plateforme ESG Advisor
+- Les donnees de votre entreprise (nom, secteur, scores ESG, documents) sont recuperees depuis la plateforme ESG Mefali et mises en cache localement pendant 5 minutes pour ameliorer les performances
+- Ces donnees sont celles que vous avez vous-meme saisies sur la plateforme ESG Mefali
 
 ### Donnees de navigation
 - L'extension detecte uniquement les URLs correspondant aux sites de fonds verts configures (ex: BOAD, GCF, BAD)
@@ -29,7 +29,7 @@ ESG Advisor Guide est une extension Chrome developpee par ESG Advisor AI pour ai
 ## Partage des donnees
 
 - **Aucune donnee n'est partagee avec des tiers**
-- L'extension communique exclusivement avec le serveur ESG Advisor (`https://api.esgadvisor.ai`)
+- L'extension communique exclusivement avec le serveur ESG Mefali (`https://api.esgadvisor.ai`)
 - Aucune donnee n'est vendue, louee ou partagee a des fins publicitaires
 
 ## Permissions utilisees
@@ -53,7 +53,7 @@ ESG Advisor Guide est une extension Chrome developpee par ESG Advisor AI pour ai
 Vous pouvez a tout moment :
 - Vous deconnecter (efface toutes les donnees locales)
 - Desinstaller l'extension (supprime toutes les donnees stockees)
-- Supprimer votre compte sur la plateforme ESG Advisor
+- Supprimer votre compte sur la plateforme ESG Mefali
 
 ## Contact
 
@@ -61,23 +61,23 @@ Pour toute question relative a cette politique : **privacy@esgadvisor.ai**
 
 ---
 
-# Privacy Policy — ESG Advisor Guide
+# Privacy Policy — ESG Mefali Guide
 
 **Last updated: February 15, 2026**
 
 ## Introduction
 
-ESG Advisor Guide is a Chrome extension developed by ESG Advisor AI to help Francophone African SMEs with green fund applications. This policy explains how the extension handles your data.
+ESG Mefali Guide is a Chrome extension developed by ESG Mefali AI to help Francophone African SMEs with green fund applications. This policy explains how the extension handles your data.
 
 ## Data collected
 
 ### Authentication data
 - **JWT token**: stored in Chrome session storage (cleared when browser closes)
-- **Credentials**: email and password transmitted only to the ESG Advisor server for authentication
+- **Credentials**: email and password transmitted only to the ESG Mefali server for authentication
 
 ### Company data
-- Your company data (name, sector, ESG scores, documents) is retrieved from the ESG Advisor platform and cached locally for 5 minutes to improve performance
-- This data is what you have entered on the ESG Advisor platform
+- Your company data (name, sector, ESG scores, documents) is retrieved from the ESG Mefali platform and cached locally for 5 minutes to improve performance
+- This data is what you have entered on the ESG Mefali platform
 
 ### Browsing data
 - The extension only detects URLs matching configured green fund websites (e.g., BOAD, GCF, AfDB)
@@ -92,7 +92,7 @@ ESG Advisor Guide is a Chrome extension developed by ESG Advisor AI to help Fran
 ## Data sharing
 
 - **No data is shared with third parties**
-- The extension communicates exclusively with the ESG Advisor server (`https://api.esgadvisor.ai`)
+- The extension communicates exclusively with the ESG Mefali server (`https://api.esgadvisor.ai`)
 - No data is sold, rented, or shared for advertising purposes
 
 ## Permissions used
@@ -116,7 +116,7 @@ ESG Advisor Guide is a Chrome extension developed by ESG Advisor AI to help Fran
 You can at any time:
 - Log out (clears all local data)
 - Uninstall the extension (removes all stored data)
-- Delete your account on the ESG Advisor platform
+- Delete your account on the ESG Mefali platform
 
 ## Contact
 

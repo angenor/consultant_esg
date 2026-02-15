@@ -3,7 +3,7 @@
     <!-- Header -->
     <header class="bg-emerald-600 text-white px-4 py-3 flex items-center gap-2 shrink-0">
       <img src="../../assets/icons/icon-32.png" alt="" class="w-6 h-6">
-      <h1 class="text-sm font-bold flex-1">ESG Advisor Guide</h1>
+      <h1 class="text-sm font-bold flex-1">ESG Mefali Guide</h1>
       <span v-if="fundConfig" class="text-xs bg-emerald-500 px-2 py-0.5 rounded">
         {{ fundConfig.fonds_nom }}
       </span>

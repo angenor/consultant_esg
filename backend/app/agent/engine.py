@@ -37,7 +37,7 @@ class AgentEngine:
             api_key=settings.LLM_API_KEY,
             default_headers={
                 "HTTP-Referer": settings.APP_URL,
-                "X-Title": "ESG Advisor AI",
+                "X-Title": "ESG Mefali",
             },
         )
         self.model = settings.LLM_MODEL

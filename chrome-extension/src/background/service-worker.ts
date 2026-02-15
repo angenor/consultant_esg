@@ -16,7 +16,7 @@ import type {
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
-    console.log('[ESG Advisor] Extension installee')
+    console.log('[ESG Mefali] Extension installee')
   }
   // Verifier les deadlines au demarrage
   checkDeadlinesAndReminders()
@@ -74,7 +74,7 @@ async function handleMessage(
       return handleGetFundConfigs()
 
     default:
-      console.warn('[ESG Advisor] Message inconnu:', message.type)
+      console.warn('[ESG Mefali] Message inconnu:', message.type)
       return null
   }
 }
@@ -127,7 +127,7 @@ async function handleSyncData(): Promise<SyncedData | null> {
     await storageManager.saveSyncedData(syncedData)
     return { ...syncedData, last_synced: new Date().toISOString() }
   } catch (error) {
-    console.error('[ESG Advisor] Erreur de synchronisation:', error)
+    console.error('[ESG Mefali] Erreur de synchronisation:', error)
     return null
   }
 }
@@ -182,7 +182,7 @@ async function handleFieldSuggestion(payload: {
     )
     return response
   } catch (error) {
-    console.error('[ESG Advisor] Erreur suggestion:', error)
+    console.error('[ESG Mefali] Erreur suggestion:', error)
     return { suggestion: null, error: 'Impossible de generer une suggestion' }
   }
 }
@@ -195,7 +195,7 @@ async function handleSaveProgress(payload: {
   try {
     return await apiClient.post('/api/extension/progress', payload)
   } catch (error) {
-    console.error('[ESG Advisor] Erreur sauvegarde:', error)
+    console.error('[ESG Mefali] Erreur sauvegarde:', error)
     return { error: 'Impossible de sauvegarder' }
   }
 }

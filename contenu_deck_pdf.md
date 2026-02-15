@@ -1,4 +1,4 @@
-# Prompt pour générer le Deck PDF — ESG Advisor AI
+# Prompt pour générer le Deck PDF — ESG Mefali
 
 ## Comment utiliser ce fichier
 
@@ -30,7 +30,7 @@ Génère une présentation professionnelle de 10 slides au format 16:9 pour un p
 
 ## SLIDE 1 — Couverture
 
-Titre principal : **ESG Advisor AI**
+Titre principal : **ESG Mefali**
 Sous-titre : **L'intelligence artificielle au service de la finance verte pour les PME africaines**
 En bas : Hackathon Francophone IA — Green Open Lab / IFDD — Février 2026
 Visuel : une illustration stylisée combinant un continent africain, des feuilles vertes et des circuits numériques/IA
@@ -56,7 +56,7 @@ Visuel : un schéma illustrant le fossé/gap entre "Milliards $ de fonds verts d
 
 ## SLIDE 3 — Notre solution
 
-Titre : **ESG Advisor AI — Le conseiller ESG virtuel, en français**
+Titre : **ESG Mefali — Le conseiller ESG virtuel, en français**
 
 Texte introductif : Un agent IA conversationnel qui accompagne les PME africaines de l'évaluation jusqu'au dossier de financement.
 
@@ -111,11 +111,11 @@ En bas : Architecture technique — Vue 3 + FastAPI + PostgreSQL/pgvector + Clau
 
 ## SLIDE 6 — Ce qui nous distingue
 
-Titre : **ESG Advisor AI vs. Solutions existantes**
+Titre : **ESG Mefali vs. Solutions existantes**
 
 Afficher un tableau comparatif visuel avec deux colonnes contrastées (rouge/gris à gauche, vert à droite) :
 
-| Solutions existantes (Refinitiv, Sustainalytics, CDP) | ESG Advisor AI |
+| Solutions existantes (Refinitiv, Sustainalytics, CDP) | ESG Mefali |
 |---|---|
 | ❌ Conçues pour les grandes entreprises occidentales | ✅ Conçu spécifiquement pour les PME africaines |
 | ❌ Abonnements à 10 000+ $/an | ✅ Modèle freemium accessible |
@@ -128,7 +128,7 @@ Afficher un tableau comparatif visuel avec deux colonnes contrastées (rouge/gri
 
 ## SLIDE 7 — La plateforme en action
 
-Titre : **Démo — ESG Advisor AI en action**
+Titre : **Démo — ESG Mefali en action**
 
 Disposer 4 zones de capture d'écran (placeholder) avec des légendes :
 
@@ -200,7 +200,7 @@ Au centre :
 En bas :
 - Email : [À COMPLÉTER]
 - LinkedIn : [À COMPLÉTER]
-- Projet : ESG Advisor AI
+- Projet : ESG Mefali
 
 Texte de clôture en grand : **Merci — La finance verte, accessible à tous.**
 

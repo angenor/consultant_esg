@@ -1,8 +1,8 @@
-# ESG Advisor AI - Fonctionnalités Complètes
+# ESG Mefali - Fonctionnalités Complètes
 
 ## Vision du Projet
 
-**Nom proposé :** ESG Advisor AI / Conseiller ESG IA
+**Nom proposé :** ESG Mefali / Conseiller ESG IA
 
 **Pitch :** Une plateforme conversationnelle IA qui démocratise l'accès à la finance durable pour les PME africaines francophones en combinant analyse de conformité ESG, conseil en financement vert et scoring de crédit alternatif.
 
