@@ -4,10 +4,10 @@
 
 | Prerequis | Fichier/Ressource | Statut |
 |-----------|-------------------|--------|
-| Lire le document d'architecture | [00_vision_et_architecture.md](./00_vision_et_architecture.md) | [ ] |
-| Backend ESG Advisor fonctionnel | `docker compose up -d` (db + backend) | [ ] |
-| Node.js 20+ installe | `node -v` | [ ] |
-| Chrome installe (mode developpeur) | `chrome://extensions` | [ ] |
+| Lire le document d'architecture | [00_vision_et_architecture.md](./00_vision_et_architecture.md) | [x] |
+| Backend ESG Advisor fonctionnel | `docker compose up -d` (db + backend) | [x] |
+| Node.js 20+ installe | `node -v` | [x] |
+| Chrome installe (mode developpeur) | `chrome://extensions` | [x] |
 
 > **Aucun fichier Semaine ne depend de celui-ci en amont.**
 > Ce fichier doit etre termine **avant** de commencer [Semaine2.md](./Semaine2.md).
@@ -16,42 +16,42 @@
 
 ## Progression Semaine 1
 
-- [ ] **Etape 1** : Initialisation du projet extension
-  - [ ] 1.1 Structure du projet (`mkdir`, `npm init`)
-  - [ ] 1.2 Dependencies installees (`npm install`)
-  - [ ] 1.3 Manifest V3 cree
-  - [ ] 1.4 Configuration Vite fonctionnelle
-  - [ ] 1.5 Arborescence initiale creee
-  - [ ] **Validation** : `npm run build` produit `dist/`
-- [ ] **Etape 2** : Types & constantes partages
-  - [ ] 2.1 `src/shared/types.ts` complet
-  - [ ] 2.2 `src/shared/constants.ts` complet
-  - [ ] **Validation** : Compilation TypeScript sans erreur
-- [ ] **Etape 3** : Client API & authentification
-  - [ ] 3.1 `src/shared/api-client.ts` (requetes HTTP + JWT)
-  - [ ] 3.2 `src/shared/auth.ts` (login, logout, checkAuth)
-  - [ ] 3.3 `src/shared/storage.ts` (cache chrome.storage)
-  - [ ] **Validation** : Login → token dans `chrome.storage.session`
-- [ ] **Etape 4** : Service Worker (background)
-  - [ ] 4.1 `src/background/service-worker.ts` (messages, alarmes, sync)
-  - [ ] **Validation** : SW demarre, gere les messages, synchronise
-- [ ] **Etape 5** : Popup (interface principale)
-  - [ ] 5.1 `popup/index.html` + `popup/main.ts`
-  - [ ] 5.2 `popup/App.vue` (layout principal)
-  - [ ] 5.3 `LoginPanel.vue`
-  - [ ] 5.4 `DashboardPanel.vue`
-  - [ ] 5.5 `ApplicationCard.vue` + `FundRecommendation.vue`
-  - [ ] **Validation** : Popup s'ouvre, login fonctionne, dashboard affiche les donnees
-- [ ] **Etape 6** : Nouveaux endpoints backend
-  - [ ] 6.1 Modele `FundApplication` + `FundSiteConfig`
-  - [ ] 6.2 Migration Alembic executee
-  - [ ] 6.3 API `/api/extension/*` (6 endpoints)
-  - [ ] 6.4 Routeur enregistre dans `main.py`
-  - [ ] **Validation** : Endpoints repondent via `curl`
-- [ ] **Etape 7** : Seed des configurations de sites
-  - [ ] 7.1 `data/fund_site_configs.json` cree
-  - [ ] 7.2 Script de seed execute
-  - [ ] **Validation** : `GET /api/extension/fund-configs` retourne les configs
+- [x] **Etape 1** : Initialisation du projet extension
+  - [x] 1.1 Structure du projet (`mkdir`, `npm init`)
+  - [x] 1.2 Dependencies installees (`npm install`)
+  - [x] 1.3 Manifest V3 cree
+  - [x] 1.4 Configuration Vite fonctionnelle
+  - [x] 1.5 Arborescence initiale creee
+  - [x] **Validation** : `npm run build` produit `dist/`
+- [x] **Etape 2** : Types & constantes partages
+  - [x] 2.1 `src/shared/types.ts` complet
+  - [x] 2.2 `src/shared/constants.ts` complet
+  - [x] **Validation** : Compilation TypeScript sans erreur
+- [x] **Etape 3** : Client API & authentification
+  - [x] 3.1 `src/shared/api-client.ts` (requetes HTTP + JWT)
+  - [x] 3.2 `src/shared/auth.ts` (login, logout, checkAuth)
+  - [x] 3.3 `src/shared/storage.ts` (cache chrome.storage)
+  - [x] **Validation** : Login → token dans `chrome.storage.session`
+- [x] **Etape 4** : Service Worker (background)
+  - [x] 4.1 `src/background/service-worker.ts` (messages, alarmes, sync)
+  - [x] **Validation** : SW demarre, gere les messages, synchronise
+- [x] **Etape 5** : Popup (interface principale)
+  - [x] 5.1 `popup/index.html` + `popup/main.ts`
+  - [x] 5.2 `popup/App.vue` (layout principal)
+  - [x] 5.3 `LoginPanel.vue`
+  - [x] 5.4 `DashboardPanel.vue`
+  - [x] 5.5 `ApplicationCard.vue` + `FundRecommendation.vue`
+  - [x] **Validation** : Popup s'ouvre, login fonctionne, dashboard affiche les donnees
+- [x] **Etape 6** : Nouveaux endpoints backend
+  - [x] 6.1 Modele `FundApplication` + `FundSiteConfig`
+  - [x] 6.2 Migration Alembic executee
+  - [x] 6.3 API `/api/extension/*` (6 endpoints)
+  - [x] 6.4 Routeur enregistre dans `main.py`
+  - [x] **Validation** : Endpoints repondent via `curl`
+- [x] **Etape 7** : Seed des configurations de sites
+  - [x] 7.1 `data/fund_site_configs.json` cree
+  - [x] 7.2 Script de seed execute
+  - [x] **Validation** : `GET /api/extension/fund-configs` retourne les configs
 
 ---
 
@@ -1720,11 +1720,11 @@ app.include_router(extension_router)
 
 ### Checklist de fin de semaine
 
-- [ ] `npm run build` produit un dossier `dist/` valide
-- [ ] L'extension s'installe dans Chrome (`chrome://extensions` mode developpeur)
-- [ ] Le popup s'ouvre et permet de se connecter
-- [ ] Apres connexion, le dashboard affiche les donnees de la plateforme
-- [ ] Le service worker tourne et synchronise les donnees
-- [ ] Les endpoints `/api/extension/*` repondent correctement
-- [ ] Les modeles `FundApplication` et `FundSiteConfig` sont migres
-- [ ] Le seed des configs de fonds fonctionne
+- [x] `npm run build` produit un dossier `dist/` valide
+- [x] L'extension s'installe dans Chrome (`chrome://extensions` mode developpeur)
+- [x] Le popup s'ouvre et permet de se connecter
+- [x] Apres connexion, le dashboard affiche les donnees de la plateforme
+- [x] Le service worker tourne et synchronise les donnees
+- [x] Les endpoints `/api/extension/*` repondent correctement
+- [x] Les modeles `FundApplication` et `FundSiteConfig` sont migres
+- [x] Le seed des configs de fonds fonctionne

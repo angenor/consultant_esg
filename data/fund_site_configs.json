@@ -1,0 +1,205 @@
+[
+  {
+    "fonds_code": "boad_facilite_verte",
+    "url_patterns": [
+      "https://www.boad.org/*appel*",
+      "https://www.boad.org/*projet*",
+      "https://apply.boad.org/*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Informations sur l'entreprise",
+        "description": "Renseignez les informations de base de votre PME",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='company_name'], #company-name, [data-field='nom']",
+            "label": "Nom de l'entreprise",
+            "source": "entreprise.nom",
+            "help_text": "Le nom legal tel qu'il figure sur votre registre de commerce",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='sector'], #sector, [data-field='secteur']",
+            "label": "Secteur d'activite",
+            "source": "entreprise.secteur",
+            "help_text": "Votre secteur principal. Les fonds privilegient: agriculture, energie renouvelable, recyclage",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='country'], #country",
+            "label": "Pays",
+            "source": "entreprise.pays",
+            "help_text": "Le pays d'immatriculation de votre entreprise",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='description'], #project-description, textarea[name='project']",
+            "label": "Description du projet",
+            "source": null,
+            "help_text": "Decrivez votre projet vert en mettant en avant l'impact environnemental et social",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Informations financieres",
+        "description": "Presentez la situation financiere de votre entreprise",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='revenue'], #chiffre-affaires",
+            "label": "Chiffre d'affaires annuel",
+            "source": "entreprise.chiffre_affaires",
+            "help_text": "Votre CA du dernier exercice cloture, en devise locale",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='employees'], #effectifs",
+            "label": "Nombre d'employes",
+            "source": "entreprise.effectifs",
+            "help_text": "Le nombre total de salaries (CDI + CDD)",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='montant_demande'], #amount-requested",
+            "label": "Montant demande",
+            "source": null,
+            "help_text": "Le montant doit etre entre 50M et 2Mds XOF pour ce fonds",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Impact ESG",
+        "description": "Detaillez l'impact environnemental et social de votre projet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='environmental_impact'], #impact-env",
+            "label": "Impact environnemental",
+            "source": null,
+            "help_text": "Decrivez les benefices environnementaux : reduction CO2, gestion dechets, eau...",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "[name='social_impact'], #impact-social",
+            "label": "Impact social",
+            "source": null,
+            "help_text": "Emplois crees, formation, inclusion des femmes/jeunes, benefice communautaire",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "[name='governance'], #gouvernance",
+            "label": "Pratiques de gouvernance",
+            "source": null,
+            "help_text": "Transparence, conformite, politique anti-corruption, reporting ESG",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Documents justificatifs",
+        "description": "Telechargez les documents requis pour votre candidature",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='doc_rccm'], #upload-rccm",
+            "label": "Registre de commerce (RCCM)",
+            "source": null,
+            "help_text": "Copie certifiee de votre RCCM datant de moins de 3 mois",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='doc_bilan'], #upload-bilan",
+            "label": "Bilan comptable",
+            "source": null,
+            "help_text": "Les 2 derniers bilans certifies par un expert-comptable agree",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='doc_esg'], #upload-esg-report",
+            "label": "Rapport ESG",
+            "source": null,
+            "help_text": "Vous pouvez generer ce rapport depuis la plateforme ESG Advisor",
+            "type": "file",
+            "required": false,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "title": "Validation et soumission",
+        "description": "Verifiez vos informations et soumettez votre candidature",
+        "url_pattern": null,
+        "fields": []
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Registre de commerce (RCCM)",
+        "type": "legal",
+        "format": "PDF",
+        "description": "Copie certifiee datant de moins de 3 mois"
+      },
+      {
+        "name": "Bilans comptables (2 derniers exercices)",
+        "type": "financial",
+        "format": "PDF",
+        "description": "Certifies par un expert-comptable agree"
+      },
+      {
+        "name": "Rapport ESG / Bilan carbone",
+        "type": "esg",
+        "format": "PDF",
+        "description": "Generable depuis la plateforme ESG Advisor"
+      },
+      {
+        "name": "Business plan du projet vert",
+        "type": "technical",
+        "format": "PDF/DOCX",
+        "description": "Description detaillee du projet, objectifs, budget, calendrier"
+      },
+      {
+        "name": "Attestation de regularite fiscale",
+        "type": "legal",
+        "format": "PDF",
+        "description": "Delivree par l'administration fiscale du pays"
+      }
+    ],
+    "tips": {
+      "general": "La BOAD privilegie les projets avec un fort impact environnemental dans la zone UEMOA",
+      "description": "Mettez en avant les Objectifs de Developpement Durable (ODD) concernes",
+      "financial": "Montrez la viabilite financiere du projet meme sans le financement vert"
+    }
+  }
+]

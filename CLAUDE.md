@@ -57,8 +57,9 @@ alembic revision --autogenerate -m "msg"     # Generate new migration
 - `core/security.py` — bcrypt hashing, JWT creation/verification (24h expiry)
 - `core/dependencies.py` — `get_current_user()`, `require_admin()` dependencies
 - `api/auth.py` — register, login, me endpoints under `/api/auth`
-- `models/` — 18 SQLAlchemy models (User, Entreprise, Conversation, Message, Document, DocChunk, Skill, ReferentielESG, ESGScore, FondsVert, FondsChunk, CarbonFootprint, CreditScore, ActionPlan, ActionItem, SectorBenchmark, ReportTemplate, Notification)
+- `models/` — 20 SQLAlchemy models (User, Entreprise, Conversation, Message, Document, DocChunk, Skill, ReferentielESG, ESGScore, FondsVert, FondsChunk, CarbonFootprint, CreditScore, ActionPlan, ActionItem, SectorBenchmark, ReportTemplate, Notification, FundApplication, FundSiteConfig)
 - `schemas/` — Pydantic request/response models
+- `api/extension.py` — Chrome extension endpoints under `/api/extension` (fund-configs, applications, field-suggest, progress, fund-recommendations)
 - `seed/` — data seeding scripts loading from `/data/*.json`
 
 ### Key design patterns
@@ -67,10 +68,22 @@ alembic revision --autogenerate -m "msg"     # Generate new migration
 - **Multi-referential ESG:** supports multiple ESG frameworks simultaneously (IFC, GRI, etc.)
 - **SSE streaming:** planned for real-time LLM responses via `sse-starlette`
 
+### Chrome Extension structure (`chrome-extension/`)
+- **Manifest V3** extension with popup, side panel, service worker, content scripts
+- `src/shared/` — types.ts, constants.ts, api-client.ts, auth.ts, storage.ts
+- `src/popup/` — Vue 3 popup with LoginPanel and DashboardPanel
+- `src/sidepanel/` — Vue 3 step-by-step guide with components: NoFundDetected, ProgressBar, StepNavigator, StepContent, FieldHelper, DocChecklist, MiniChat
+- `src/background/service-worker.ts` — message handling (11 message types), data sync, alarms, side panel opening
+- `src/content/detector.ts` — FundDetector class: URL pattern matching, SPA observation (pushState/popstate), Shadow DOM detection banner
+- `src/content/highlighter.ts` — FieldHighlighter class: colored field highlighting (green=auto, blue=AI, orange=manual), Shadow DOM tooltips
+- `src/content/autofill.ts` — listens for AUTOFILL_FIELD/HIGHLIGHT_FIELDS messages, fills form fields with event dispatching
+- Build: `npm run build` from `chrome-extension/`, produces `dist/` loadable in Chrome
+
 ### Data flow
 ```
 Frontend (Vue 3) → /api proxy → FastAPI → PostgreSQL + pgvector
                                        → OpenRouter (Claude LLM)
+Chrome Extension → /api/extension/* → FastAPI (same backend)
 ```
 
 ## Configuration
@@ -84,7 +97,11 @@ Environment variables in `.env` (see `.env.example`):
 
 ## Implementation Status
 
-Week 1 complete: Docker infrastructure, database schema (all 18 tables), auth endpoints, frontend routing/auth. Most views are stubs awaiting implementation. Implementation roadmap in `plan_implementation/` with weekly guides (`details_implementation/Semaine1-5.md`).
+Platform Week 1 complete: Docker infrastructure, database schema (all 18 tables), auth endpoints, frontend routing/auth. Most views are stubs awaiting implementation. Implementation roadmap in `plan_implementation/` with weekly guides (`details_implementation/Semaine1-5.md`).
+
+Extension Week 1 complete: Chrome extension project initialized (Manifest V3 + Vite 7 + Vue 3 + TailwindCSS 4). Shared types/constants, API client with JWT, auth manager, storage manager, service worker, popup (login + dashboard), backend extension endpoints (fund-configs, applications CRUD, field-suggest, progress), FundApplication/FundSiteConfig models migrated, seed data for BOAD fund config.
+
+Extension Week 2 complete: Content script FundDetector (URL pattern matching, SPA observation, Shadow DOM banner), FieldHighlighter (colored highlighting with tooltips), Side Panel guide (7 Vue components: NoFundDetected, ProgressBar, StepNavigator, StepContent, FieldHelper, DocChecklist, MiniChat), autofill integration (content script ↔ side panel communication), service worker updated with OPEN_SIDEPANEL and GET_FUND_CONFIGS handlers. Extension roadmap in `plan_implementation/details_implementation_extension/Semaine1-3.md`.
 
 
 ## Parallel Sub-agents Strategy

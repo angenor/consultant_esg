@@ -21,6 +21,7 @@ from app.seed.seed_fonds import seed_fonds
 from app.seed.seed_benchmarks import seed_benchmarks
 from app.seed.seed_fonds_chunks import seed_fonds_chunks
 from app.seed.seed_report_templates import seed_report_templates
+from app.seed.seed_fund_configs import seed_fund_configs
 from app.seed.seed_demo import seed_demo
 
 
@@ -47,10 +48,13 @@ async def main():
             print(f"[5/7] Fonds chunks (RAG) : skip ({e})")
 
         n = await seed_report_templates(db)
-        print(f"[6/7] Report templates : {n} insérés")
+        print(f"[6/8] Report templates : {n} insérés")
+
+        n = await seed_fund_configs(db)
+        print(f"[7/8] Fund site configs : {n} insérés")
 
         n = await seed_demo(db)
-        print(f"[7/7] Données de démo : {n} objets créés")
+        print(f"[8/8] Données de démo : {n} objets créés")
 
         print("\n=== Seed terminé ===")
 

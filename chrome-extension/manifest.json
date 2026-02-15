@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "ESG Advisor Guide",
+  "description": "Guide pas-a-pas pour vos candidatures aux fonds verts africains",
+  "version": "1.0.0",
+
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  },
+
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "32": "assets/icons/icon-32.png"
+    },
+    "default_title": "ESG Advisor Guide"
+  },
+
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/detector.ts", "src/content/autofill.ts"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "sidePanel",
+    "notifications",
+    "alarms"
+  ],
+
+  "host_permissions": [
+    "https://api.esgadvisor.ai/*",
+    "http://localhost:8000/*"
+  ],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

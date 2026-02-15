@@ -4,14 +4,14 @@
 
 | Prerequis | Fichier/Ressource | Statut |
 |-----------|-------------------|--------|
-| **Semaine 1 terminee** | [Semaine1.md](./Semaine1.md) | [ ] |
-| Extension installable dans Chrome | `chrome://extensions` → charger `dist/` | [ ] |
-| Popup fonctionnel avec login | Semaine1 / Etape 5 | [ ] |
-| Endpoints `/api/extension/*` operationnels | Semaine1 / Etape 6 | [ ] |
-| Configs de fonds en base de donnees | Semaine1 / Etape 7 | [ ] |
-| `src/shared/types.ts` complet | Semaine1 / Etape 2 | [ ] |
-| `src/shared/api-client.ts` fonctionnel | Semaine1 / Etape 3 | [ ] |
-| Service Worker avec gestion des messages | Semaine1 / Etape 4 | [ ] |
+| **Semaine 1 terminee** | [Semaine1.md](./Semaine1.md) | [x] |
+| Extension installable dans Chrome | `chrome://extensions` → charger `dist/` | [x] |
+| Popup fonctionnel avec login | Semaine1 / Etape 5 | [x] |
+| Endpoints `/api/extension/*` operationnels | Semaine1 / Etape 6 | [x] |
+| Configs de fonds en base de donnees | Semaine1 / Etape 7 | [x] |
+| `src/shared/types.ts` complet | Semaine1 / Etape 2 | [x] |
+| `src/shared/api-client.ts` fonctionnel | Semaine1 / Etape 3 | [x] |
+| Service Worker avec gestion des messages | Semaine1 / Etape 4 | [x] |
 
 > **Depend de** : [Semaine1.md](./Semaine1.md) (toutes les etapes)
 > **Requis par** : [Semaine3.md](./Semaine3.md)
@@ -20,33 +20,33 @@
 
 ## Progression Semaine 2
 
-- [ ] **Etape 1** : Content script — detection de sites
-  - [ ] 1.1 `src/content/detector.ts` (classe FundDetector)
-  - [ ] 1.2 Detection URL avec patterns glob
-  - [ ] 1.3 Observation des changements SPA (pushState, popstate)
-  - [ ] 1.4 Banniere de detection (Shadow DOM)
-  - [ ] 1.5 Notification au service worker
-  - [ ] **Validation** : Naviguer sur un site configure → banniere verte
-- [ ] **Etape 2** : Content script — surlignage des champs
-  - [ ] 2.1 `src/content/highlighter.ts` (classe FieldHighlighter)
-  - [ ] 2.2 Detection d'elements par selecteurs multiples
-  - [ ] 2.3 Surlignage colore (vert=auto, bleu=IA, orange=manuel)
-  - [ ] 2.4 Tooltips d'aide avec actions
-  - [ ] **Validation** : Champs surlignés avec couleurs et tooltips
-- [ ] **Etape 3** : Side Panel — guide pas-a-pas
-  - [ ] 3.1 `sidepanel/index.html` + `sidepanel/main.ts`
-  - [ ] 3.2 `sidepanel/App.vue` (layout + logique principale)
-  - [ ] 3.3 `ProgressBar.vue`
-  - [ ] 3.4 `StepNavigator.vue`
-  - [ ] 3.5 `StepContent.vue` + `FieldHelper.vue`
-  - [ ] 3.6 `DocChecklist.vue`
-  - [ ] 3.7 `MiniChat.vue` (assistant IA contextuel)
-  - [ ] **Validation** : Side Panel s'ouvre, etapes navigables, chat repond
-- [ ] **Etape 4** : Integration content script ↔ side panel
-  - [ ] 4.1 `src/content/autofill.ts` (ecoute messages, remplit champs)
-  - [ ] 4.2 Communication side panel → content script → page web
-  - [ ] 4.3 Mise a jour service worker pour `OPEN_SIDEPANEL`
-  - [ ] **Validation** : "Remplir" dans le side panel → valeur inseree dans la page
+- [x] **Etape 1** : Content script — detection de sites
+  - [x] 1.1 `src/content/detector.ts` (classe FundDetector)
+  - [x] 1.2 Detection URL avec patterns glob
+  - [x] 1.3 Observation des changements SPA (pushState, popstate)
+  - [x] 1.4 Banniere de detection (Shadow DOM)
+  - [x] 1.5 Notification au service worker
+  - [x] **Validation** : Naviguer sur un site configure → banniere verte
+- [x] **Etape 2** : Content script — surlignage des champs
+  - [x] 2.1 `src/content/highlighter.ts` (classe FieldHighlighter)
+  - [x] 2.2 Detection d'elements par selecteurs multiples
+  - [x] 2.3 Surlignage colore (vert=auto, bleu=IA, orange=manuel)
+  - [x] 2.4 Tooltips d'aide avec actions
+  - [x] **Validation** : Champs surlignés avec couleurs et tooltips
+- [x] **Etape 3** : Side Panel — guide pas-a-pas
+  - [x] 3.1 `sidepanel/index.html` + `sidepanel/main.ts`
+  - [x] 3.2 `sidepanel/App.vue` (layout + logique principale)
+  - [x] 3.3 `ProgressBar.vue`
+  - [x] 3.4 `StepNavigator.vue`
+  - [x] 3.5 `StepContent.vue` + `FieldHelper.vue`
+  - [x] 3.6 `DocChecklist.vue`
+  - [x] 3.7 `MiniChat.vue` (assistant IA contextuel)
+  - [x] **Validation** : Side Panel s'ouvre, etapes navigables, chat repond
+- [x] **Etape 4** : Integration content script ↔ side panel
+  - [x] 4.1 `src/content/autofill.ts` (ecoute messages, remplit champs)
+  - [x] 4.2 Communication side panel → content script → page web
+  - [x] 4.3 Mise a jour service worker pour `OPEN_SIDEPANEL`
+  - [x] **Validation** : "Remplir" dans le side panel → valeur inseree dans la page
 
 ---
 
@@ -1442,13 +1442,13 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
 
 ### Checklist de fin de semaine
 
-- [ ] Naviguer sur un site configure declenche la banniere de detection
-- [ ] Le badge de l'extension change quand un fonds est detecte
-- [ ] Le Side Panel affiche les etapes de candidature
-- [ ] La navigation entre etapes fonctionne (precedent/suivant)
-- [ ] Les champs avec source auto affichent la valeur de la plateforme
-- [ ] Le bouton "Remplir" insere la valeur dans le champ de la page
-- [ ] Le bouton "Generer avec l'IA" appelle le backend et affiche la suggestion
-- [ ] La checklist de documents montre les documents disponibles/manquants
-- [ ] Le mini-chat IA repond aux questions contextuelles
-- [ ] La progression est sauvegardee entre les sessions
+- [x] Naviguer sur un site configure declenche la banniere de detection
+- [x] Le badge de l'extension change quand un fonds est detecte
+- [x] Le Side Panel affiche les etapes de candidature
+- [x] La navigation entre etapes fonctionne (precedent/suivant)
+- [x] Les champs avec source auto affichent la valeur de la plateforme
+- [x] Le bouton "Remplir" insere la valeur dans le champ de la page
+- [x] Le bouton "Generer avec l'IA" appelle le backend et affiche la suggestion
+- [x] La checklist de documents montre les documents disponibles/manquants
+- [x] Le mini-chat IA repond aux questions contextuelles
+- [x] La progression est sauvegardee entre les sessions

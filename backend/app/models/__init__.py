@@ -13,6 +13,7 @@ from app.models.action_plan import ActionPlan, ActionItem
 from app.models.notification import Notification
 from app.models.sector_benchmark import SectorBenchmark
 from app.models.report_template import ReportTemplate
+from app.models.fund_application import FundApplication, FundSiteConfig
 
 __all__ = [
     "User",
@@ -33,4 +34,6 @@ __all__ = [
     "Notification",
     "SectorBenchmark",
     "ReportTemplate",
+    "FundApplication",
+    "FundSiteConfig",
 ]
