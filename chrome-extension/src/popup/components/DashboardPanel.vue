@@ -16,11 +16,48 @@
             {{ data.entreprise.secteur || 'Secteur non defini' }} · {{ data.entreprise.pays }}
           </p>
         </div>
-        <div v-if="latestScore" class="text-right">
+        <div v-if="selectedScore" class="text-right">
           <div class="text-lg font-bold" :class="scoreColor">
-            {{ latestScore.score_global }}/100
+            {{ selectedScore.score_global }}/100
           </div>
           <div class="text-xs text-gray-500">{{ t('esg_score') }}</div>
+        </div>
+      </div>
+
+      <!-- Selecteur de referentiel + sous-scores -->
+      <div v-if="availableReferentiels.length > 0" class="mt-3 pt-3 border-t border-gray-100">
+        <!-- Selecteur -->
+        <div class="flex items-center gap-2 mb-2">
+          <label class="text-xs text-gray-500">Referentiel :</label>
+          <select
+            v-model="selectedReferentiel"
+            class="text-xs border border-gray-200 rounded-md px-2 py-1 bg-white
+                   outline-none focus:border-emerald-500 flex-1"
+          >
+            <option
+              v-for="ref in availableReferentiels"
+              :key="ref.code"
+              :value="ref.code"
+            >
+              {{ ref.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Sous-scores E / S / G -->
+        <div v-if="selectedScore" class="flex gap-2">
+          <div class="flex-1 bg-emerald-50 rounded-lg px-2 py-1.5 text-center">
+            <div class="text-xs font-bold text-emerald-700">{{ selectedScore.score_e ?? '-' }}</div>
+            <div class="text-[10px] text-emerald-600">Env.</div>
+          </div>
+          <div class="flex-1 bg-blue-50 rounded-lg px-2 py-1.5 text-center">
+            <div class="text-xs font-bold text-blue-700">{{ selectedScore.score_s ?? '-' }}</div>
+            <div class="text-[10px] text-blue-600">Social</div>
+          </div>
+          <div class="flex-1 bg-amber-50 rounded-lg px-2 py-1.5 text-center">
+            <div class="text-xs font-bold text-amber-700">{{ selectedScore.score_g ?? '-' }}</div>
+            <div class="text-[10px] text-amber-600">Gouv.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -94,11 +131,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { SyncedData, ESGScore, FundApplication } from '@shared/types'
 import { t } from '@shared/i18n'
 import ApplicationCard from './ApplicationCard.vue'
 import FundRecommendation from './FundRecommendation.vue'
+
+const REFERENTIEL_LABELS: Record<string, string> = {
+  bceao_fd_2024: 'BCEAO Finance Durable',
+  gcf_standards: 'Green Climate Fund',
+  ifc_standards: 'IFC Standards',
+}
 
 const props = defineProps<{
   data: SyncedData | null
@@ -110,15 +153,42 @@ defineEmits<{
   'select-application': [app: FundApplication]
 }>()
 
-const latestScore = computed<ESGScore | null>(() => {
-  if (!props.data?.scores?.length) return null
-  return props.data.scores.reduce((latest, score) =>
-    new Date(score.created_at) > new Date(latest.created_at) ? score : latest
-  )
+const selectedReferentiel = ref<string>('')
+
+// Referentiels disponibles (dedupliques, le plus recent par referentiel)
+const availableReferentiels = computed(() => {
+  if (!props.data?.scores?.length) return []
+  const seen = new Map<string, ESGScore>()
+  for (const score of props.data.scores) {
+    const existing = seen.get(score.referentiel_code)
+    if (!existing || new Date(score.created_at) > new Date(existing.created_at)) {
+      seen.set(score.referentiel_code, score)
+    }
+  }
+  return Array.from(seen.keys()).map(code => ({
+    code,
+    label: REFERENTIEL_LABELS[code] || code,
+  }))
+})
+
+// Auto-selectionner le premier referentiel quand les donnees arrivent
+watch(availableReferentiels, (refs) => {
+  if (refs.length > 0 && !selectedReferentiel.value) {
+    selectedReferentiel.value = refs[0].code
+  }
+}, { immediate: true })
+
+// Score pour le referentiel selectionne (le plus recent)
+const selectedScore = computed<ESGScore | null>(() => {
+  if (!props.data?.scores?.length || !selectedReferentiel.value) return null
+  const matching = props.data.scores
+    .filter(s => s.referentiel_code === selectedReferentiel.value)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+  return matching[0] || null
 })
 
 const scoreColor = computed(() => {
-  const score = latestScore.value?.score_global
+  const score = selectedScore.value?.score_global
   if (!score) return 'text-gray-400'
   if (score >= 70) return 'text-emerald-600'
   if (score >= 40) return 'text-amber-600'
