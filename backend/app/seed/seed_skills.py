@@ -262,8 +262,9 @@ BUILTIN_SKILLS = [
     {
         "nom": "generate_report_section",
         "description": (
-            "Génère une section de rapport ESG à partir des données de l'entreprise. "
-            "Utilise les templates et données stockées pour produire un contenu formaté."
+            "Génère une section individuelle de rapport (résumé, analyse E/S/G, etc.). "
+            "N'utilise ce skill que pour générer UNE section isolée. "
+            "Pour un rapport complet, utilise assemble_pdf à la place."
         ),
         "category": "reporting",
         "handler_key": "builtin.generate_report_section",
@@ -271,17 +272,28 @@ BUILTIN_SKILLS = [
             "type": "object",
             "properties": {
                 "entreprise_id": {"type": "string", "description": "ID de l'entreprise"},
-                "template_id": {"type": "string", "description": "ID du template de rapport"},
+                "template_name": {
+                    "type": "string",
+                    "enum": ["esg_full", "carbon", "funding_application"],
+                    "description": "Nom du template de rapport",
+                },
                 "section_id": {"type": "string", "description": "ID de la section à générer"},
             },
-            "required": ["entreprise_id", "section_id"],
+            "required": ["entreprise_id", "template_name", "section_id"],
         },
     },
     {
         "nom": "assemble_pdf",
         "description": (
-            "Assemble les sections générées en un rapport PDF complet. "
-            "Utilise Jinja2 + WeasyPrint pour le rendu HTML vers PDF."
+            "Génère un rapport PDF professionnel complet pour l'entreprise. "
+            "À UTILISER quand l'utilisateur demande un rapport, un PDF, un document ESG, "
+            "un bilan carbone PDF, ou un dossier de candidature pour un fonds vert. "
+            "Trois types de rapports disponibles : "
+            "'esg_full' (rapport ESG complet avec scores, analyses, radar, historique), "
+            "'carbon' (rapport empreinte carbone avec répartition, évolution, plan de réduction), "
+            "'funding_application' (dossier de candidature pour un fonds vert avec éligibilité, budget). "
+            "Le rapport est généré automatiquement avec graphiques, analyses LLM et mise en page professionnelle. "
+            "Retourne un lien de téléchargement du PDF."
         ),
         "category": "reporting",
         "handler_key": "builtin.assemble_pdf",
@@ -289,14 +301,19 @@ BUILTIN_SKILLS = [
             "type": "object",
             "properties": {
                 "entreprise_id": {"type": "string", "description": "ID de l'entreprise"},
-                "template_id": {"type": "string", "description": "ID du template de rapport"},
-                "sections": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Liste des IDs de sections à inclure",
+                "template_name": {
+                    "type": "string",
+                    "enum": ["esg_full", "carbon", "funding_application"],
+                    "description": (
+                        "Type de rapport à générer : "
+                        "'esg_full' pour un rapport ESG complet, "
+                        "'carbon' pour un rapport empreinte carbone, "
+                        "'funding_application' pour un dossier de candidature fonds vert"
+                    ),
+                    "default": "esg_full",
                 },
             },
-            "required": ["entreprise_id", "template_id"],
+            "required": ["entreprise_id"],
         },
     },
     {

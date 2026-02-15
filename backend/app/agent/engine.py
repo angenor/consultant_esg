@@ -140,7 +140,7 @@ class AgentEngine:
                     yield {
                         "type": "skill_result",
                         "skill": tc["name"],
-                        "result": _truncate(json.dumps(result, ensure_ascii=False, default=str), 200),
+                        "result": result,
                     }
 
                     # Ajouter le résultat au format OpenAI tool message

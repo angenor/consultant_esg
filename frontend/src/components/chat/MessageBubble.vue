@@ -35,6 +35,7 @@ defineProps<{
           :key="i"
           :name="skill.name"
           :status="skill.status"
+          :result="skill.result"
         />
       </template>
 

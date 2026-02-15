@@ -4,6 +4,7 @@ export interface SkillEvent {
   name: string
   status: 'running' | 'done'
   params?: Record<string, unknown>
+  result?: Record<string, unknown>
 }
 
 export interface ChatMessage {
@@ -112,7 +113,10 @@ export function useChat(conversationId: () => string | undefined) {
                 const skill = assistantMsg.skills!.find(
                   (s) => s.name === (data.skill as string) && s.status === 'running',
                 )
-                if (skill) skill.status = 'done'
+                if (skill) {
+                  skill.status = 'done'
+                  skill.result = data.result as Record<string, unknown> | undefined
+                }
                 break
               }
 
@@ -241,7 +245,10 @@ export function useChat(conversationId: () => string | undefined) {
                 const skill = assistantMsg.skills!.find(
                   (s) => s.name === (data.skill as string) && s.status === 'running',
                 )
-                if (skill) skill.status = 'done'
+                if (skill) {
+                  skill.status = 'done'
+                  skill.result = data.result as Record<string, unknown> | undefined
+                }
                 break
               }
 

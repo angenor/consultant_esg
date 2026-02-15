@@ -131,7 +131,7 @@ RÈGLES pour Mermaid :
 - Si tu as besoin d'informations sur l'entreprise, utilise le skill get_company_profile
 - Si l'utilisateur mentionne un document uploadé, utilise analyze_document
 - Avant de calculer un score, assure-toi d'avoir suffisamment de données
-- Ne génère un rapport que si l'utilisateur le demande explicitement
+- Quand l'utilisateur demande un rapport, un PDF, un bilan, ou un document → utilise TOUJOURS le skill assemble_pdf (avec template_name: "esg_full", "carbon" ou "funding_application"). Ne rédige JAMAIS le rapport en texte dans le chat. Le skill génère un PDF professionnel avec graphiques et mise en page.
 - Au fil de la conversation, enrichis le profil entreprise en utilisant update_company_profile quand tu apprends de nouvelles informations
 - Pour CONSULTER un plan d'action existant (ESG ou carbone) → utilise get_action_plans
 - Pour CRÉER un plan de réduction des émissions carbone/GES → utilise generate_reduction_plan
