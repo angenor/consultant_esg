@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
   name: string
@@ -17,6 +17,7 @@ const skillLabels: Record<string, { running: string; done: string }> = {
   calculate_carbon: { running: "Calcul de l'empreinte carbone...", done: 'Empreinte calculée' },
   generate_report_section: { running: 'Génération de la section...', done: 'Section générée' },
   assemble_pdf: { running: 'Génération du rapport PDF...', done: 'Rapport PDF généré' },
+  generate_document: { running: 'Rédaction du document Word...', done: 'Document Word généré' },
   search_knowledge_base: { running: 'Recherche dans la base...', done: 'Recherche terminée' },
   manage_action_plan: { running: "Création du plan d'action...", done: "Plan d'action créé" },
   generate_reduction_plan: { running: 'Génération du plan carbone...', done: 'Plan carbone généré' },
@@ -43,13 +44,40 @@ const downloadUrl = computed(() => {
 const downloadLabel = computed(() => {
   if (!props.result) return ''
   const msg = props.result.message as string | undefined
-  return msg || 'Télécharger le PDF'
+  return msg || 'Télécharger le fichier'
 })
 
 const fileSizeKb = computed(() => {
   if (!props.result) return null
   return props.result.size_kb as number | undefined
 })
+
+const downloading = ref(false)
+
+async function handleDownload() {
+  if (!downloadUrl.value) return
+  downloading.value = true
+  try {
+    const token = localStorage.getItem('token')
+    const resp = await fetch(downloadUrl.value, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
+    const blob = await resp.blob()
+    const filename = props.result?.filename as string | undefined
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = filename || 'document'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(a.href)
+  } catch (e) {
+    console.error('Erreur de téléchargement:', e)
+  } finally {
+    downloading.value = false
+  }
+}
 </script>
 
 <template>
@@ -95,18 +123,22 @@ const fileSizeKb = computed(() => {
       </span>
     </div>
 
-    <!-- Download button for PDF results -->
-    <a
+    <!-- Download button -->
+    <button
       v-if="downloadUrl"
-      :href="downloadUrl"
-      target="_blank"
-      class="mt-2 inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-100"
+      :disabled="downloading"
+      class="mt-2 inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-100 disabled:opacity-50"
+      @click="handleDownload"
     >
-      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <svg v-if="downloading" class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+      </svg>
+      <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
-      {{ downloadLabel }}
+      {{ downloading ? 'Téléchargement...' : downloadLabel }}
       <span v-if="fileSizeKb" class="text-xs text-emerald-500">({{ fileSizeKb }} Ko)</span>
-    </a>
+    </button>
   </div>
 </template>

@@ -410,6 +410,58 @@ BUILTIN_SKILLS = [
             "required": ["entreprise_id", "updates"],
         },
     },
+    {
+        "nom": "generate_document",
+        "description": (
+            "Génère un document Word (.docx) professionnel pour l'entreprise. "
+            "À UTILISER quand l'utilisateur demande un document Word, une lettre, "
+            "une note de présentation, un plan d'affaires, ou un budget prévisionnel. "
+            "Types disponibles : "
+            "'lettre_motivation' (lettre de candidature pour un fonds vert), "
+            "'note_presentation' (profil entreprise complet pour un bailleur), "
+            "'plan_affaires' (business plan vert avec stratégie ESG), "
+            "'engagement_esg' (lettre d'engagement ESG formelle), "
+            "'budget_previsionnel' (budget détaillé pour un projet vert). "
+            "Le paramètre fonds_id permet de cibler un fonds vert spécifique "
+            "(utile pour lettre_motivation et budget_previsionnel). "
+            "Retourne un lien de téléchargement du fichier Word."
+        ),
+        "category": "reporting",
+        "handler_key": "builtin.generate_document",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "entreprise_id": {"type": "string", "description": "ID de l'entreprise"},
+                "document_type": {
+                    "type": "string",
+                    "enum": [
+                        "lettre_motivation",
+                        "note_presentation",
+                        "plan_affaires",
+                        "engagement_esg",
+                        "budget_previsionnel",
+                    ],
+                    "description": (
+                        "Type de document à générer : "
+                        "'lettre_motivation' pour une candidature fonds vert, "
+                        "'note_presentation' pour un profil entreprise, "
+                        "'plan_affaires' pour un business plan vert, "
+                        "'engagement_esg' pour une lettre d'engagement, "
+                        "'budget_previsionnel' pour un budget de projet"
+                    ),
+                },
+                "fonds_id": {
+                    "type": "string",
+                    "description": "ID du fonds vert ciblé (optionnel, pour personnaliser le document)",
+                },
+                "instructions": {
+                    "type": "string",
+                    "description": "Instructions spécifiques de l'utilisateur pour personnaliser le contenu",
+                },
+            },
+            "required": ["entreprise_id", "document_type"],
+        },
+    },
 ]
 
 

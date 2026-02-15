@@ -138,7 +138,7 @@ async def list_reports(
     reports = []
     if UPLOADS_DIR.exists():
         for f in sorted(UPLOADS_DIR.iterdir(), reverse=True):
-            if f.is_file() and f.suffix == ".pdf" and nom_clean in f.name:
+            if f.is_file() and f.suffix in (".pdf", ".docx") and nom_clean in f.name:
                 reports.append(
                     ReportFileInfo(
                         filename=f.name,
@@ -155,7 +155,7 @@ async def download_report(
     filename: str,
     user: User = Depends(get_current_user),
 ):
-    """Télécharge un rapport PDF."""
+    """Télécharge un rapport (PDF ou Word)."""
     filepath = UPLOADS_DIR / filename
     if not filepath.exists() or not filepath.is_file():
         raise HTTPException(404, "Rapport introuvable")
@@ -164,8 +164,14 @@ async def download_report(
     if not filepath.resolve().is_relative_to(UPLOADS_DIR.resolve()):
         raise HTTPException(403, "Accès interdit")
 
+    media_types = {
+        ".pdf": "application/pdf",
+        ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    }
+    media_type = media_types.get(filepath.suffix.lower(), "application/octet-stream")
+
     return FileResponse(
         path=str(filepath),
-        media_type="application/pdf",
+        media_type=media_type,
         filename=filename,
     )

@@ -36,6 +36,7 @@ class SkillRegistry:
             calculate_carbon,
             calculate_credit_score,
             calculate_esg_score,
+            generate_document,
             generate_reduction_plan,
             generate_report_section,
             get_action_plans,
@@ -67,6 +68,7 @@ class SkillRegistry:
             "builtin.manage_action_plan": manage_action_plan,
             "builtin.generate_report_section": generate_report_section,
             "builtin.assemble_pdf": assemble_pdf,
+            "builtin.generate_document": generate_document,
         }
 
     async def get_active_tools(self) -> list[dict]:

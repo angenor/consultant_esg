@@ -6,6 +6,36 @@ import StreamingText from './StreamingText.vue'
 defineProps<{
   message: ChatMessage
 }>()
+
+function handleContentClick(event: MouseEvent) {
+  const target = event.target as HTMLElement
+  const anchor = target.closest('a') as HTMLAnchorElement | null
+  if (!anchor) return
+
+  const href = anchor.getAttribute('href') || ''
+  if (!href.includes('/api/reports/download/')) return
+
+  event.preventDefault()
+  const token = localStorage.getItem('token')
+  fetch(href, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+    .then((resp) => {
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
+      const filename = href.split('/').pop() || 'document'
+      return resp.blob().then((blob) => ({ blob, filename }))
+    })
+    .then(({ blob, filename }) => {
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(a.href)
+    })
+    .catch((e) => console.error('Erreur de téléchargement:', e))
+}
 </script>
 
 <template>
@@ -27,6 +57,7 @@ defineProps<{
           ? 'max-w-[75%] rounded-2xl bg-emerald-600 px-4 py-3 text-sm leading-relaxed text-white'
           : 'min-w-0 flex-1 overflow-hidden rounded-2xl bg-white px-5 py-4 text-sm leading-relaxed text-gray-800 shadow-sm ring-1 ring-gray-100'
       "
+      @click="message.role === 'assistant' ? handleContentClick($event) : undefined"
     >
       <!-- Skill indicators (assistant only) -->
       <template v-if="message.role === 'assistant' && message.skills?.length">

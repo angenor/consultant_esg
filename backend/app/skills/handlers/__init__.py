@@ -3,6 +3,7 @@ from app.skills.handlers.assemble_pdf import assemble_pdf
 from app.skills.handlers.calculate_carbon import calculate_carbon
 from app.skills.handlers.calculate_credit_score import calculate_credit_score
 from app.skills.handlers.calculate_esg_score import calculate_esg_score
+from app.skills.handlers.generate_document import generate_document
 from app.skills.handlers.generate_reduction_plan import generate_reduction_plan
 from app.skills.handlers.generate_report_section import generate_report_section
 from app.skills.handlers.get_action_plans import get_action_plans
@@ -21,6 +22,7 @@ __all__ = [
     "calculate_carbon",
     "calculate_credit_score",
     "calculate_esg_score",
+    "generate_document",
     "generate_reduction_plan",
     "generate_report_section",
     "get_action_plans",
