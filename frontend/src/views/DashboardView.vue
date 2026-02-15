@@ -95,7 +95,8 @@ async function loadData() {
     alerts.value = data.alerts ?? []
 
     if (allScores.value.length > 0 && !refStore.selectedCode) {
-      refStore.select(allScores.value[0].referentiel_code)
+      const best = [...allScores.value].sort((a, b) => (b.score_global ?? 0) - (a.score_global ?? 0))[0]
+      refStore.select(best.referentiel_code)
     }
   } catch {
     hasData.value = false
