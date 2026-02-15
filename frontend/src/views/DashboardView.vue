@@ -2,8 +2,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useApi } from '../composables/useApi'
+import { useReferentielStore } from '../stores/referentiel'
 import ReferentielSelector from '../components/dashboard/ReferentielSelector.vue'
-import type { ReferentielOption } from '../components/dashboard/ReferentielSelector.vue'
 import ScoreCard from '../components/dashboard/ScoreCard.vue'
 import ScoreComparison from '../components/dashboard/ScoreComparison.vue'
 import type { ScoreEntry } from '../components/dashboard/ScoreComparison.vue'
@@ -17,20 +17,27 @@ import type { ActionSummary } from '../components/dashboard/ActionPlanSummary.vu
 
 const router = useRouter()
 const { get } = useApi()
+const refStore = useReferentielStore()
 
 const loading = ref(true)
 const hasData = ref(false)
 
 // Data
 const entrepriseNom = ref('')
-const referentiels = ref<ReferentielOption[]>([])
-const selectedRef = ref<string | null>(null)
 const scoreEntries = ref<ScoreEntry[]>([])
 const allScores = ref<any[]>([])
 const scoreHistory = ref<HistoryPoint[]>([])
 const fondsRecommandes = ref<FundMatch[]>([])
-const actionPlan = ref<ActionSummary | null>(null)
+const allActionPlans = ref<ActionSummary[]>([])
 const alerts = ref<any[]>([])
+
+// Référentiel sélectionné (bidirectionnel avec le store)
+const selectedRef = computed({
+  get: () => refStore.selectedCode,
+  set: (val) => refStore.select(val),
+})
+
+const referentiels = computed(() => refStore.referentiels)
 
 // Computed: score filtré par référentiel sélectionné
 const currentScore = computed(() => {
@@ -55,6 +62,14 @@ const filteredAlerts = computed(() => {
   return alerts.value.filter((a: any) => a.referentiel_code === selectedRef.value)
 })
 
+// Plan d'action filtré par référentiel
+const actionPlan = computed(() => {
+  if (!selectedRef.value) return allActionPlans.value[0] ?? null
+  return allActionPlans.value.find(
+    (p) => p.referentiel_code === selectedRef.value,
+  ) ?? null
+})
+
 async function loadData() {
   loading.value = true
   try {
@@ -66,7 +81,7 @@ async function loadData() {
 
     hasData.value = true
     entrepriseNom.value = data.entreprise?.nom ?? ''
-    referentiels.value = data.referentiels ?? []
+    refStore.setReferentiels(data.referentiels ?? [])
     allScores.value = data.scores_par_referentiel ?? []
     scoreEntries.value = (data.scores_par_referentiel ?? []).map((s: any) => ({
       referentiel_nom: s.referentiel_nom,
@@ -76,11 +91,11 @@ async function loadData() {
     }))
     scoreHistory.value = data.score_history ?? []
     fondsRecommandes.value = data.fonds_recommandes ?? []
-    actionPlan.value = data.action_plan ?? null
+    allActionPlans.value = data.action_plans ?? []
     alerts.value = data.alerts ?? []
 
-    if (allScores.value.length > 0 && !selectedRef.value) {
-      selectedRef.value = allScores.value[0].referentiel_code
+    if (allScores.value.length > 0 && !refStore.selectedCode) {
+      refStore.select(allScores.value[0].referentiel_code)
     }
   } catch {
     hasData.value = false
@@ -194,7 +209,7 @@ onMounted(loadData)
 
       <!-- Fonds + Action Plan -->
       <div class="grid gap-6 lg:grid-cols-2">
-        <FundsMatchList :fonds="fondsRecommandes" />
+        <FundsMatchList :fonds="fondsRecommandes" :selected-code="selectedRef" />
         <ActionPlanSummary :plan="actionPlan" />
       </div>
     </template>

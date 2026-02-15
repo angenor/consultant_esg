@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 export interface ActionSummary {
   id: string
   titre: string
+  referentiel_code: string | null
   nb_total: number
   nb_fait: number
   pourcentage: number

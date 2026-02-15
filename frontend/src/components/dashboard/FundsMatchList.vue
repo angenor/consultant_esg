@@ -13,9 +13,19 @@ export interface FundMatch {
   date_limite: string | null
 }
 
-defineProps<{
+import { computed } from 'vue'
+
+const props = defineProps<{
   fonds: FundMatch[]
+  selectedCode: string | null
 }>()
+
+const filteredFonds = computed(() => {
+  if (!props.selectedCode) return props.fonds
+  return props.fonds.filter(
+    (f) => f.referentiel_code === props.selectedCode || !f.referentiel_code,
+  )
+})
 
 function compatColor(pct: number): string {
   if (pct >= 75) return 'text-emerald-600'
@@ -53,13 +63,13 @@ function compatBadgeBg(pct: number): string {
       </div>
     </div>
 
-    <div v-if="fonds.length === 0" class="rounded-xl bg-gray-50 py-8 text-center text-sm text-gray-400">
+    <div v-if="filteredFonds.length === 0" class="rounded-xl bg-gray-50 py-8 text-center text-sm text-gray-400">
       Aucun fonds disponible
     </div>
 
     <div v-else class="space-y-3">
       <div
-        v-for="f in fonds"
+        v-for="f in filteredFonds"
         :key="f.id"
         class="flex items-center gap-4 rounded-xl border border-gray-100 p-3 transition-colors hover:bg-gray-50"
       >

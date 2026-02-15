@@ -217,17 +217,28 @@ async def dashboard_data(
     # Trier par compatibilité décroissante
     fonds_recommandes.sort(key=lambda f: f["compatibilite"], reverse=True)
 
-    # 6. Plan d'action résumé
-    plan_result = await db.execute(
+    # 6. Plans d'action résumés (un par référentiel, type ESG)
+    plans_result = await db.execute(
         select(ActionPlan)
-        .where(ActionPlan.entreprise_id == ent_id)
+        .where(
+            ActionPlan.entreprise_id == ent_id,
+            ActionPlan.type_plan == "esg",
+        )
         .order_by(ActionPlan.created_at.desc())
-        .limit(1)
     )
-    plan = plan_result.scalar_one_or_none()
+    all_plans = plans_result.scalars().all()
 
-    action_plan = None
-    if plan:
+    # Dédupliquer : garder le plus récent par referentiel_id
+    seen_refs: set = set()
+    unique_plans = []
+    for p in all_plans:
+        key = p.referentiel_id
+        if key not in seen_refs:
+            seen_refs.add(key)
+            unique_plans.append(p)
+
+    action_plans = []
+    for plan in unique_plans:
         items_result = await db.execute(
             select(ActionItem)
             .where(ActionItem.plan_id == plan.id)
@@ -238,6 +249,8 @@ async def dashboard_data(
         total = len(items)
         fait = sum(1 for i in items if i.statut == "fait")
         pourcentage = round(fait / total * 100) if total > 0 else 0
+
+        ref = ref_map.get(plan.referentiel_id) if plan.referentiel_id else None
 
         prochaines = [
             {
@@ -252,14 +265,16 @@ async def dashboard_data(
             if i.statut != "fait"
         ][:5]
 
-        action_plan = {
+        action_plans.append({
             "id": str(plan.id),
             "titre": plan.titre,
+            "referentiel_id": str(plan.referentiel_id) if plan.referentiel_id else None,
+            "referentiel_code": ref.code if ref else None,
             "nb_total": total,
             "nb_fait": fait,
             "pourcentage": pourcentage,
             "prochaines_actions": prochaines,
-        }
+        })
 
     return {
         "entreprise": {
@@ -280,6 +295,6 @@ async def dashboard_data(
         "scores_par_referentiel": scores_par_referentiel,
         "score_history": score_history,
         "fonds_recommandes": fonds_recommandes,
-        "action_plan": action_plan,
+        "action_plans": action_plans,
         "alerts": alerts,
     }

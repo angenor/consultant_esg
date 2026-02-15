@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useApi } from '../composables/useApi'
+import { useReferentielStore } from '../stores/referentiel'
+import ReferentielSelector from '../components/dashboard/ReferentielSelector.vue'
 import ProgressTracker from '../components/actions/ProgressTracker.vue'
 import ActionPlanTimeline from '../components/actions/ActionPlanTimeline.vue'
 import type { ActionItemData } from '../components/actions/ActionItemCard.vue'
 
 const router = useRouter()
 const { get, put } = useApi()
+const refStore = useReferentielStore()
 
 const loading = ref(true)
 const hasData = ref(false)
@@ -29,10 +32,28 @@ const impactTotal = computed(() => {
   return items.value.reduce((sum, i) => sum + (i.impact_score_estime || 0), 0)
 })
 
+async function ensureReferentiels() {
+  if (refStore.referentiels.length > 0) return
+  try {
+    const data = await get<any>('/api/dashboard/data')
+    if (data?.referentiels) {
+      refStore.setReferentiels(data.referentiels)
+    }
+  } catch {
+    // silent — referentiels selector will just be empty
+  }
+}
+
 async function loadData() {
   loading.value = true
   try {
-    const data = await get<any>('/api/action-plans/latest?type_plan=esg')
+    await ensureReferentiels()
+    const code = refStore.selectedCode
+    let url = '/api/action-plans/latest?type_plan=esg'
+    if (code) {
+      url += `&referentiel_code=${encodeURIComponent(code)}`
+    }
+    const data = await get<any>(url)
     if (!data || data.error) {
       hasData.value = false
       return
@@ -77,6 +98,15 @@ async function handleToggleStatus(itemId: string, newStatus: string) {
   }
 }
 
+function onSelectRef(code: string | null) {
+  refStore.select(code)
+}
+
+// Recharger quand le référentiel change
+watch(() => refStore.selectedCode, () => {
+  loadData()
+})
+
 onMounted(loadData)
 </script>
 
@@ -113,20 +143,27 @@ onMounted(loadData)
     <!-- Data -->
     <template v-else>
       <!-- Page Header -->
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 class="text-2xl font-bold text-gray-900">Plan d'Action ESG</h1>
           <p class="mt-1 text-sm text-gray-500">{{ planTitre }}</p>
         </div>
-        <button
-          class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-600 shadow-sm transition-colors hover:bg-gray-50"
-          @click="loadData"
-        >
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
-          </svg>
-          Actualiser
-        </button>
+        <div class="flex items-center gap-3">
+          <ReferentielSelector
+            :model-value="refStore.selectedCode"
+            :referentiels="refStore.referentiels"
+            @update:model-value="onSelectRef"
+          />
+          <button
+            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-600 shadow-sm transition-colors hover:bg-gray-50"
+            @click="loadData"
+          >
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+            </svg>
+            Actualiser
+          </button>
+        </div>
       </div>
 
       <!-- Progress -->

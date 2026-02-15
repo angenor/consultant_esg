@@ -12,6 +12,7 @@ from app.core.dependencies import get_current_user
 from app.core.notifications import create_notification
 from app.models.action_plan import ActionItem, ActionPlan
 from app.models.entreprise import Entreprise
+from app.models.referentiel_esg import ReferentielESG
 from app.models.user import User
 from app.schemas.action_plan import (
     ActionItemResponse,
@@ -66,10 +67,11 @@ async def _verify_plan_ownership(
 @router.get("/latest")
 async def latest_plan(
     type_plan: str = Query("esg", pattern="^(esg|carbone)$"),
+    referentiel_code: str | None = Query(None),
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    """Dernier plan d'action filtré par type (esg ou carbone)."""
+    """Dernier plan d'action filtré par type et optionnellement par référentiel."""
     ent_result = await db.execute(
         select(Entreprise.id).where(Entreprise.user_id == user.id).limit(1)
     )
@@ -77,18 +79,33 @@ async def latest_plan(
     if not ent_id:
         return None
 
-    result = await db.execute(
+    query = (
         select(ActionPlan)
         .where(
             ActionPlan.entreprise_id == ent_id,
             ActionPlan.type_plan == type_plan,
         )
-        .order_by(ActionPlan.created_at.desc())
-        .limit(1)
+    )
+
+    if referentiel_code:
+        query = query.join(
+            ReferentielESG, ActionPlan.referentiel_id == ReferentielESG.id
+        ).where(ReferentielESG.code == referentiel_code)
+
+    result = await db.execute(
+        query.order_by(ActionPlan.created_at.desc()).limit(1)
     )
     plan = result.scalar_one_or_none()
     if not plan:
         return None
+
+    # Charger le référentiel associé
+    ref = None
+    if plan.referentiel_id:
+        ref_result = await db.execute(
+            select(ReferentielESG).where(ReferentielESG.id == plan.referentiel_id)
+        )
+        ref = ref_result.scalar_one_or_none()
 
     items_result = await db.execute(
         select(ActionItem)
@@ -102,6 +119,8 @@ async def latest_plan(
         "titre": plan.titre,
         "type_plan": plan.type_plan,
         "horizon": plan.horizon,
+        "referentiel_id": str(plan.referentiel_id) if plan.referentiel_id else None,
+        "referentiel_code": ref.code if ref else None,
         "score_initial": float(plan.score_initial) if plan.score_initial else None,
         "score_cible": float(plan.score_cible) if plan.score_cible else None,
         "items": [
