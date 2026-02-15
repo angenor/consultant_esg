@@ -30,6 +30,15 @@ alembic upgrade head                         # Run migrations
 alembic revision --autogenerate -m "msg"     # Generate new migration
 ```
 
+### Chrome Extension (from /chrome-extension)
+```bash
+npm run build     # Production build → dist/ (loadable in Chrome)
+npm run dev       # Watch mode (rebuild on changes)
+npm run test      # Vitest unit tests (27 tests)
+```
+- Load in Chrome: `chrome://extensions` → Mode développeur → Charger l'extension non empaquetée → sélectionner `chrome-extension/dist/`
+- After rebuild: cliquer l'icône rafraîchir sur la carte de l'extension dans `chrome://extensions`
+
 ### Database
 - PostgreSQL 16 with pgvector, exposed on port **5433** (host) → 5432 (container)
 - DB name: `esg_advisor`, user: `esg`
@@ -73,7 +82,7 @@ alembic revision --autogenerate -m "msg"     # Generate new migration
 - `_locales/` — fr/messages.json, en/messages.json (Chrome i18n with `default_locale: "fr"`)
 - `src/shared/` — types.ts, constants.ts, api-client.ts, auth.ts, storage.ts, data-mapper.ts, i18n.ts
 - `src/shared/stores/applications.ts` — reactive composable for candidature CRUD and progress tracking
-- `src/popup/` — Vue 3 popup with LoginPanel, DashboardPanel, ApplicationCard, FundRecommendation, ApplicationDetail
+- `src/popup/` — Vue 3 popup with LoginPanel, DashboardPanel (referentiel selector + E/S/G sub-scores), ApplicationCard, FundRecommendation, ApplicationDetail
 - `src/sidepanel/` — Vue 3 step-by-step guide with components: NoFundDetected, ProgressBar, StepNavigator, StepContent (batch autofill), FieldHelper, DocChecklist, MiniChat
 - `src/background/service-worker.ts` — message handling (12 message types), data sync, alarms (auth 30m, sync 5m, deadlines 6h), side panel opening
 - `src/background/notifications.ts` — deadline alerts (J-30/J-7/J-1), inactive application reminders (3+ days), deduplication via chrome.storage.local
