@@ -1,5 +1,20 @@
 # Phase 1 : Enrichissement des donnees intermediaires
 
+## Dependances
+
+**Prerequis :** Aucun (phase de base)
+**Bloque :** Phase 2 (Skills LLM), Phase 3 (Generation dossiers), Phase 5 (Configs extension)
+
+## Progression
+
+- [ ] 1.1 Creer le modele SQLAlchemy `Intermediaire` (`backend/app/models/intermediaire.py`)
+- [ ] 1.2 Creer les schemas Pydantic (`backend/app/schemas/intermediaire.py`)
+- [ ] 1.3 Creer la migration Alembic + executer `alembic upgrade head`
+- [ ] 1.4 Creer le fichier seed `data/intermediaires.json` (~46 intermediaires)
+- [ ] 1.5 Creer le script `backend/app/seed/seed_intermediaires.py` + integrer dans `__main__.py`
+- [ ] 1.6 Creer les API endpoints (`backend/app/api/intermediaires.py`) : GET publique + CRUD admin
+- [ ] 1.7 Creer la vue admin frontend (`frontend/src/views/admin/IntermediairesView.vue`)
+
 ## Objectif
 
 Enrichir chaque fonds vert avec des donnees structurees sur les intermediaires, les liens de soumission, les contacts, et les processus detailles. Ces donnees alimenteront les skills LLM, l'extension Chrome, et l'interface de suivi.

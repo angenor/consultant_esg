@@ -1,5 +1,23 @@
 # Phase 3 : Generation de dossiers avancee
 
+## Dependances
+
+**Prerequis :** Phase 1 (table `intermediaires` doit exister pour adapter les documents par intermediaire)
+**Bloque :** Phase 4 (Sync plateforme-extension - le chat doit pouvoir generer des dossiers avant de proposer l'extension)
+
+## Progression
+
+- [ ] 3.1 Creer le template `backend/app/documents/templates/fiche_projet.py`
+- [ ] 3.2 Creer le template `backend/app/documents/templates/note_impact_esg.py`
+- [ ] 3.3 Creer le template `backend/app/documents/templates/page_garde.py`
+- [ ] 3.4 Creer le template `backend/app/documents/templates/checklist_documents.py`
+- [ ] 3.5 Creer `backend/app/documents/dossier_assembler.py` (assemblage ZIP)
+- [ ] 3.6 Modifier `backend/app/documents/word_generator.py` : ajouter parametres fonds/intermediaire, mode template_vierge, prompts par fonds
+- [ ] 3.7 Creer le modele `backend/app/models/dossier_candidature.py` + migration Alembic
+- [ ] 3.8 Etendre `backend/app/api/reports.py` pour supporter le telechargement ZIP et les dossiers
+- [ ] 3.9 Creer le composant `frontend/src/components/chat/DossierGeneratedCard.vue`
+- [ ] 3.10 Modifier `ChatMessage.vue` pour detecter et afficher `DossierGeneratedCard` sur les resultats du skill
+
 ## Objectif
 
 Permettre au LLM de generer des dossiers complets de candidature aux fonds verts, adaptes a chaque fonds et intermediaire. Deux modes : **dossier pre-rempli** (avec donnees de l'entreprise) et **template vierge** (structure a remplir). Formats Word (.docx) et PDF.

@@ -1,5 +1,23 @@
 # Phase 4 : Synchronisation plateforme-extension
 
+## Dependances
+
+**Prerequis :**
+- Phase 2 (Skills LLM) : le skill `guide_candidature` doit retourner des `extension_action` pour que le chat puisse declencher l'extension
+- Phase 3 (Generation dossiers) : les dossiers generes doivent etre prets pour etre transmis a l'extension
+
+**Bloque :** Phase 6 (Interface suivi candidatures - necessite la communication pour afficher la progression en temps reel)
+
+## Progression
+
+- [ ] 4.1 Creer le content script `chrome-extension/src/content/platform-bridge.ts` (pont plateforme <-> extension)
+- [ ] 4.2 Modifier `chrome-extension/manifest.json` : ajouter content_script pour localhost:5173 et domaine prod
+- [ ] 4.3 Creer le composable `frontend/src/composables/useExtension.ts` (detection extension, envoi messages, fallbacks)
+- [ ] 4.4 Ajouter les handlers `OPEN_FUND_APPLICATION` et `GET_APPLICATION_PROGRESS` dans le service worker
+- [ ] 4.5 Integrer `useExtension` dans `ChatMessage.vue` pour les boutons "Ouvrir avec l'extension"
+- [ ] 4.6 Creer l'endpoint `POST /api/extension/events` pour recevoir les evenements de l'extension
+- [ ] 4.7 Tester : clic "Ouvrir avec l'extension" dans le chat -> ouvre onglet + side panel + guide
+
 ## Objectif
 
 Etablir une communication bidirectionnelle temps reel entre la plateforme web (Vue 3) et l'extension Chrome. La plateforme peut envoyer des commandes a l'extension (ouvrir un site, demarrer le guide, pre-remplir un formulaire) et l'extension peut notifier la plateforme de sa progression.

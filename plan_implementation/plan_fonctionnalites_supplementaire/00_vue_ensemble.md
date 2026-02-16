@@ -40,16 +40,25 @@ Utilisateur
 
 ## Phases d'implementation
 
-| Phase | Nom | Duree estimee | Dependances |
-|-------|-----|---------------|-------------|
-| 1 | [Enrichissement donnees intermediaires](01_enrichissement_donnees_intermediaires.md) | 1 semaine | Aucune |
-| 2 | [Skills LLM pour candidature guidee](02_skills_llm_candidature.md) | 1.5 semaines | Phase 1 |
-| 3 | [Generation de dossiers avancee](03_generation_dossiers.md) | 1.5 semaines | Phase 1 |
-| 4 | [Synchronisation plateforme-extension](04_sync_plateforme_extension.md) | 1 semaine | Phases 2-3 |
-| 5 | [Configurations extension pour tous les fonds](05_configs_extension_fonds.md) | 1 semaine | Phase 1 |
-| 6 | [Interface de suivi des candidatures](06_interface_suivi_candidature.md) | 1 semaine | Phases 4-5 |
+| Phase | Nom | Duree estimee | Dependances | Statut |
+|-------|-----|---------------|-------------|--------|
+| 1 | [Enrichissement donnees intermediaires](01_enrichissement_donnees_intermediaires.md) | 1 semaine | Aucune | [ ] Non demarre |
+| 2 | [Skills LLM pour candidature guidee](02_skills_llm_candidature.md) | 1.5 semaines | Phase 1 | [ ] Non demarre |
+| 3 | [Generation de dossiers avancee](03_generation_dossiers.md) | 1.5 semaines | Phase 1 | [ ] Non demarre |
+| 4 | [Synchronisation plateforme-extension](04_sync_plateforme_extension.md) | 1 semaine | Phases 2, 3 | [ ] Non demarre |
+| 5 | [Configurations extension pour tous les fonds](05_configs_extension_fonds.md) | 1 semaine | Phase 1 | [ ] Non demarre |
+| 6 | [Interface de suivi des candidatures](06_interface_suivi_candidature.md) | 1 semaine | Phases 4, 5 | [ ] Non demarre |
 
 **Duree totale estimee : 7 semaines** (avec parallelisation phases 2-3 et phases 5-6)
+
+## Progression globale
+
+- [ ] **Phase 1** : Donnees intermediaires (0/7 taches)
+- [ ] **Phase 2** : Skills LLM candidature (0/9 taches)
+- [ ] **Phase 3** : Generation dossiers (0/10 taches)
+- [ ] **Phase 4** : Sync plateforme-extension (0/7 taches)
+- [ ] **Phase 5** : Configs extension fonds (0/8 taches)
+- [ ] **Phase 6** : Interface suivi candidatures (0/11 taches)
 
 ## Diagramme de dependances
 

@@ -1,5 +1,22 @@
 # Phase 2 : Skills LLM pour candidature guidee
 
+## Dependances
+
+**Prerequis :** Phase 1 (table `intermediaires` doit exister pour que les skills puissent la requeter)
+**Bloque :** Phase 4 (Sync plateforme-extension - necessite que `guide_candidature` retourne des `extension_action`)
+
+## Progression
+
+- [ ] 2.1 Creer le handler `backend/app/skills/handlers/guide_candidature.py` (4 actions : analyser, lister_intermediaires, preparer_dossier, lancer_soumission)
+- [ ] 2.2 Creer le handler `backend/app/skills/handlers/generate_dossier_candidature.py`
+- [ ] 2.3 Creer le handler `backend/app/skills/handlers/get_intermediaires.py`
+- [ ] 2.4 Enregistrer les 3 handlers dans `backend/app/skills/registry.py`
+- [ ] 2.5 Ajouter les 3 definitions de skills dans `backend/app/seed/seed_skills.py`
+- [ ] 2.6 Mettre a jour le system prompt (`backend/app/agent/prompt_builder.py`) avec les regles de candidature
+- [ ] 2.7 Enrichir `search_green_funds` avec `nb_intermediaires` et `candidature_directe`
+- [ ] 2.8 Enrichir `simulate_funding` avec `intermediaires_recommandes` et `prochaine_action`
+- [ ] 2.9 Tester : "comment postuler au GCF" -> mentionne entite accreditee + intermediaires filtres par pays
+
 ## Objectif
 
 Creer les skills qui permettent au LLM de guider l'utilisateur dans le processus de candidature, depuis la decision de postuler jusqu'a la soumission effective. Le LLM doit pouvoir :

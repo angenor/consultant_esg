@@ -1,5 +1,25 @@
 # Phase 6 : Interface de suivi des candidatures
 
+## Dependances
+
+**Prerequis :**
+- Phase 4 (Sync plateforme-extension) : la communication bidirectionnelle est necessaire pour afficher la progression temps reel et le bouton "Ouvrir extension"
+- Phase 5 (Configs extension) : les configs doivent exister pour que les candidatures aient des etapes/progression a afficher
+
+## Progression
+
+- [ ] 6.1 Creer l'API `backend/app/api/candidatures.py` (liste, detail, creation, timeline, documents, historique)
+- [ ] 6.2 Creer les schemas `backend/app/schemas/candidature.py`
+- [ ] 6.3 Creer le store Pinia `frontend/src/stores/candidatures.ts`
+- [ ] 6.4 Creer le composant `frontend/src/components/candidatures/StatusBadge.vue`
+- [ ] 6.5 Creer le composant `frontend/src/components/candidatures/CandidatureCard.vue`
+- [ ] 6.6 Creer le composant `frontend/src/components/candidatures/CandidatureTimeline.vue`
+- [ ] 6.7 Creer le composant `frontend/src/components/candidatures/DocumentsList.vue`
+- [ ] 6.8 Creer la vue `frontend/src/views/CandidaturesView.vue` (liste avec filtres)
+- [ ] 6.9 Creer la vue `frontend/src/views/CandidatureDetailView.vue` (detail + timeline + documents)
+- [ ] 6.10 Ajouter routes dans `router/index.ts` + lien dans `AppSidebar.vue`
+- [ ] 6.11 Ajouter le widget "Candidatures en cours" dans `DashboardView.vue`
+
 ## Objectif
 
 Creer une vue dediee dans la plateforme web pour suivre l'avancement de toutes les candidatures aux fonds verts. Cette vue centralise les informations de la plateforme et de l'extension Chrome, offrant une timeline interactive du processus de candidature.
