@@ -6,14 +6,6 @@ const props = defineProps<{
   label?: string
 }>()
 
-// SVG semi-circular gauge
-const radius = 80
-const circumference = Math.PI * radius // half circle
-const offset = computed(() => {
-  const pct = Math.min(Math.max(props.score, 0), 100) / 100
-  return circumference * (1 - pct)
-})
-
 const scoreColor = computed(() => {
   if (props.score >= 75) return '#059669'
   if (props.score >= 60) return '#0d9488'

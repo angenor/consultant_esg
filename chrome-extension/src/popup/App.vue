@@ -88,7 +88,7 @@ async function syncData() {
       syncedData.value = response
     }
   } catch (error) {
-    console.error('[ESG Advisor] Erreur sync:', error)
+    console.error('[ESG Mefali] Erreur sync:', error)
   } finally {
     syncing.value = false
   }
