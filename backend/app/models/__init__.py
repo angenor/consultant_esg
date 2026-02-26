@@ -14,6 +14,7 @@ from app.models.notification import Notification
 from app.models.sector_benchmark import SectorBenchmark
 from app.models.report_template import ReportTemplate
 from app.models.fund_application import FundApplication, FundSiteConfig
+from app.models.intermediaire import Intermediaire
 
 __all__ = [
     "User",
@@ -36,4 +37,5 @@ __all__ = [
     "ReportTemplate",
     "FundApplication",
     "FundSiteConfig",
+    "Intermediaire",
 ]

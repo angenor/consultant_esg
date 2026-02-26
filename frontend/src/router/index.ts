@@ -97,6 +97,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/admin/FondEditView.vue'),
       },
       {
+        path: 'intermediaires',
+        name: 'AdminIntermediaires',
+        component: () => import('../views/admin/IntermediairesListView.vue'),
+      },
+      {
+        path: 'intermediaires/:id',
+        name: 'AdminIntermediaireEdit',
+        component: () => import('../views/admin/IntermediaireEditView.vue'),
+      },
+      {
         path: 'templates',
         name: 'AdminTemplates',
         component: () => import('../views/admin/TemplatesListView.vue'),

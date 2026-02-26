@@ -102,6 +102,32 @@ export interface Fonds {
   created_at: string
 }
 
+// ==================== Intermediaire ====================
+
+export interface Intermediaire {
+  id: string
+  fonds_id: string
+  nom: string
+  type: string
+  pays: string | null
+  ville: string | null
+  email: string | null
+  telephone: string | null
+  adresse: string | null
+  site_web: string | null
+  url_formulaire: string | null
+  type_soumission: string | null
+  instructions_soumission: string | null
+  documents_requis: { nom: string; format: string; obligatoire: boolean }[] | null
+  etapes_specifiques: string[] | null
+  delai_traitement: string | null
+  est_recommande: boolean
+  notes: string | null
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
 // ==================== Template ====================
 
 export interface ReportTemplate {
@@ -136,6 +162,7 @@ export const useAdminStore = defineStore('admin', () => {
   const skills = ref<Skill[]>([])
   const referentiels = ref<Referentiel[]>([])
   const fonds = ref<Fonds[]>([])
+  const intermediaires = ref<Intermediaire[]>([])
   const templates = ref<ReportTemplate[]>([])
   const stats = ref<DashboardStats | null>(null)
   const loading = ref(false)
@@ -303,6 +330,59 @@ export const useAdminStore = defineStore('admin', () => {
     await loadFonds()
   }
 
+  // ===================== Intermediaires =====================
+
+  async function loadIntermediaires(filters?: {
+    fonds_id?: string
+    pays?: string
+    type?: string
+    is_active?: boolean
+    search?: string
+  }) {
+    loading.value = true
+    error.value = null
+    try {
+      const params = new URLSearchParams()
+      if (filters?.fonds_id) params.set('fonds_id', filters.fonds_id)
+      if (filters?.pays) params.set('pays', filters.pays)
+      if (filters?.type) params.set('type', filters.type)
+      if (filters?.is_active !== undefined) params.set('is_active', String(filters.is_active))
+      if (filters?.search) params.set('search', filters.search)
+      const qs = params.toString()
+      intermediaires.value = await api.get<Intermediaire[]>(
+        `/api/admin/intermediaires/${qs ? '?' + qs : ''}`,
+      )
+    } catch (e: unknown) {
+      error.value = e instanceof Error ? e.message : 'Erreur lors du chargement'
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function getIntermediaire(id: string): Promise<Intermediaire> {
+    return api.get<Intermediaire>(`/api/admin/intermediaires/${id}`)
+  }
+
+  async function createIntermediaire(data: Record<string, unknown>): Promise<Intermediaire> {
+    const i = await api.post<Intermediaire>('/api/admin/intermediaires/', data)
+    await loadIntermediaires()
+    return i
+  }
+
+  async function updateIntermediaire(
+    id: string,
+    data: Record<string, unknown>,
+  ): Promise<Intermediaire> {
+    const i = await api.put<Intermediaire>(`/api/admin/intermediaires/${id}`, data)
+    await loadIntermediaires()
+    return i
+  }
+
+  async function deleteIntermediaire(id: string): Promise<void> {
+    await api.del(`/api/admin/intermediaires/${id}`)
+    await loadIntermediaires()
+  }
+
   // ===================== Templates =====================
 
   async function loadTemplates(filters?: { is_active?: boolean; search?: string }) {
@@ -355,6 +435,7 @@ export const useAdminStore = defineStore('admin', () => {
     skills,
     referentiels,
     fonds,
+    intermediaires,
     templates,
     stats,
     loading,
@@ -381,6 +462,12 @@ export const useAdminStore = defineStore('admin', () => {
     createFonds,
     updateFonds,
     deleteFonds,
+    // Intermediaires
+    loadIntermediaires,
+    getIntermediaire,
+    createIntermediaire,
+    updateIntermediaire,
+    deleteIntermediaire,
     // Templates
     loadTemplates,
     getTemplate,

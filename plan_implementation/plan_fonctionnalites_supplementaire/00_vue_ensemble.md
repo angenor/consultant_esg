@@ -42,7 +42,7 @@ Utilisateur
 
 | Phase | Nom | Duree estimee | Dependances | Statut |
 |-------|-----|---------------|-------------|--------|
-| 1 | [Enrichissement donnees intermediaires](01_enrichissement_donnees_intermediaires.md) | 1 semaine | Aucune | [ ] Non demarre |
+| 1 | [Enrichissement donnees intermediaires](01_enrichissement_donnees_intermediaires.md) | 1 semaine | Aucune | [x] Termine |
 | 2 | [Skills LLM pour candidature guidee](02_skills_llm_candidature.md) | 1.5 semaines | Phase 1 | [ ] Non demarre |
 | 3 | [Generation de dossiers avancee](03_generation_dossiers.md) | 1.5 semaines | Phase 1 | [ ] Non demarre |
 | 4 | [Synchronisation plateforme-extension](04_sync_plateforme_extension.md) | 1 semaine | Phases 2, 3 | [ ] Non demarre |
@@ -53,7 +53,7 @@ Utilisateur
 
 ## Progression globale
 
-- [ ] **Phase 1** : Donnees intermediaires (0/7 taches)
+- [x] **Phase 1** : Donnees intermediaires (7/7 taches)
 - [ ] **Phase 2** : Skills LLM candidature (0/9 taches)
 - [ ] **Phase 3** : Generation dossiers (0/10 taches)
 - [ ] **Phase 4** : Sync plateforme-extension (0/7 taches)

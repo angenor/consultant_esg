@@ -1,0 +1,755 @@
+[
+  {
+    "fonds_nom": "Facilité Verte BOAD-PME",
+    "intermediaires": [
+      {
+        "nom": "Société Générale Côte d'Ivoire (SGCI)",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "entreprises@sgci.ci",
+        "telephone": "+225 27 20 20 12 34",
+        "site_web": "https://www.societegenerale.ci",
+        "url_formulaire": "https://www.societegenerale.ci/fr/entreprises/financement",
+        "type_soumission": "formulaire_en_ligne",
+        "documents_requis": [
+          {"nom": "États financiers 3 derniers exercices", "format": "pdf", "obligatoire": true},
+          {"nom": "Plan d'affaires vert", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Registre de commerce (RCCM)", "format": "pdf", "obligatoire": true},
+          {"nom": "Étude d'impact environnemental", "format": "pdf", "obligatoire": false}
+        ],
+        "etapes_specifiques": [
+          "Prendre rendez-vous avec un conseiller entreprise SGCI",
+          "Soumettre le dossier de crédit vert en ligne ou en agence",
+          "Due diligence environnementale par la SGCI",
+          "Comité de crédit et décision sous 4-6 semaines"
+        ],
+        "delai_traitement": "4-6 semaines",
+        "est_recommande": true,
+        "notes": "Principale banque partenaire BOAD en Côte d'Ivoire. Équipe dédiée financement vert."
+      },
+      {
+        "nom": "Ecobank Côte d'Ivoire",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "corporate.ci@ecobank.com",
+        "telephone": "+225 27 20 31 92 00",
+        "site_web": "https://www.ecobank.com/ci",
+        "type_soumission": "email",
+        "documents_requis": [
+          {"nom": "États financiers 2 derniers exercices", "format": "pdf", "obligatoire": true},
+          {"nom": "Plan d'affaires", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "RCCM et statuts", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Contacter le département Entreprises Ecobank",
+          "Envoyer le dossier par email à l'adresse corporate",
+          "Entretien avec un chargé d'affaires",
+          "Décision du comité de crédit"
+        ],
+        "delai_traitement": "6-8 semaines",
+        "est_recommande": false,
+        "notes": "Réseau pan-africain. Processus légèrement plus long."
+      },
+      {
+        "nom": "Banque Atlantique Sénégal",
+        "type": "banque_partenaire",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "entreprises@banqueatlantique.sn",
+        "telephone": "+221 33 849 96 96",
+        "site_web": "https://www.banqueatlantique.net",
+        "type_soumission": "formulaire_en_ligne",
+        "documents_requis": [
+          {"nom": "États financiers 3 derniers exercices", "format": "pdf", "obligatoire": true},
+          {"nom": "Plan d'affaires vert", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "NINEA et RCCM", "format": "pdf", "obligatoire": true}
+        ],
+        "delai_traitement": "4-6 semaines",
+        "est_recommande": true,
+        "notes": "Banque partenaire privilégiée BOAD au Sénégal."
+      },
+      {
+        "nom": "BICICI (BNP Paribas Côte d'Ivoire)",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "entreprises@bicici.com",
+        "telephone": "+225 27 20 20 16 00",
+        "site_web": "https://www.bicici.com",
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": false,
+        "notes": "Filiale BNP Paribas. Expertise financement structuré."
+      },
+      {
+        "nom": "Coris Bank Burkina Faso",
+        "type": "banque_partenaire",
+        "pays": "Burkina Faso",
+        "ville": "Ouagadougou",
+        "email": "contact@coris-bank.com",
+        "telephone": "+226 25 31 28 28",
+        "site_web": "https://www.coris-bank.com",
+        "type_soumission": "email",
+        "delai_traitement": "6-8 semaines",
+        "est_recommande": true,
+        "notes": "Première banque privée du Burkina Faso. Partenaire BOAD actif."
+      },
+      {
+        "nom": "BOA Mali (Bank of Africa)",
+        "type": "banque_partenaire",
+        "pays": "Mali",
+        "ville": "Bamako",
+        "email": "info@boamali.com",
+        "telephone": "+223 20 70 08 50",
+        "site_web": "https://www.boamali.com",
+        "type_soumission": "email",
+        "delai_traitement": "6-8 semaines",
+        "est_recommande": true,
+        "notes": "Partenaire BOAD au Mali. Réseau BOA présent dans l'UEMOA."
+      },
+      {
+        "nom": "Orabank Togo",
+        "type": "banque_partenaire",
+        "pays": "Togo",
+        "ville": "Lomé",
+        "email": "info@orabank.net",
+        "telephone": "+228 22 23 59 00",
+        "site_web": "https://www.orabank.net",
+        "type_soumission": "email",
+        "delai_traitement": "6-8 semaines",
+        "est_recommande": true,
+        "notes": "Banque partenaire BOAD au Togo."
+      },
+      {
+        "nom": "BSIC Niger",
+        "type": "banque_partenaire",
+        "pays": "Niger",
+        "ville": "Niamey",
+        "email": "contact@bsic-niger.com",
+        "telephone": "+227 20 73 97 60",
+        "site_web": "https://www.bsic.ne",
+        "type_soumission": "dossier_physique",
+        "delai_traitement": "8-10 semaines",
+        "est_recommande": true,
+        "notes": "Banque Sahélo-Saharienne. Partenaire BOAD au Niger."
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Programme d'Adaptation Climatique BAD",
+    "intermediaires": [
+      {
+        "nom": "Bureau BAD Abidjan (siège)",
+        "type": "agence_nationale",
+        "pays": null,
+        "ville": "Abidjan",
+        "email": "adapclimate@afdb.org",
+        "telephone": "+225 27 20 26 39 00",
+        "site_web": "https://www.afdb.org",
+        "url_formulaire": "https://www.afdb.org/fr/topics-and-sectors/sectors/climate-change",
+        "type_soumission": "portail_dedie",
+        "documents_requis": [
+          {"nom": "Note conceptuelle (5 pages max)", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Budget détaillé du projet", "format": "xlsx/pdf", "obligatoire": true},
+          {"nom": "Plan de suivi-évaluation", "format": "pdf", "obligatoire": true},
+          {"nom": "Preuve composante genre (30% femmes)", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Surveiller les appels à propositions BAD (mars et septembre)",
+          "Soumettre la note conceptuelle en ligne via le portail BAD",
+          "Si présélectionné : développer la proposition complète",
+          "Évaluation par le panel d'experts climat",
+          "Validation par le Comité de pilotage BAD"
+        ],
+        "delai_traitement": "4-8 mois",
+        "est_recommande": true,
+        "notes": "Appels à propositions publiés 2 fois par an. Siège à Abidjan."
+      },
+      {
+        "nom": "Bureau pays BAD Sénégal",
+        "type": "agence_nationale",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "senegal@afdb.org",
+        "site_web": "https://www.afdb.org/fr/countries/west-africa/senegal",
+        "type_soumission": "portail_dedie",
+        "delai_traitement": "4-8 mois",
+        "est_recommande": false,
+        "notes": "Point de contact local pour le Sénégal."
+      },
+      {
+        "nom": "Bureau pays BAD Cameroun",
+        "type": "agence_nationale",
+        "pays": "Cameroun",
+        "ville": "Yaoundé",
+        "email": "cameroon@afdb.org",
+        "site_web": "https://www.afdb.org/fr/countries/central-africa/cameroon",
+        "type_soumission": "portail_dedie",
+        "delai_traitement": "4-8 mois",
+        "est_recommande": false,
+        "notes": "Point de contact local pour le Cameroun."
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Green Climate Fund - PME Afrique de l'Ouest",
+    "intermediaires": [
+      {
+        "nom": "BOAD (Entité Accréditée régionale)",
+        "type": "entite_accreditee",
+        "pays": null,
+        "ville": "Lomé",
+        "email": "gcf@boad.org",
+        "telephone": "+228 22 21 59 06",
+        "site_web": "https://www.boad.org",
+        "url_formulaire": "https://www.boad.org/fr/fonds-vert-pour-le-climat",
+        "type_soumission": "portail_dedie",
+        "documents_requis": [
+          {"nom": "Note conceptuelle GCF", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Funding proposal complet", "format": "pdf", "obligatoire": true},
+          {"nom": "Plan de réduction carbone chiffré", "format": "pdf", "obligatoire": true},
+          {"nom": "Étude de faisabilité E&S", "format": "pdf", "obligatoire": true},
+          {"nom": "Lettre de non-objection AND", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Obtenir la lettre de non-objection de l'AND de votre pays",
+          "Contacter la BOAD pour présenter le projet",
+          "Soumettre la note conceptuelle via la BOAD",
+          "Développer la funding proposal complète avec l'appui BOAD",
+          "Revue technique par le Secrétariat GCF",
+          "Validation par le Board GCF (réunion trimestrielle)"
+        ],
+        "delai_traitement": "6-18 mois",
+        "est_recommande": true,
+        "notes": "Entité accréditée GCF couvrant les 8 pays UEMOA. Principal canal pour l'Afrique de l'Ouest."
+      },
+      {
+        "nom": "Autorité Nationale Désignée - Côte d'Ivoire",
+        "type": "agence_nationale",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "nda@environnement.gouv.ci",
+        "telephone": "+225 27 20 21 19 02",
+        "type_soumission": "dossier_physique",
+        "documents_requis": [
+          {"nom": "Demande de lettre de non-objection", "format": "pdf", "obligatoire": true},
+          {"nom": "Résumé du projet", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Soumettre la demande de lettre de non-objection",
+          "L'AND évalue la conformité avec les priorités nationales",
+          "Délivrance de la lettre de non-objection (2-4 semaines)"
+        ],
+        "delai_traitement": "2-4 semaines",
+        "est_recommande": false,
+        "notes": "Étape obligatoire avant toute soumission GCF. Rattachée au Ministère de l'Environnement."
+      },
+      {
+        "nom": "CSE - Centre de Suivi Écologique",
+        "type": "entite_accreditee",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "cse@cse.sn",
+        "telephone": "+221 33 825 80 66",
+        "site_web": "https://www.cse.sn",
+        "type_soumission": "email",
+        "delai_traitement": "6-12 mois",
+        "est_recommande": false,
+        "notes": "Entité accréditée GCF pour le Sénégal. Expertise en suivi environnemental."
+      },
+      {
+        "nom": "Autorité Nationale Désignée - Sénégal",
+        "type": "agence_nationale",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "and-gcf@environnement.gouv.sn",
+        "type_soumission": "dossier_physique",
+        "delai_traitement": "2-4 semaines",
+        "est_recommande": false,
+        "notes": "AND du Sénégal. Lettre de non-objection obligatoire."
+      },
+      {
+        "nom": "Autorité Nationale Désignée - Burkina Faso",
+        "type": "agence_nationale",
+        "pays": "Burkina Faso",
+        "ville": "Ouagadougou",
+        "email": "and-gcf@environnement.gov.bf",
+        "type_soumission": "dossier_physique",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": false,
+        "notes": "AND du Burkina Faso. Rattachée au Ministère de l'Environnement."
+      },
+      {
+        "nom": "Autorité Nationale Désignée - Mali",
+        "type": "agence_nationale",
+        "pays": "Mali",
+        "ville": "Bamako",
+        "email": "and-gcf@environnement.gov.ml",
+        "type_soumission": "dossier_physique",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": false,
+        "notes": "AND du Mali."
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Ligne de Crédit Vert IFC",
+    "intermediaires": [
+      {
+        "nom": "Société Générale Côte d'Ivoire (SGCI)",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "creditvert@sgci.ci",
+        "telephone": "+225 27 20 20 12 34",
+        "site_web": "https://www.societegenerale.ci",
+        "url_formulaire": "https://www.societegenerale.ci/fr/entreprises/credits",
+        "type_soumission": "formulaire_en_ligne",
+        "documents_requis": [
+          {"nom": "États financiers audités 3 ans", "format": "pdf", "obligatoire": true},
+          {"nom": "Projet d'investissement vert identifié", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Plan d'affaires avec composante verte", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Vérification liste d'exclusion IFC", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Prendre rendez-vous avec un conseiller SGCI crédit vert",
+          "Soumettre le dossier de crédit avec composante verte",
+          "Évaluation E&S par la banque (critères IFC simplifiés)",
+          "Accord de crédit avec composante verte",
+          "Assistance technique IFC gratuite pour le projet"
+        ],
+        "delai_traitement": "4-6 semaines",
+        "est_recommande": true,
+        "notes": "Banque partenaire IFC principale en Côte d'Ivoire. Accès à l'assistance technique IFC gratuite."
+      },
+      {
+        "nom": "BICICI (BNP Paribas Côte d'Ivoire)",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "ifc.credits@bicici.com",
+        "telephone": "+225 27 20 20 16 00",
+        "site_web": "https://www.bicici.com",
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": false,
+        "notes": "Filiale BNP Paribas. Partenaire IFC pour les crédits verts."
+      },
+      {
+        "nom": "Ecobank Sénégal",
+        "type": "banque_partenaire",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "corporate.sn@ecobank.com",
+        "telephone": "+221 33 849 00 00",
+        "site_web": "https://www.ecobank.com/sn",
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true,
+        "notes": "Partenaire IFC au Sénégal."
+      },
+      {
+        "nom": "Ecobank Ghana",
+        "type": "banque_partenaire",
+        "pays": "Ghana",
+        "ville": "Accra",
+        "email": "corporate.gh@ecobank.com",
+        "site_web": "https://www.ecobank.com/gh",
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true,
+        "notes": "Partenaire IFC au Ghana."
+      },
+      {
+        "nom": "Société Générale Cameroun",
+        "type": "banque_partenaire",
+        "pays": "Cameroun",
+        "ville": "Douala",
+        "email": "entreprises@sgcameroun.com",
+        "site_web": "https://www.societegenerale.cm",
+        "type_soumission": "email",
+        "delai_traitement": "6-8 semaines",
+        "est_recommande": false,
+        "notes": "Partenaire IFC au Cameroun."
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Fonds de Garantie Verte FAGACE",
+    "intermediaires": [
+      {
+        "nom": "Votre banque habituelle (Côte d'Ivoire)",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": null,
+        "instructions_soumission": "Sollicitez un crédit vert auprès de votre banque habituelle. C'est elle qui soumettra la demande de garantie au FAGACE en votre nom.",
+        "type_soumission": "email",
+        "documents_requis": [
+          {"nom": "Dossier de crédit standard", "format": "pdf", "obligatoire": true},
+          {"nom": "Politique environnementale documentée", "format": "pdf", "obligatoire": true},
+          {"nom": "États financiers récents", "format": "pdf", "obligatoire": true},
+          {"nom": "Historique de paiement (12 mois)", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Solliciter un crédit vert auprès de votre banque",
+          "La banque soumet la demande de garantie au FAGACE",
+          "Évaluation ESG et projet par le FAGACE (2-3 semaines)",
+          "Émission de la lettre de garantie FAGACE",
+          "La banque accorde le crédit garanti"
+        ],
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true,
+        "notes": "Le FAGACE ne traite pas directement avec les entreprises. Passez par votre banque."
+      },
+      {
+        "nom": "Votre banque habituelle (Sénégal)",
+        "type": "banque_partenaire",
+        "pays": "Sénégal",
+        "ville": null,
+        "type_soumission": "email",
+        "instructions_soumission": "Sollicitez un crédit vert auprès de votre banque habituelle au Sénégal.",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true
+      },
+      {
+        "nom": "Votre banque habituelle (Mali)",
+        "type": "banque_partenaire",
+        "pays": "Mali",
+        "ville": null,
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true
+      },
+      {
+        "nom": "Votre banque habituelle (Burkina Faso)",
+        "type": "banque_partenaire",
+        "pays": "Burkina Faso",
+        "ville": null,
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true
+      },
+      {
+        "nom": "Votre banque habituelle (Togo)",
+        "type": "banque_partenaire",
+        "pays": "Togo",
+        "ville": null,
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true
+      },
+      {
+        "nom": "Votre banque habituelle (Cameroun)",
+        "type": "banque_partenaire",
+        "pays": "Cameroun",
+        "ville": null,
+        "type_soumission": "email",
+        "delai_traitement": "4-8 semaines",
+        "est_recommande": true
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Fonds Climat BCEAO",
+    "intermediaires": [
+      {
+        "nom": "Société Générale Côte d'Ivoire (SGCI)",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "entreprises@sgci.ci",
+        "site_web": "https://www.societegenerale.ci",
+        "type_soumission": "formulaire_en_ligne",
+        "url_formulaire": "https://www.societegenerale.ci/fr/entreprises/financement",
+        "instructions_soumission": "Demander un crédit vert à taux bonifié BCEAO auprès de votre banque UEMOA.",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": true,
+        "notes": "La BCEAO refinance via les banques commerciales. Le taux est de 3,5-5,5% selon notation ESG."
+      },
+      {
+        "nom": "Ecobank Côte d'Ivoire",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "corporate.ci@ecobank.com",
+        "site_web": "https://www.ecobank.com/ci",
+        "type_soumission": "email",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": false
+      },
+      {
+        "nom": "Banque Atlantique Sénégal",
+        "type": "banque_partenaire",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "entreprises@banqueatlantique.sn",
+        "site_web": "https://www.banqueatlantique.net",
+        "type_soumission": "email",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": true
+      },
+      {
+        "nom": "Coris Bank Burkina Faso",
+        "type": "banque_partenaire",
+        "pays": "Burkina Faso",
+        "ville": "Ouagadougou",
+        "email": "contact@coris-bank.com",
+        "site_web": "https://www.coris-bank.com",
+        "type_soumission": "email",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": true
+      },
+      {
+        "nom": "BOA Mali (Bank of Africa)",
+        "type": "banque_partenaire",
+        "pays": "Mali",
+        "ville": "Bamako",
+        "email": "info@boamali.com",
+        "site_web": "https://www.boamali.com",
+        "type_soumission": "email",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": true
+      },
+      {
+        "nom": "Orabank Togo",
+        "type": "banque_partenaire",
+        "pays": "Togo",
+        "ville": "Lomé",
+        "email": "info@orabank.net",
+        "site_web": "https://www.orabank.net",
+        "type_soumission": "email",
+        "delai_traitement": "3-6 semaines",
+        "est_recommande": true
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Programme SUNREF Afrique de l'Ouest",
+    "intermediaires": [
+      {
+        "nom": "Société Générale Côte d'Ivoire (SGCI)",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "sunref@sgci.ci",
+        "site_web": "https://www.societegenerale.ci",
+        "url_formulaire": "https://www.societegenerale.ci/fr/entreprises/credits",
+        "type_soumission": "formulaire_en_ligne",
+        "instructions_soumission": "Demander un crédit SUNREF. Un audit énergétique gratuit sera réalisé par un expert agréé.",
+        "documents_requis": [
+          {"nom": "Identification du projet vert", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Dossier de crédit bancaire standard", "format": "pdf", "obligatoire": true},
+          {"nom": "Preuve d'existence formelle (min 2 ans)", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Contacter la SGCI pour un crédit SUNREF",
+          "Audit énergétique gratuit par un expert SUNREF agréé",
+          "L'expert identifie les investissements éligibles",
+          "La banque monte le dossier avec le rapport d'audit",
+          "Accord de prêt aux conditions SUNREF",
+          "Après réalisation : vérification et versement prime 10-15%"
+        ],
+        "delai_traitement": "4-10 semaines",
+        "est_recommande": true,
+        "notes": "Prime d'investissement de 10-15% après réalisation. Audit énergétique gratuit inclus."
+      },
+      {
+        "nom": "Ecobank Sénégal",
+        "type": "banque_partenaire",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "sunref.sn@ecobank.com",
+        "site_web": "https://www.ecobank.com/sn",
+        "type_soumission": "email",
+        "delai_traitement": "4-10 semaines",
+        "est_recommande": true,
+        "notes": "Partenaire SUNREF au Sénégal."
+      },
+      {
+        "nom": "BICICI Côte d'Ivoire",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "sunref@bicici.com",
+        "site_web": "https://www.bicici.com",
+        "type_soumission": "email",
+        "delai_traitement": "4-10 semaines",
+        "est_recommande": false,
+        "notes": "Second partenaire SUNREF en Côte d'Ivoire."
+      },
+      {
+        "nom": "Société Générale Cameroun",
+        "type": "banque_partenaire",
+        "pays": "Cameroun",
+        "ville": "Douala",
+        "email": "sunref@sgcameroun.com",
+        "site_web": "https://www.societegenerale.cm",
+        "type_soumission": "email",
+        "delai_traitement": "6-10 semaines",
+        "est_recommande": true,
+        "notes": "Partenaire SUNREF au Cameroun."
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Fonds Paysan Résilient FIDA",
+    "intermediaires": [
+      {
+        "nom": "Bureau FIDA Afrique de l'Ouest (Dakar)",
+        "type": "agence_nationale",
+        "pays": null,
+        "ville": "Dakar",
+        "email": "ifad-wca@ifad.org",
+        "telephone": "+221 33 859 61 00",
+        "site_web": "https://www.ifad.org/fr/web/operations/region/wca",
+        "url_formulaire": "https://www.ifad.org/fr/calls-for-proposals",
+        "type_soumission": "portail_dedie",
+        "documents_requis": [
+          {"nom": "Note conceptuelle (3-5 pages)", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Preuve de statut juridique", "format": "pdf", "obligatoire": true},
+          {"nom": "Plan d'impact adaptation climatique", "format": "pdf", "obligatoire": true},
+          {"nom": "Preuve d'apport propre 20%", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Surveiller les appels à propositions FIDA (avril et octobre)",
+          "Soumettre la note conceptuelle via le portail FIDA",
+          "Si présélectionné : atelier de formulation avec l'équipe FIDA pays",
+          "Soumettre la proposition complète",
+          "Évaluation et approbation par le comité régional"
+        ],
+        "delai_traitement": "3-6 mois",
+        "est_recommande": true,
+        "notes": "Bureau régional couvrant l'Afrique de l'Ouest. Appels à propositions en avril et octobre."
+      },
+      {
+        "nom": "FIDA Côte d'Ivoire (correspondant pays)",
+        "type": "agence_nationale",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "ifad-civ@ifad.org",
+        "type_soumission": "email",
+        "delai_traitement": "3-6 mois",
+        "est_recommande": false,
+        "notes": "Point focal FIDA en Côte d'Ivoire."
+      },
+      {
+        "nom": "FIDA Mali (correspondant pays)",
+        "type": "agence_nationale",
+        "pays": "Mali",
+        "ville": "Bamako",
+        "email": "ifad-mli@ifad.org",
+        "type_soumission": "email",
+        "delai_traitement": "3-6 mois",
+        "est_recommande": false,
+        "notes": "Point focal FIDA au Mali."
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Ligne Verte BEI-Proparco",
+    "intermediaires": [
+      {
+        "nom": "Bureau Proparco Abidjan",
+        "type": "banque_partenaire",
+        "pays": "Côte d'Ivoire",
+        "ville": "Abidjan",
+        "email": "abidjan@proparco.fr",
+        "telephone": "+225 27 20 22 68 12",
+        "site_web": "https://www.proparco.fr",
+        "url_formulaire": "https://www.proparco.fr/fr/page-nous-contacter",
+        "type_soumission": "formulaire_en_ligne",
+        "instructions_soumission": "Candidature directe via le portail BEI ou contact avec le bureau Proparco local.",
+        "documents_requis": [
+          {"nom": "Business plan complet", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "Plan d'investissement vert détaillé", "format": "pdf/docx", "obligatoire": true},
+          {"nom": "États financiers audités 2 ans", "format": "pdf", "obligatoire": true},
+          {"nom": "Engagement reporting ESG annuel", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Expression d'intérêt via le portail ou contact bureau local",
+          "Diagnostic ESG préliminaire gratuit",
+          "Soumission du dossier complet",
+          "Due diligence financière et environnementale (4-6 semaines)",
+          "Comité d'investissement BEI/Proparco",
+          "Négociation et signature"
+        ],
+        "delai_traitement": "2-4 mois",
+        "est_recommande": true,
+        "notes": "Candidature directe possible. Diagnostic ESG préliminaire gratuit. Assistance technique incluse."
+      },
+      {
+        "nom": "Bureau Proparco Dakar",
+        "type": "banque_partenaire",
+        "pays": "Sénégal",
+        "ville": "Dakar",
+        "email": "dakar@proparco.fr",
+        "telephone": "+221 33 849 29 30",
+        "site_web": "https://www.proparco.fr",
+        "type_soumission": "formulaire_en_ligne",
+        "url_formulaire": "https://www.proparco.fr/fr/page-nous-contacter",
+        "delai_traitement": "2-4 mois",
+        "est_recommande": true,
+        "notes": "Bureau Proparco pour le Sénégal et l'Afrique de l'Ouest."
+      }
+    ]
+  },
+  {
+    "fonds_nom": "Programme SREP - Énergie Renouvelable",
+    "intermediaires": [
+      {
+        "nom": "Banque Mondiale - Bureau Afrique de l'Ouest",
+        "type": "bmd",
+        "pays": null,
+        "ville": "Dakar",
+        "email": "srep-westafrica@worldbank.org",
+        "site_web": "https://www.worldbank.org/en/region/afr",
+        "url_formulaire": "https://www.cif.org/topics/scaling-renewable-energy-low-income-countries",
+        "type_soumission": "portail_dedie",
+        "documents_requis": [
+          {"nom": "Projet 100% énergie renouvelable documenté", "format": "pdf", "obligatoire": true},
+          {"nom": "Preuve de viabilité financière sur 10 ans", "format": "pdf/xlsx", "obligatoire": true},
+          {"nom": "Partenariat avec entité locale", "format": "pdf", "obligatoire": true},
+          {"nom": "Plan de maintenance post-projet", "format": "pdf", "obligatoire": true},
+          {"nom": "Alignement Plan d'Investissement SREP national", "format": "pdf", "obligatoire": true}
+        ],
+        "etapes_specifiques": [
+          "Vérifier l'inscription dans le Plan d'Investissement SREP de votre pays",
+          "Contacter la Banque Mondiale (bureau régional)",
+          "Soumettre le projet via la BMD partenaire",
+          "Évaluation technique par les experts CIF (6-8 semaines)",
+          "Validation par le sous-comité SREP (semestriel)",
+          "Approbation finale par la BMD partenaire"
+        ],
+        "delai_traitement": "6-12 mois",
+        "est_recommande": true,
+        "notes": "BMD principale pour le SREP en Afrique de l'Ouest. Processus long mais financement conséquent."
+      },
+      {
+        "nom": "BAD - Département Énergie",
+        "type": "bmd",
+        "pays": null,
+        "ville": "Abidjan",
+        "email": "energy@afdb.org",
+        "site_web": "https://www.afdb.org",
+        "type_soumission": "portail_dedie",
+        "delai_traitement": "6-12 mois",
+        "est_recommande": false,
+        "notes": "Alternative à la Banque Mondiale comme BMD partenaire pour le SREP."
+      },
+      {
+        "nom": "Bureau Banque Mondiale Mali",
+        "type": "bmd",
+        "pays": "Mali",
+        "ville": "Bamako",
+        "email": "mali@worldbank.org",
+        "site_web": "https://www.worldbank.org/en/country/mali",
+        "type_soumission": "portail_dedie",
+        "delai_traitement": "6-12 mois",
+        "est_recommande": false,
+        "notes": "Le Mali est un pays SREP prioritaire. Contact local."
+      }
+    ]
+  }
+]

@@ -31,6 +31,7 @@ const adminNav = [
   { to: '/admin/skills', label: 'Skills' },
   { to: '/admin/referentiels', label: 'Référentiels' },
   { to: '/admin/fonds', label: 'Fonds Verts' },
+  { to: '/admin/intermediaires', label: 'Intermédiaires' },
   { to: '/admin/templates', label: 'Templates' },
   { to: '/admin/stats', label: 'Statistiques' },
 ]

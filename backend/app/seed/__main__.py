@@ -18,6 +18,7 @@ from app.core.database import async_session
 from app.seed.seed_skills import seed_skills
 from app.seed.seed_referentiels import seed_referentiels
 from app.seed.seed_fonds import seed_fonds
+from app.seed.seed_intermediaires import seed_intermediaires
 from app.seed.seed_benchmarks import seed_benchmarks
 from app.seed.seed_fonds_chunks import seed_fonds_chunks
 from app.seed.seed_report_templates import seed_report_templates
@@ -36,25 +37,28 @@ async def main():
         print(f"[2/7] Référentiels ESG : {n} insérés/mis à jour")
 
         n = await seed_fonds(db)
-        print(f"[3/7] Fonds verts : {n} insérés")
+        print(f"[3/9] Fonds verts : {n} insérés")
+
+        n = await seed_intermediaires(db)
+        print(f"[4/9] Intermédiaires : {n} insérés/mis à jour")
 
         n = await seed_benchmarks(db)
-        print(f"[4/7] Benchmarks sectoriels : {n} insérés")
+        print(f"[5/9] Benchmarks sectoriels : {n} insérés")
 
         try:
             n = await seed_fonds_chunks(db)
-            print(f"[5/7] Fonds chunks (RAG) : {n} insérés")
+            print(f"[6/9] Fonds chunks (RAG) : {n} insérés")
         except Exception as e:
-            print(f"[5/7] Fonds chunks (RAG) : skip ({e})")
+            print(f"[6/9] Fonds chunks (RAG) : skip ({e})")
 
         n = await seed_report_templates(db)
-        print(f"[6/8] Report templates : {n} insérés")
+        print(f"[7/9] Report templates : {n} insérés")
 
         n = await seed_fund_configs(db)
-        print(f"[7/8] Fund site configs : {n} insérés")
+        print(f"[8/9] Fund site configs : {n} insérés")
 
         n = await seed_demo(db)
-        print(f"[8/8] Données de démo : {n} objets créés")
+        print(f"[9/9] Données de démo : {n} objets créés")
 
         print("\n=== Seed terminé ===")
 
