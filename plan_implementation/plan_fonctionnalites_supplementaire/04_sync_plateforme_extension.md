@@ -10,12 +10,12 @@
 
 ## Progression
 
-- [ ] 4.1 Creer le content script `chrome-extension/src/content/platform-bridge.ts` (pont plateforme <-> extension)
-- [ ] 4.2 Modifier `chrome-extension/manifest.json` : ajouter content_script pour localhost:5173 et domaine prod
-- [ ] 4.3 Creer le composable `frontend/src/composables/useExtension.ts` (detection extension, envoi messages, fallbacks)
-- [ ] 4.4 Ajouter les handlers `OPEN_FUND_APPLICATION` et `GET_APPLICATION_PROGRESS` dans le service worker
-- [ ] 4.5 Integrer `useExtension` dans `ChatMessage.vue` pour les boutons "Ouvrir avec l'extension"
-- [ ] 4.6 Creer l'endpoint `POST /api/extension/events` pour recevoir les evenements de l'extension
+- [x] 4.1 Creer le content script `chrome-extension/src/content/platform-bridge.ts` (pont plateforme <-> extension)
+- [x] 4.2 Modifier `chrome-extension/manifest.json` : ajouter content_script pour localhost:5173 et domaine prod
+- [x] 4.3 Creer le composable `frontend/src/composables/useExtension.ts` (detection extension, envoi messages, fallbacks)
+- [x] 4.4 Ajouter les handlers `OPEN_FUND_APPLICATION` et `GET_APPLICATION_PROGRESS` dans le service worker
+- [x] 4.5 Integrer `useExtension` dans `SkillIndicator.vue` pour les boutons "Ouvrir avec l'extension"
+- [x] 4.6 Creer l'endpoint `POST /api/extension/events` pour recevoir les evenements de l'extension
 - [ ] 4.7 Tester : clic "Ouvrir avec l'extension" dans le chat -> ouvre onglet + side panel + guide
 
 ## Objectif
