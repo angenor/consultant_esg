@@ -213,13 +213,25 @@ async function handleSaveProgress(payload: {
   }
 }
 
+async function tryOpenSidePanel(tabId: number): Promise<boolean> {
+  try {
+    await chrome.sidePanel.open({ tabId })
+    return true
+  } catch {
+    // sidePanel.open() requiert un geste utilisateur — afficher le badge pour inviter au clic
+    chrome.action.setBadgeText({ text: '►', tabId })
+    chrome.action.setBadgeBackgroundColor({ color: '#2563eb', tabId })
+    return false
+  }
+}
+
 async function handleOpenSidePanel(
   sender: chrome.runtime.MessageSender,
   payload?: { applicationId?: string; config?: FundSiteConfig }
 ) {
   const tab = sender.tab || (await chrome.tabs.query({ active: true, currentWindow: true }))[0]
   if (tab?.id) {
-    await chrome.sidePanel.open({ tabId: tab.id })
+    await tryOpenSidePanel(tab.id)
     // Transmettre l'applicationId au side panel si fourni
     if (payload?.applicationId) {
       setTimeout(() => {
@@ -262,7 +274,7 @@ async function handleOpenFundApplication(payload: {
     })
 
     if (tab.id) {
-      await chrome.sidePanel.open({ tabId: tab.id })
+      await tryOpenSidePanel(tab.id)
       // Transmettre l'applicationId au side panel
       if (payload.applicationId) {
         setTimeout(() => {
@@ -345,11 +357,19 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
 })
 
+// Ouvrir le side panel via clic sur l'icone extension (geste utilisateur valide)
+chrome.action.onClicked.addListener(async (tab) => {
+  if (tab.id) {
+    await chrome.sidePanel.open({ tabId: tab.id })
+    chrome.action.setBadgeText({ text: '', tabId: tab.id })
+  }
+})
+
 chrome.notifications.onClicked.addListener(async (notificationId) => {
   if (notificationId.startsWith('fund-')) {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
     if (tab?.id) {
-      chrome.sidePanel.open({ tabId: tab.id })
+      await tryOpenSidePanel(tab.id)
     }
   }
 })

@@ -25,6 +25,12 @@ class FieldSuggestRequest(BaseModel):
     context: str = ""
 
 
+class UpdateApplicationRequest(BaseModel):
+    status: str | None = None
+    notes: str | None = None
+    url_candidature: str | None = None
+
+
 class ExtensionEventRequest(BaseModel):
     type: str  # "step_completed" | "form_submitted" | "error"
     application_id: UUID | None = None

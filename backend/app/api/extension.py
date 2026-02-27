@@ -14,6 +14,7 @@ from app.models.fonds_vert import FondsVert
 from app.models.fund_application import FundApplication, FundSiteConfig
 from app.schemas.extension import (
     CreateApplicationRequest,
+    UpdateApplicationRequest,
     SaveProgressRequest,
     FieldSuggestRequest,
     ExtensionEventRequest,
@@ -149,6 +150,65 @@ async def create_application(
         "id": str(application.id),
         "status": application.status,
         "progress_pct": application.progress_pct,
+    }
+
+
+VALID_STATUSES = {"brouillon", "en_cours", "en_attente_intermediaire", "soumise", "acceptee", "refusee", "abandonnee"}
+
+
+@router.put("/applications/{application_id}")
+async def update_application(
+    application_id: str,
+    data: UpdateApplicationRequest,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """Met a jour une candidature (statut, notes, url)"""
+    from uuid import UUID
+
+    application = await db.get(FundApplication, UUID(application_id))
+    if not application:
+        raise HTTPException(404, "Candidature non trouvee")
+
+    # Verifier que l'application appartient a l'utilisateur
+    entreprises = await db.execute(
+        select(Entreprise.id).where(Entreprise.user_id == user.id)
+    )
+    user_entreprise_ids = set(entreprises.scalars().all())
+    if application.entreprise_id not in user_entreprise_ids:
+        raise HTTPException(403, "Acces non autorise")
+
+    if data.status is not None:
+        if data.status not in VALID_STATUSES:
+            raise HTTPException(400, f"Statut invalide: {data.status}")
+        application.status = data.status
+        if data.status == "soumise":
+            application.submitted_at = datetime.now(timezone.utc)
+            application.progress_pct = 100
+    if data.notes is not None:
+        application.notes = data.notes
+    if data.url_candidature is not None:
+        application.url_candidature = data.url_candidature
+
+    await db.commit()
+    await db.refresh(application)
+
+    return {
+        "id": str(application.id),
+        "entreprise_id": str(application.entreprise_id),
+        "fonds_id": str(application.fonds_id) if application.fonds_id else None,
+        "fonds_nom": application.fonds_nom,
+        "fonds_institution": application.fonds_institution,
+        "status": application.status,
+        "progress_pct": application.progress_pct,
+        "form_data": application.form_data,
+        "current_step": application.current_step,
+        "total_steps": application.total_steps,
+        "url_candidature": application.url_candidature,
+        "notes": application.notes,
+        "started_at": application.started_at.isoformat() if application.started_at else None,
+        "submitted_at": application.submitted_at.isoformat() if application.submitted_at else None,
+        "updated_at": application.updated_at.isoformat() if application.updated_at else None,
     }
 
 
