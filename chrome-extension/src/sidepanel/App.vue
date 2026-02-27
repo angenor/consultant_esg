@@ -95,12 +95,19 @@ onMounted(async () => {
   const data = await chrome.runtime.sendMessage({ type: 'GET_COMPANY_DATA' })
   companyData.value = data
 
-  // Ecouter les detections de fonds
+  // Ecouter les detections de fonds (ou ouverture depuis le popup)
   chrome.runtime.onMessage.addListener((message) => {
-    if (message.type === 'FUND_DETECTED' && message.payload?.config) {
-      fundConfig.value = message.payload.config
-      currentStep.value = 0
-      autoCreateApplication(message.payload.config)
+    if (message.type === 'FUND_DETECTED') {
+      if (message.payload?.config) {
+        fundConfig.value = message.payload.config
+        currentStep.value = 0
+      }
+      // Reutiliser l'application existante si fournie (depuis popup)
+      if (message.payload?.applicationId) {
+        activeApplicationId.value = message.payload.applicationId
+      } else if (message.payload?.config) {
+        autoCreateApplication(message.payload.config)
+      }
     }
   })
 })
@@ -108,7 +115,7 @@ onMounted(async () => {
 async function autoCreateApplication(config: FundSiteConfig) {
   if (!companyData.value?.entreprise) return
 
-  const app = await createApplication({
+  const { application: app } = await createApplication({
     fonds_id: config.fonds_id,
     fonds_nom: config.fonds_nom || 'Fonds inconnu',
     url_candidature: window.location?.href || '',

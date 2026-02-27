@@ -74,7 +74,19 @@
 
     <!-- Actions -->
     <div class="flex gap-2">
-      <button
+      <button v-if="existingApplication"
+        @click="$emit('resume-application', existingApplication)"
+        class="flex-1 text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg
+               hover:bg-blue-100 transition-colors font-medium text-center flex items-center justify-center gap-1">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Reprendre ({{ existingApplication.progress_pct }}%)
+      </button>
+      <button v-else
         @click="$emit('start-application', fonds)"
         class="flex-1 text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-lg
                hover:bg-emerald-100 transition-colors font-medium text-center">
@@ -97,16 +109,18 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { FondsVert } from '@shared/types'
+import type { FondsVert, FundApplication } from '@shared/types'
 
 const props = defineProps<{
   fonds: FondsVert
+  existingApplication?: FundApplication | null
 }>()
 
 const showTooltip = ref(false)
 
 defineEmits<{
   'start-application': [fonds: FondsVert]
+  'resume-application': [app: FundApplication]
 }>()
 
 const compatibilityColor = computed(() => {

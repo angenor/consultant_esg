@@ -115,10 +115,43 @@
           v-for="fonds in sortedRecommendations"
           :key="fonds.id"
           :fonds="fonds"
+          :existing-application="getExistingApplication(fonds.id)"
           @start-application="handleStartApplication"
+          @resume-application="$emit('select-application', $event)"
         />
       </div>
     </section>
+
+    <!-- Modal confirmation candidature -->
+    <div v-if="pendingFonds" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-xl p-4 m-4 max-w-sm w-full">
+        <h3 class="font-semibold text-gray-800">Commencer la candidature ?</h3>
+        <p class="text-sm text-gray-500 mt-1">
+          {{ pendingFonds.nom }} — {{ pendingFonds.institution || '' }}
+        </p>
+        <!-- Avertissement mode d'acces intermediaire -->
+        <div v-if="pendingFonds.mode_acces && !isDirectAccess(pendingFonds.mode_acces)"
+             class="mt-2 bg-amber-50 rounded-lg p-2 text-xs text-amber-700">
+          <span class="font-medium">{{ pendingModeAccesLabel }}</span> —
+          Ce fonds necessite un intermediaire.
+        </div>
+        <div class="flex gap-2 mt-4">
+          <button @click="pendingFonds = null"
+                  class="flex-1 text-sm px-3 py-2 rounded-lg border border-gray-200
+                         text-gray-600 hover:bg-gray-50 transition-colors">
+            Annuler
+          </button>
+          <button @click="confirmApplication"
+                  class="flex-1 text-sm px-3 py-2 rounded-lg bg-emerald-600 text-white
+                         hover:bg-emerald-700 transition-colors font-medium">
+            Postuler
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast feedback -->
+    <Toast :visible="toastVisible" :message="toastMessage" :type="toastType" />
 
     <!-- Derniere synchro -->
     <div class="flex items-center justify-between text-xs text-gray-400 pt-2">
@@ -149,6 +182,7 @@ import { t } from '@shared/i18n'
 import { useApplications } from '@shared/stores/applications'
 import ApplicationCard from './ApplicationCard.vue'
 import FundRecommendation from './FundRecommendation.vue'
+import Toast from './Toast.vue'
 
 const REFERENTIEL_LABELS: Record<string, string> = {
   bceao_fd_2024: 'BCEAO Finance Durable',
@@ -168,23 +202,97 @@ const emit = defineEmits<{
 
 const { createApplication } = useApplications()
 
-async function handleStartApplication(fonds: FondsVert) {
-  try {
-    const app = await createApplication({
-      fonds_id: fonds.id,
-      fonds_nom: fonds.nom,
-      fonds_institution: fonds.institution || '',
-      url_candidature: fonds.url_source || undefined,
-    })
-    // Rafraîchir les données pour afficher la nouvelle candidature
+// --- Modal de confirmation ---
+const pendingFonds = ref<FondsVert | null>(null)
+
+const MODE_ACCES_LABELS: Record<string, string> = {
+  banque_partenaire: 'Via banque partenaire',
+  appel_propositions: 'Appel a propositions',
+  entite_accreditee: 'Via entite accreditee',
+  direct: 'Acces direct',
+  garantie_bancaire: 'Garantie bancaire',
+  banque_multilaterale: 'Via banque multilaterale',
+}
+
+function isDirectAccess(mode: string | null): boolean {
+  return !mode || mode === 'direct' || mode === 'appel_propositions'
+}
+
+const pendingModeAccesLabel = computed(() =>
+  MODE_ACCES_LABELS[pendingFonds.value?.mode_acces || ''] || pendingFonds.value?.mode_acces || '',
+)
+
+function handleStartApplication(fonds: FondsVert) {
+  pendingFonds.value = fonds
+}
+
+async function confirmApplication() {
+  if (!pendingFonds.value) return
+
+  const fonds = pendingFonds.value
+  pendingFonds.value = null
+
+  const { application: app, isDuplicate } = await createApplication({
+    fonds_id: fonds.id,
+    fonds_nom: fonds.nom,
+    fonds_institution: fonds.institution || '',
+    url_candidature: fonds.url_source || undefined,
+  })
+
+  if (isDuplicate) {
+    showToast('Candidature deja en cours pour ce fonds', 'warning')
     emit('refresh')
-    // Si le fonds a une URL, ouvrir dans un nouvel onglet pour commencer
+    return
+  }
+
+  if (!app) {
+    showToast('Erreur lors de la creation', 'warning')
+    return
+  }
+
+  emit('refresh')
+
+  // Workflow adapte selon mode_acces
+  if (isDirectAccess(fonds.mode_acces)) {
+    // Mode direct / appel a propositions : ouvrir le site + side panel
     if (fonds.url_source) {
       chrome.tabs.create({ url: fonds.url_source })
     }
-  } catch (e) {
-    console.error('Erreur création candidature:', e)
+    chrome.runtime.sendMessage({
+      type: 'OPEN_SIDEPANEL',
+      payload: { applicationId: app.id },
+    })
+    showToast(`Candidature demarree pour ${fonds.nom}`, 'success')
+  } else if (['banque_partenaire', 'entite_accreditee', 'banque_multilaterale'].includes(fonds.mode_acces || '')) {
+    // Mode intermediaire
+    const intermediaireUrl = fonds.acces_details?.intermediaire as string | undefined
+    if (intermediaireUrl) {
+      chrome.tabs.create({ url: intermediaireUrl })
+    }
+    showToast(`Contactez l'intermediaire pour ${fonds.nom}`, 'info')
+  } else if (fonds.mode_acces === 'garantie_bancaire') {
+    showToast('Consultez votre banque pour la garantie', 'info')
+  } else {
+    showToast(`Candidature demarree pour ${fonds.nom}`, 'success')
   }
+}
+
+// --- Toast feedback ---
+const toastVisible = ref(false)
+const toastMessage = ref('')
+const toastType = ref<'success' | 'warning' | 'info'>('success')
+let toastTimer: ReturnType<typeof setTimeout> | null = null
+
+function showToast(msg: string, type: 'success' | 'warning' | 'info' = 'success') {
+  toastMessage.value = msg
+  toastType.value = type
+  toastVisible.value = true
+  if (toastTimer) clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => { toastVisible.value = false }, 3000)
+}
+
+function getExistingApplication(fondsId: string): FundApplication | null {
+  return activeApplications.value.find(a => a.fonds_id === fondsId) || null
 }
 
 const sortMode = ref<'compatibility' | 'montant' | 'date_limite'>('compatibility')

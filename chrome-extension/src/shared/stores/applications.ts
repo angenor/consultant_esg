@@ -32,14 +32,21 @@ export function useApplications() {
     url_candidature?: string
     total_steps?: number
     notes?: string
-  }): Promise<FundApplication | null> {
+  }): Promise<{ application: FundApplication | null; isDuplicate: boolean }> {
     try {
       const app = await apiClient.post<FundApplication>('/api/extension/applications', data)
       applications.value.unshift(app)
-      return app
+      return { application: app, isDuplicate: false }
     } catch (error) {
+      // Doublon detecte : retourner la candidature existante
+      if (error instanceof ApiError && error.status === 409) {
+        const existing = applications.value.find(
+          a => a.fonds_id === data.fonds_id && ['brouillon', 'en_cours'].includes(a.status)
+        )
+        return { application: existing || null, isDuplicate: true }
+      }
       console.error('Erreur creation candidature:', error)
-      return null
+      return { application: null, isDuplicate: false }
     }
   }
 

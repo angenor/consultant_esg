@@ -68,7 +68,7 @@ async function handleMessage(
       })
 
     case 'OPEN_SIDEPANEL':
-      return handleOpenSidePanel(sender)
+      return handleOpenSidePanel(sender, message.payload as { applicationId?: string; config?: FundSiteConfig } | undefined)
 
     case 'GET_FUND_CONFIGS':
       return handleGetFundConfigs()
@@ -213,10 +213,25 @@ async function handleSaveProgress(payload: {
   }
 }
 
-async function handleOpenSidePanel(sender: chrome.runtime.MessageSender) {
+async function handleOpenSidePanel(
+  sender: chrome.runtime.MessageSender,
+  payload?: { applicationId?: string; config?: FundSiteConfig }
+) {
   const tab = sender.tab || (await chrome.tabs.query({ active: true, currentWindow: true }))[0]
   if (tab?.id) {
-    chrome.sidePanel.open({ tabId: tab.id })
+    await chrome.sidePanel.open({ tabId: tab.id })
+    // Transmettre l'applicationId au side panel si fourni
+    if (payload?.applicationId) {
+      setTimeout(() => {
+        chrome.runtime.sendMessage({
+          type: 'FUND_DETECTED',
+          payload: {
+            config: payload.config || null,
+            applicationId: payload.applicationId,
+          },
+        })
+      }, 500)
+    }
   }
   return { ok: true }
 }
@@ -231,6 +246,7 @@ async function handleOpenFundApplication(payload: {
   fonds_id: string
   intermediaire_id?: string
   application_data?: Record<string, unknown>
+  applicationId?: string
 }) {
   try {
     const tab = await chrome.tabs.create({ url: payload.url })
@@ -241,11 +257,24 @@ async function handleOpenFundApplication(payload: {
         intermediaire_id: payload.intermediaire_id,
         tab_id: tab.id,
         application_data: payload.application_data,
+        applicationId: payload.applicationId,
       },
     })
 
     if (tab.id) {
       await chrome.sidePanel.open({ tabId: tab.id })
+      // Transmettre l'applicationId au side panel
+      if (payload.applicationId) {
+        setTimeout(() => {
+          chrome.runtime.sendMessage({
+            type: 'FUND_DETECTED',
+            payload: {
+              config: null,
+              applicationId: payload.applicationId,
+            },
+          })
+        }, 500)
+      }
     }
 
     return { opened: true, tab_id: tab.id }
