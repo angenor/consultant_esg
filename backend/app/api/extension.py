@@ -1,9 +1,13 @@
+import logging
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.core.database import get_db
 from app.core.dependencies import get_current_user
+from app.core.notifications import create_notification
 from app.models.user import User
 from app.models.entreprise import Entreprise
 from app.models.fonds_vert import FondsVert
@@ -12,7 +16,10 @@ from app.schemas.extension import (
     CreateApplicationRequest,
     SaveProgressRequest,
     FieldSuggestRequest,
+    ExtensionEventRequest,
 )
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/extension", tags=["extension"])
 
@@ -186,6 +193,85 @@ async def save_progress(
         application.progress_pct = data.progress_pct
 
     await db.commit()
+    return {"status": "ok"}
+
+
+@router.get("/applications/{application_id}")
+async def get_application(
+    application_id: str,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """Retourne une candidature par ID"""
+    from uuid import UUID
+    application = await db.get(FundApplication, UUID(application_id))
+    if not application:
+        raise HTTPException(404, "Candidature non trouvee")
+
+    return {
+        "id": str(application.id),
+        "entreprise_id": str(application.entreprise_id),
+        "fonds_id": str(application.fonds_id) if application.fonds_id else None,
+        "fonds_nom": application.fonds_nom,
+        "fonds_institution": application.fonds_institution,
+        "status": application.status,
+        "progress_pct": application.progress_pct,
+        "form_data": application.form_data,
+        "current_step": application.current_step,
+        "total_steps": application.total_steps,
+        "url_candidature": application.url_candidature,
+        "notes": application.notes,
+        "started_at": application.started_at.isoformat() if application.started_at else None,
+        "submitted_at": application.submitted_at.isoformat() if application.submitted_at else None,
+        "updated_at": application.updated_at.isoformat() if application.updated_at else None,
+    }
+
+
+@router.post("/events")
+async def extension_event(
+    event: ExtensionEventRequest,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """Recoit les evenements de l'extension (etape completee, formulaire soumis, erreur)"""
+    if event.type == "step_completed" and event.application_id:
+        application = await db.get(FundApplication, event.application_id)
+        if application:
+            if event.step is not None:
+                application.current_step = event.step
+            if event.progress_pct is not None:
+                application.progress_pct = event.progress_pct
+            await db.commit()
+
+            await create_notification(
+                db,
+                user.id,
+                type="candidature_progress",
+                titre="Progression de candidature",
+                contenu=f"Etape {event.step} completee ({event.progress_pct or 0:.0f}%)",
+            )
+            await db.commit()
+
+    elif event.type == "form_submitted" and event.application_id:
+        application = await db.get(FundApplication, event.application_id)
+        if application:
+            application.status = "soumise"
+            application.submitted_at = datetime.now(timezone.utc)
+            application.progress_pct = 100
+            await db.commit()
+
+            await create_notification(
+                db,
+                user.id,
+                type="candidature_soumise",
+                titre="Candidature soumise",
+                contenu=f"Votre candidature pour {application.fonds_nom} a ete soumise avec succes",
+            )
+            await db.commit()
+
+    elif event.type == "error":
+        logger.error("Extension error from user %s: %s", user.id, event.details)
+
     return {"status": "ok"}
 
 

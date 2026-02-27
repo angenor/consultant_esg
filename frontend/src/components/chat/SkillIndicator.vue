@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import DossierGeneratedCard from './DossierGeneratedCard.vue'
+import { useExtension } from '../../composables/useExtension'
 
 const props = defineProps<{
   name: string
@@ -61,6 +62,36 @@ const fileSizeKb = computed(() => {
 })
 
 const downloading = ref(false)
+
+const { extensionStatus, openFundSite } = useExtension()
+
+const extensionAction = computed(() => {
+  if (props.status !== 'done' || !props.result?.extension_action) return null
+  return props.result.extension_action as {
+    type: string
+    url: string
+    fonds_id: string
+    intermediaire_id?: string
+  }
+})
+
+const openingExtension = ref(false)
+
+async function handleExtensionAction() {
+  if (!extensionAction.value) return
+  openingExtension.value = true
+  try {
+    await openFundSite(
+      extensionAction.value.url,
+      extensionAction.value.fonds_id,
+      extensionAction.value.intermediaire_id,
+    )
+  } catch {
+    window.open(extensionAction.value.url, '_blank')
+  } finally {
+    openingExtension.value = false
+  }
+}
 
 async function handleDownload() {
   if (!downloadUrl.value) return
@@ -151,5 +182,35 @@ async function handleDownload() {
       {{ downloading ? 'Téléchargement...' : downloadLabel }}
       <span v-if="fileSizeKb" class="text-xs text-emerald-500">({{ fileSizeKb }} Ko)</span>
     </button>
+
+    <!-- Extension action (guide_candidature → lancer_soumission) -->
+    <div v-if="extensionAction" class="mt-3">
+      <div v-if="extensionStatus.installed" class="flex gap-2">
+        <button
+          :disabled="openingExtension"
+          class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700 disabled:opacity-50"
+          @click="handleExtensionAction"
+        >
+          <svg v-if="openingExtension" class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+          {{ openingExtension ? 'Ouverture...' : 'Ouvrir avec l\'extension Chrome' }}
+        </button>
+      </div>
+      <div v-else class="rounded-lg bg-amber-50 p-3 text-sm">
+        <p class="text-amber-700">L'extension Chrome ESG Mefali n'est pas detectee.</p>
+        <a
+          :href="extensionAction.url"
+          target="_blank"
+          class="mt-1 inline-block text-emerald-600 underline hover:text-emerald-700"
+        >
+          Ouvrir le site dans un nouvel onglet
+        </a>
+      </div>
+    </div>
   </div>
 </template>

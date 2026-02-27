@@ -23,3 +23,11 @@ class FieldSuggestRequest(BaseModel):
     field_name: str
     field_label: str
     context: str = ""
+
+
+class ExtensionEventRequest(BaseModel):
+    type: str  # "step_completed" | "form_submitted" | "error"
+    application_id: UUID | None = None
+    step: int | None = None
+    progress_pct: float | None = None
+    details: dict = {}

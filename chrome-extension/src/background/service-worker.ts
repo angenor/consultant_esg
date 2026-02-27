@@ -73,6 +73,19 @@ async function handleMessage(
     case 'GET_FUND_CONFIGS':
       return handleGetFundConfigs()
 
+    case 'OPEN_FUND_APPLICATION':
+      return handleOpenFundApplication(message.payload as {
+        url: string
+        fonds_id: string
+        intermediaire_id?: string
+        application_data?: Record<string, unknown>
+      })
+
+    case 'GET_APPLICATION_PROGRESS':
+      return handleGetApplicationProgress(message.payload as {
+        application_id: string
+      })
+
     default:
       console.warn('[ESG Mefali] Message inconnu:', message.type)
       return null
@@ -211,6 +224,47 @@ async function handleOpenSidePanel(sender: chrome.runtime.MessageSender) {
 async function handleGetFundConfigs() {
   const configs = await getFundConfigs()
   return { configs }
+}
+
+async function handleOpenFundApplication(payload: {
+  url: string
+  fonds_id: string
+  intermediaire_id?: string
+  application_data?: Record<string, unknown>
+}) {
+  try {
+    const tab = await chrome.tabs.create({ url: payload.url })
+
+    await chrome.storage.session.set({
+      pending_fund_application: {
+        fonds_id: payload.fonds_id,
+        intermediaire_id: payload.intermediaire_id,
+        tab_id: tab.id,
+        application_data: payload.application_data,
+      },
+    })
+
+    if (tab.id) {
+      await chrome.sidePanel.open({ tabId: tab.id })
+    }
+
+    return { opened: true, tab_id: tab.id }
+  } catch (error) {
+    console.error('[ESG Mefali] Erreur ouverture candidature:', error)
+    return { opened: false, error: String(error) }
+  }
+}
+
+async function handleGetApplicationProgress(payload: { application_id: string }) {
+  try {
+    const app = await apiClient.get<FundApplication>(
+      `/api/extension/applications/${payload.application_id}`
+    )
+    return app
+  } catch (error) {
+    console.error('[ESG Mefali] Erreur récupération progression:', error)
+    return { error: String(error) }
+  }
 }
 
 // ========================================
