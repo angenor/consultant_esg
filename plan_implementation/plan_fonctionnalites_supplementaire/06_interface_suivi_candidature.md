@@ -8,17 +8,17 @@
 
 ## Progression
 
-- [ ] 6.1 Creer l'API `backend/app/api/candidatures.py` (liste, detail, creation, timeline, documents, historique)
-- [ ] 6.2 Creer les schemas `backend/app/schemas/candidature.py`
-- [ ] 6.3 Creer le store Pinia `frontend/src/stores/candidatures.ts`
-- [ ] 6.4 Creer le composant `frontend/src/components/candidatures/StatusBadge.vue`
-- [ ] 6.5 Creer le composant `frontend/src/components/candidatures/CandidatureCard.vue`
-- [ ] 6.6 Creer le composant `frontend/src/components/candidatures/CandidatureTimeline.vue`
-- [ ] 6.7 Creer le composant `frontend/src/components/candidatures/DocumentsList.vue`
-- [ ] 6.8 Creer la vue `frontend/src/views/CandidaturesView.vue` (liste avec filtres)
-- [ ] 6.9 Creer la vue `frontend/src/views/CandidatureDetailView.vue` (detail + timeline + documents)
-- [ ] 6.10 Ajouter routes dans `router/index.ts` + lien dans `AppSidebar.vue`
-- [ ] 6.11 Ajouter le widget "Candidatures en cours" dans `DashboardView.vue`
+- [x] 6.1 Creer l'API `backend/app/api/candidatures.py` (liste, detail, creation, timeline, documents, historique)
+- [x] 6.2 Creer les schemas `backend/app/schemas/candidature.py`
+- [x] 6.3 Creer le store Pinia `frontend/src/stores/candidatures.ts`
+- [x] 6.4 Creer le composant `frontend/src/components/candidatures/StatusBadge.vue`
+- [x] 6.5 Creer le composant `frontend/src/components/candidatures/CandidatureCard.vue`
+- [x] 6.6 Creer le composant `frontend/src/components/candidatures/CandidatureTimeline.vue`
+- [x] 6.7 Creer le composant `frontend/src/components/candidatures/DocumentsList.vue`
+- [x] 6.8 Creer la vue `frontend/src/views/CandidaturesView.vue` (liste avec filtres)
+- [x] 6.9 Creer la vue `frontend/src/views/CandidatureDetailView.vue` (detail + timeline + documents)
+- [x] 6.10 Ajouter routes dans `router/index.ts` + lien dans `AppSidebar.vue`
+- [x] 6.11 Ajouter le widget "Candidatures en cours" dans `DashboardView.vue`
 
 ## Objectif
 

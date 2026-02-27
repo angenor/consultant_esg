@@ -19,6 +19,7 @@ from app.api.reports import router as reports_router
 from app.api.admin import admin_router
 from app.api.intermediaires import router as intermediaires_router
 from app.api.extension import router as extension_router
+from app.api.candidatures import router as candidatures_router
 from app.config import settings
 from app.core.database import engine
 
@@ -57,6 +58,7 @@ app.include_router(dashboard_router)
 app.include_router(intermediaires_router)
 app.include_router(admin_router)
 app.include_router(extension_router)
+app.include_router(candidatures_router)
 
 
 @app.get("/api/health")

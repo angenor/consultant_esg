@@ -47,7 +47,7 @@ Utilisateur
 | 3 | [Generation de dossiers avancee](03_generation_dossiers.md) | 1.5 semaines | Phase 1 | [x] Termine |
 | 4 | [Synchronisation plateforme-extension](04_sync_plateforme_extension.md) | 1 semaine | Phases 2, 3 | [x] Termine |
 | 5 | [Configurations extension pour tous les fonds](05_configs_extension_fonds.md) | 1 semaine | Phase 1 | [x] Termine |
-| 6 | [Interface de suivi des candidatures](06_interface_suivi_candidature.md) | 1 semaine | Phases 4, 5 | [ ] Non demarre |
+| 6 | [Interface de suivi des candidatures](06_interface_suivi_candidature.md) | 1 semaine | Phases 4, 5 | [x] Termine |
 
 **Duree totale estimee : 7 semaines** (avec parallelisation phases 2-3 et phases 5-6)
 
@@ -58,7 +58,7 @@ Utilisateur
 - [x] **Phase 3** : Generation dossiers (10/10 taches)
 - [x] **Phase 4** : Sync plateforme-extension (6/7 taches — code termine, test E2E manuel restant)
 - [x] **Phase 5** : Configs extension fonds (7/8 taches — code termine, test E2E manuel restant)
-- [ ] **Phase 6** : Interface suivi candidatures (0/11 taches)
+- [x] **Phase 6** : Interface suivi candidatures (11/11 taches)
 
 ## Diagramme de dependances
 

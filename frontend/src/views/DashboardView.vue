@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useApi } from '../composables/useApi'
 import { useReferentielStore } from '../stores/referentiel'
+import { useCandidaturesStore } from '../stores/candidatures'
 import ReferentielSelector from '../components/dashboard/ReferentielSelector.vue'
 import ScoreCard from '../components/dashboard/ScoreCard.vue'
 import ScoreComparison from '../components/dashboard/ScoreComparison.vue'
@@ -14,10 +15,12 @@ import FundsMatchList from '../components/dashboard/FundsMatchList.vue'
 import type { FundMatch } from '../components/dashboard/FundsMatchList.vue'
 import ActionPlanSummary from '../components/dashboard/ActionPlanSummary.vue'
 import type { ActionSummary } from '../components/dashboard/ActionPlanSummary.vue'
+import CandidatureCard from '../components/candidatures/CandidatureCard.vue'
 
 const router = useRouter()
 const { get } = useApi()
 const refStore = useReferentielStore()
+const candidaturesStore = useCandidaturesStore()
 
 const loading = ref(true)
 const hasData = ref(false)
@@ -105,7 +108,10 @@ async function loadData() {
   }
 }
 
-onMounted(loadData)
+onMounted(() => {
+  loadData()
+  candidaturesStore.loadCandidatures()
+})
 </script>
 
 <template>
@@ -207,6 +213,42 @@ onMounted(loadData)
 
       <!-- History -->
       <ScoreHistory :history="scoreHistory" :selected-code="selectedRef" />
+
+      <!-- Candidatures en cours -->
+      <div class="rounded-2xl border bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-semibold text-gray-900">Candidatures en cours</h2>
+          <router-link
+            v-if="candidaturesStore.activeCandidatures.length > 0"
+            to="/candidatures"
+            class="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+          >
+            Voir tout
+          </router-link>
+        </div>
+
+        <div v-if="candidaturesStore.activeCandidatures.length === 0" class="text-center py-6">
+          <p class="text-sm text-gray-500">Aucune candidature en cours.</p>
+          <router-link to="/chat" class="mt-2 inline-block text-sm text-emerald-600 hover:underline">
+            Demandez au conseiller IA
+          </router-link>
+        </div>
+
+        <div v-else class="space-y-3">
+          <CandidatureCard
+            v-for="c in candidaturesStore.activeCandidatures.slice(0, 3)"
+            :key="c.id"
+            :candidature="c"
+          />
+          <router-link
+            v-if="candidaturesStore.activeCandidatures.length > 3"
+            to="/candidatures"
+            class="block text-center text-sm text-emerald-600 mt-3"
+          >
+            Voir toutes ({{ candidaturesStore.activeCandidatures.length }})
+          </router-link>
+        </div>
+      </div>
 
       <!-- Fonds + Action Plan -->
       <div class="grid gap-6 lg:grid-cols-2">
