@@ -98,10 +98,21 @@
 
     <!-- Fonds recommandes -->
     <section v-if="data?.fonds_recommandes?.length">
-      <h3 class="font-semibold text-gray-800 text-sm mb-2">{{ t('funds_recommended') }}</h3>
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-semibold text-gray-800 text-sm">{{ t('funds_recommended') }}</h3>
+        <select
+          v-model="sortMode"
+          class="text-[10px] border border-gray-200 rounded-md px-1.5 py-0.5 bg-white
+                 outline-none focus:border-emerald-500 text-gray-600"
+        >
+          <option value="compatibility">Compatibilité</option>
+          <option value="montant">Montant</option>
+          <option value="date_limite">Date limite</option>
+        </select>
+      </div>
       <div class="space-y-2">
         <FundRecommendation
-          v-for="fonds in data.fonds_recommandes.slice(0, 5)"
+          v-for="fonds in sortedRecommendations"
           :key="fonds.id"
           :fonds="fonds"
           @start-application="handleStartApplication"
@@ -175,6 +186,26 @@ async function handleStartApplication(fonds: FondsVert) {
     console.error('Erreur création candidature:', e)
   }
 }
+
+const sortMode = ref<'compatibility' | 'montant' | 'date_limite'>('compatibility')
+
+const sortedRecommendations = computed(() => {
+  const fonds = props.data?.fonds_recommandes?.slice(0, 5) || []
+  if (sortMode.value === 'compatibility') {
+    return [...fonds].sort((a, b) => (b.compatibility_score ?? 0) - (a.compatibility_score ?? 0))
+  }
+  if (sortMode.value === 'montant') {
+    return [...fonds].sort((a, b) => (b.montant_max ?? 0) - (a.montant_max ?? 0))
+  }
+  if (sortMode.value === 'date_limite') {
+    return [...fonds].sort((a, b) => {
+      if (!a.date_limite) return 1
+      if (!b.date_limite) return -1
+      return new Date(a.date_limite).getTime() - new Date(b.date_limite).getTime()
+    })
+  }
+  return fonds
+})
 
 const selectedReferentiel = ref<string>('')
 

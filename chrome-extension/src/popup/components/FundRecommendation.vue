@@ -8,13 +8,44 @@
           {{ fonds.institution }} · {{ formatMontant(fonds.montant_min, fonds.montant_max, fonds.devise) }}
         </p>
       </div>
-      <!-- Score de compatibilité -->
+      <!-- Score de compatibilité avec tooltip -->
       <div v-if="fonds.compatibility_score != null"
-           class="shrink-0 text-right">
-        <div class="text-xs font-bold" :class="compatibilityColor">
+           class="shrink-0 text-right relative"
+           @mouseenter="showTooltip = true"
+           @mouseleave="showTooltip = false">
+        <div class="text-xs font-bold cursor-help" :class="compatibilityColor">
           {{ fonds.compatibility_score }}%
         </div>
         <div class="text-[10px] text-gray-400">compatible</div>
+        <!-- Tooltip explicatif -->
+        <div v-if="showTooltip && fonds.compatibility_details"
+             class="absolute right-0 top-full mt-1 z-50 bg-gray-800 text-white text-[10px]
+                    rounded-lg p-2.5 shadow-lg w-48 leading-relaxed">
+          <div class="font-medium mb-1">{{ fonds.compatibility_score }}% compatible :</div>
+          <div class="space-y-0.5">
+            <div :class="fonds.compatibility_details.pays_eligible ? 'text-emerald-300' : 'text-gray-400'">
+              {{ fonds.compatibility_details.pays_eligible ? '✓' : '✗' }} Pays éligible
+            </div>
+            <div :class="fonds.compatibility_details.secteur_match ? 'text-emerald-300' : 'text-gray-400'">
+              {{ fonds.compatibility_details.secteur_match ? '✓' : '✗' }} Secteur correspondant
+            </div>
+            <div :class="fonds.compatibility_details.score_esg_ok ? 'text-emerald-300' : 'text-gray-400'">
+              {{ fonds.compatibility_details.score_esg_ok ? '✓' : '✗' }} Score ESG suffisant
+            </div>
+            <div :class="fonds.compatibility_details.montant_accessible ? 'text-emerald-300' : 'text-gray-400'">
+              {{ fonds.compatibility_details.montant_accessible ? '✓' : '✗' }} Montant accessible
+            </div>
+            <div v-if="fonds.compatibility_details.bonus_date_limite" class="text-blue-300">
+              + Date limite proche
+            </div>
+            <div v-if="fonds.compatibility_details.bonus_mode_direct" class="text-blue-300">
+              + Accès direct
+            </div>
+            <div v-if="fonds.compatibility_details.malus_esg_trop_bas" class="text-red-300">
+              − Score ESG trop éloigné
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -65,12 +96,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import type { FondsVert } from '@shared/types'
 
 const props = defineProps<{
   fonds: FondsVert
 }>()
+
+const showTooltip = ref(false)
 
 defineEmits<{
   'start-application': [fonds: FondsVert]

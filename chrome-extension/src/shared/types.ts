@@ -61,6 +61,15 @@ export interface FondsVert {
   mode_acces: string | null
   is_active: boolean
   compatibility_score?: number
+  compatibility_details?: {
+    pays_eligible: boolean
+    secteur_match: boolean
+    score_esg_ok: boolean
+    montant_accessible: boolean
+    bonus_date_limite: boolean
+    bonus_mode_direct: boolean
+    malus_esg_trop_bas: boolean
+  }
   score_esg_minimum?: number
   acces_details?: {
     intermediaire: string | null

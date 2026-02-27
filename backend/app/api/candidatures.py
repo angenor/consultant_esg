@@ -111,6 +111,58 @@ async def list_candidatures(
     return items
 
 
+@router.get("/fonds-eligibles")
+async def get_fonds_eligibles(
+    type: str | None = Query(None, description="Filtrer par type: pret, subvention, garantie"),
+    montant_max: float | None = Query(None, description="Montant maximum souhaité"),
+    secteur: str | None = Query(None, description="Filtrer par secteur"),
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    """Retourne les fonds éligibles pour la plateforme web, avec intermédiaires disponibles."""
+    from app.services.fund_matching import get_recommendations
+
+    result = await db.execute(
+        select(Entreprise).where(Entreprise.user_id == user.id)
+    )
+    entreprise = result.scalar_one_or_none()
+
+    recommendations = await get_recommendations(
+        db,
+        entreprise,
+        type_filter=type,
+        montant_max=montant_max,
+        secteur_filter=secteur,
+        limit=20,
+    )
+
+    # Enrichir avec les intermédiaires disponibles
+    for rec in recommendations:
+        fonds_id = rec["id"]
+        intermediaires_result = await db.execute(
+            select(Intermediaire)
+            .where(
+                Intermediaire.fonds_id == fonds_id,
+                Intermediaire.is_active == True,  # noqa: E712
+            )
+        )
+        intermediaires = intermediaires_result.scalars().all()
+        rec["intermediaires"] = [
+            {
+                "id": str(i.id),
+                "nom": i.nom,
+                "type": i.type,
+                "pays": i.pays,
+                "email": i.email,
+                "site_web": i.site_web,
+                "est_recommande": i.est_recommande,
+            }
+            for i in intermediaires
+        ]
+
+    return recommendations
+
+
 @router.get("/stats", response_model=CandidatureStats)
 async def get_stats(
     db: AsyncSession = Depends(get_db),
