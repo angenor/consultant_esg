@@ -101,9 +101,10 @@
       <h3 class="font-semibold text-gray-800 text-sm mb-2">{{ t('funds_recommended') }}</h3>
       <div class="space-y-2">
         <FundRecommendation
-          v-for="fonds in data.fonds_recommandes.slice(0, 3)"
+          v-for="fonds in data.fonds_recommandes.slice(0, 5)"
           :key="fonds.id"
           :fonds="fonds"
+          @start-application="handleStartApplication"
         />
       </div>
     </section>
@@ -132,8 +133,9 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import type { SyncedData, ESGScore, FundApplication } from '@shared/types'
+import type { SyncedData, ESGScore, FundApplication, FondsVert } from '@shared/types'
 import { t } from '@shared/i18n'
+import { useApplications } from '@shared/stores/applications'
 import ApplicationCard from './ApplicationCard.vue'
 import FundRecommendation from './FundRecommendation.vue'
 
@@ -148,10 +150,31 @@ const props = defineProps<{
   loading: boolean
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   refresh: []
   'select-application': [app: FundApplication]
 }>()
+
+const { createApplication } = useApplications()
+
+async function handleStartApplication(fonds: FondsVert) {
+  try {
+    const app = await createApplication({
+      fonds_id: fonds.id,
+      fonds_nom: fonds.nom,
+      fonds_institution: fonds.institution || '',
+      url_candidature: fonds.url_source || undefined,
+    })
+    // Rafraîchir les données pour afficher la nouvelle candidature
+    emit('refresh')
+    // Si le fonds a une URL, ouvrir dans un nouvel onglet pour commencer
+    if (fonds.url_source) {
+      chrome.tabs.create({ url: fonds.url_source })
+    }
+  } catch (e) {
+    console.error('Erreur création candidature:', e)
+  }
+}
 
 const selectedReferentiel = ref<string>('')
 

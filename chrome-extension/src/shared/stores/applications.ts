@@ -26,16 +26,15 @@ export function useApplications() {
   }
 
   async function createApplication(data: {
-    entreprise_id: string
-    fonds_id: string
-    url_candidature: string
+    fonds_id?: string
+    fonds_nom: string
+    fonds_institution?: string
+    url_candidature?: string
+    total_steps?: number
+    notes?: string
   }): Promise<FundApplication | null> {
     try {
-      const app = await apiClient.post<FundApplication>('/api/extension/applications', {
-        ...data,
-        status: 'brouillon',
-        progress_pct: 0,
-      })
+      const app = await apiClient.post<FundApplication>('/api/extension/applications', data)
       applications.value.unshift(app)
       return app
     } catch (error) {

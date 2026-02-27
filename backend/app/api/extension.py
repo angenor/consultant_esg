@@ -281,13 +281,93 @@ async def get_fund_recommendations(
     db: AsyncSession = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
-    """Retourne les fonds verts recommandes pour l'utilisateur"""
+    """Retourne les fonds verts recommandes, triés par compatibilité avec le profil utilisateur."""
+    from app.models.esg_score import ESGScore
+
+    # Récupérer l'entreprise
+    ent_result = await db.execute(
+        select(Entreprise).where(Entreprise.user_id == user.id)
+    )
+    entreprise = ent_result.scalar_one_or_none()
+
+    # Meilleur score ESG
+    best_score = None
+    if entreprise:
+        score_result = await db.execute(
+            select(ESGScore)
+            .where(ESGScore.entreprise_id == entreprise.id)
+            .order_by(ESGScore.score_global.desc().nulls_last())
+            .limit(1)
+        )
+        best_score = score_result.scalar_one_or_none()
+
+    # Tous les fonds actifs
     result = await db.execute(
-        select(FondsVert).where(FondsVert.is_active == True).limit(10)  # noqa: E712
+        select(FondsVert).where(FondsVert.is_active == True)  # noqa: E712
     )
     fonds_list = result.scalars().all()
-    return [
-        {
+
+    # Mapping pays courants vers codes ISO
+    PAYS_TO_ISO = {
+        "côte d'ivoire": "CIV", "cote d'ivoire": "CIV", "ivory coast": "CIV",
+        "sénégal": "SEN", "senegal": "SEN", "mali": "MLI",
+        "burkina faso": "BFA", "togo": "TGO", "bénin": "BEN", "benin": "BEN",
+        "niger": "NER", "guinée-bissau": "GNB", "cameroun": "CMR", "cameroon": "CMR",
+        "ghana": "GHA", "kenya": "KEN", "tanzanie": "TZA", "éthiopie": "ETH",
+        "nigeria": "NGA", "nigéria": "NGA",
+    }
+
+    def get_iso_code(pays: str | None) -> str | None:
+        if not pays:
+            return None
+        pays_lower = pays.strip().lower()
+        # Déjà un code ISO ?
+        if len(pays_lower) == 3 and pays_lower.isalpha():
+            return pays_lower.upper()
+        return PAYS_TO_ISO.get(pays_lower)
+
+    recommendations = []
+    entreprise_iso = get_iso_code(entreprise.pays) if entreprise else None
+
+    for f in fonds_list:
+        compatibility = 0
+        criteres = f.criteres_json or {}
+        score_min = criteres.get("score_esg_minimum", 0)
+
+        if entreprise:
+            # +30 si le pays est éligible
+            if f.pays_eligibles and entreprise_iso:
+                if entreprise_iso in [p.upper() for p in f.pays_eligibles]:
+                    compatibility += 30
+
+            # +25 si le secteur correspond
+            if f.secteurs_json and entreprise.secteur:
+                secteur_lower = entreprise.secteur.lower()
+                if any(
+                    s.lower() in secteur_lower or secteur_lower in s.lower()
+                    for s in f.secteurs_json
+                ):
+                    compatibility += 25
+
+            # +30 si le score ESG atteint le minimum requis
+            if best_score and best_score.score_global:
+                score_val = float(best_score.score_global)
+                if score_val >= score_min:
+                    compatibility += 30
+                elif score_val >= score_min * 0.7:
+                    compatibility += 15
+
+            # +15 si le montant est accessible
+            if f.montant_min and entreprise.chiffre_affaires:
+                ca = float(entreprise.chiffre_affaires)
+                if ca >= float(f.montant_min) * 0.5:
+                    compatibility += 15
+        else:
+            compatibility = 20
+
+        acces_details = criteres.get("acces_details")
+
+        recommendations.append({
             "id": str(f.id),
             "nom": f.nom,
             "institution": f.institution,
@@ -297,9 +377,15 @@ async def get_fund_recommendations(
             "devise": f.devise,
             "secteurs_json": f.secteurs_json,
             "pays_eligibles": f.pays_eligibles,
+            "criteres_json": criteres,
             "date_limite": f.date_limite.isoformat() if f.date_limite else None,
             "url_source": f.url_source,
+            "mode_acces": f.mode_acces,
             "is_active": f.is_active,
-        }
-        for f in fonds_list
-    ]
+            "compatibility_score": min(compatibility, 100),
+            "score_esg_minimum": score_min,
+            "acces_details": acces_details,
+        })
+
+    recommendations.sort(key=lambda r: r["compatibility_score"], reverse=True)
+    return recommendations[:10]

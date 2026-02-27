@@ -109,9 +109,10 @@ async function autoCreateApplication(config: FundSiteConfig) {
   if (!companyData.value?.entreprise) return
 
   const app = await createApplication({
-    entreprise_id: companyData.value.entreprise.id,
     fonds_id: config.fonds_id,
+    fonds_nom: config.fonds_nom || 'Fonds inconnu',
     url_candidature: window.location?.href || '',
+    total_steps: config.steps?.length,
   })
 
   if (app) {

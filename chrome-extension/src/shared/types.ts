@@ -61,6 +61,14 @@ export interface FondsVert {
   mode_acces: string | null
   is_active: boolean
   compatibility_score?: number
+  score_esg_minimum?: number
+  acces_details?: {
+    intermediaire: string | null
+    etapes: string[]
+    delai_estime: string
+    periodicite: string
+    documents_requis: string[]
+  } | null
 }
 
 // === Candidature ===
