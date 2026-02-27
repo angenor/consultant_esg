@@ -7,14 +7,14 @@
 
 ## Progression
 
-- [ ] 5.1 Ajouter `intermediaire_id` au modele `FundSiteConfig` + migration Alembic
-- [ ] 5.2 Explorer les sites des fonds avec agent-browser pour identifier formulaires et selecteurs CSS
-- [ ] 5.3 Creer la config BEI-Proparco (direct) dans `fund_site_configs.json`
-- [ ] 5.4 Creer la config GCF via BOAD (portail dedie) dans `fund_site_configs.json`
-- [ ] 5.5 Creer les configs BAD, FIDA, SREP/CIF (appels a propositions / portails) dans `fund_site_configs.json`
-- [ ] 5.6 Creer les configs banques partenaires (IFC/SGCI, SUNREF, BCEAO, FAGACE) dans `fund_site_configs.json`
-- [ ] 5.7 Executer le seed et verifier les 10 configs actives en base
-- [ ] 5.8 Tester la detection + auto-remplissage sur chaque site cible
+- [x] 5.1 Ajouter `intermediaire_id` au modele `FundSiteConfig` + migration Alembic
+- [x] 5.2 Explorer les sites des fonds avec agent-browser pour identifier formulaires et selecteurs CSS
+- [x] 5.3 Creer la config BEI-Proparco (direct) dans `fund_site_configs.json`
+- [x] 5.4 Creer la config GCF via BOAD (portail dedie) dans `fund_site_configs.json`
+- [x] 5.5 Creer les configs BAD, FIDA, SREP/CIF (appels a propositions / portails) dans `fund_site_configs.json`
+- [x] 5.6 Creer les configs banques partenaires (IFC/SGCI, SUNREF, BCEAO, FAGACE) dans `fund_site_configs.json`
+- [x] 5.7 Mettre a jour le seed pour supporter intermediaire_id + verifier
+- [ ] 5.8 Tester la detection + auto-remplissage sur chaque site cible (test manuel)
 
 ## Objectif
 

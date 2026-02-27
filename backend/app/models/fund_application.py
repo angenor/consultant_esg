@@ -45,6 +45,9 @@ class FundSiteConfig(Base):
     fonds_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("fonds_verts.id", ondelete="CASCADE"), nullable=False
     )
+    intermediaire_id: Mapped[str | None] = mapped_column(
+        ForeignKey("intermediaires.id", ondelete="SET NULL"), nullable=True
+    )
     url_patterns: Mapped[list] = mapped_column(JSONB, default=[])
     steps: Mapped[list] = mapped_column(JSONB, default=[])
     required_docs: Mapped[list] = mapped_column(JSONB, default=[])

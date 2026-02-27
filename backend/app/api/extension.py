@@ -41,6 +41,7 @@ async def get_fund_configs(
         configs.append({
             "id": str(config.id),
             "fonds_id": str(config.fonds_id),
+            "intermediaire_id": str(config.intermediaire_id) if config.intermediaire_id else None,
             "fonds_nom": fonds_nom,
             "url_patterns": config.url_patterns,
             "steps": config.steps,

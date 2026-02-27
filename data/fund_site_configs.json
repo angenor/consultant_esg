@@ -1,6 +1,7 @@
 [
   {
-    "fonds_code": "boad_facilite_verte",
+    "fonds_code": "facilite_verte_boad_pme",
+    "intermediaire_name": null,
     "url_patterns": [
       "https://www.boad.org/*appel*",
       "https://www.boad.org/*projet*",
@@ -200,6 +201,1723 @@
       "general": "La BOAD privilegie les projets avec un fort impact environnemental dans la zone UEMOA",
       "description": "Mettez en avant les Objectifs de Developpement Durable (ODD) concernes",
       "financial": "Montrez la viabilite financiere du projet meme sans le financement vert"
+    }
+  },
+  {
+    "fonds_code": "ligne_verte_bei_proparco",
+    "intermediaire_name": null,
+    "url_patterns": [
+      "https://www.proparco.fr/fr/formulaire*",
+      "https://www.proparco.fr/fr/soumettre*",
+      "https://www.proparco.fr/en/form*",
+      "https://www.proparco.fr/fr/nous-contacter*",
+      "https://www.eib.org/*/apply*",
+      "https://www.eib.org/*/projects/pipelines*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Identification de l'entreprise",
+        "description": "Informations generales sur votre entreprise",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='company_name'], #company-name, [data-field='company']",
+            "label": "Raison sociale",
+            "source": "entreprise.nom",
+            "help_text": "Le nom legal de votre entreprise tel qu'enregistre",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='country'], #country, [data-field='pays']",
+            "label": "Pays",
+            "source": "entreprise.pays",
+            "help_text": "Le pays d'immatriculation de votre entreprise",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='sector'], #sector, [data-field='secteur']",
+            "label": "Secteur d'activite",
+            "source": "entreprise.secteur",
+            "help_text": "Secteurs eligibles : energie, transport, industrie, batiment, services",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='project_description'], #project-desc, [data-field='description']",
+            "label": "Description du projet",
+            "source": null,
+            "help_text": "Decrivez le projet vert pour lequel vous sollicitez un financement BEI/Proparco",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Donnees financieres",
+        "description": "Situation financiere de votre entreprise",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='revenue'], #annual-revenue, [data-field='ca']",
+            "label": "Chiffre d'affaires annuel (EUR)",
+            "source": "entreprise.chiffre_affaires|format_currency",
+            "help_text": "CA du dernier exercice en euros",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='employees'], #employees, [data-field='effectifs']",
+            "label": "Nombre d'employes",
+            "source": "entreprise.effectifs",
+            "help_text": "Effectif total de l'entreprise",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='amount_requested'], #amount, [data-field='montant']",
+            "label": "Montant demande (EUR)",
+            "source": null,
+            "help_text": "Entre 500 000 et 5 000 000 EUR. Le ticket moyen est de 1-3M EUR.",
+            "type": "number",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Impact environnemental et social",
+        "description": "Detaillez l'impact de votre projet sur l'environnement et la societe",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='env_impact'], #environmental-impact, [data-field='impact_env']",
+            "label": "Impact environnemental attendu",
+            "source": null,
+            "help_text": "Reduction CO2, efficacite energetique, preservation biodiversite. Chiffrez vos objectifs.",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "textarea[name='social_impact'], #social-impact, [data-field='impact_social']",
+            "label": "Impact social attendu",
+            "source": null,
+            "help_text": "Emplois crees, communautes beneficiaires, egalite des genres",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Documents",
+        "description": "Telechargez les documents requis",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='business_plan'], #upload-bp",
+            "label": "Business plan complet",
+            "source": null,
+            "help_text": "PDF, max 10 Mo. Incluez le plan d'investissement vert detaille.",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='financials'], #upload-financials",
+            "label": "Etats financiers audites (2 ans)",
+            "source": null,
+            "help_text": "Bilans et comptes de resultat certifies",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "title": "Validation et soumission",
+        "description": "Verifiez vos informations avant de soumettre",
+        "url_pattern": null,
+        "fields": []
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Business plan complet",
+        "type": "plan_affaires",
+        "format": "PDF",
+        "description": "Business plan avec plan d'investissement vert detaille"
+      },
+      {
+        "name": "Etats financiers audites (2 derniers exercices)",
+        "type": "etats_financiers",
+        "format": "PDF",
+        "description": "Bilans, comptes de resultat certifies par un auditeur"
+      },
+      {
+        "name": "Note d'impact ESG",
+        "type": "note_impact_esg",
+        "format": "PDF",
+        "description": "Evaluation de l'impact environnemental et social du projet"
+      },
+      {
+        "name": "Engagement de reporting ESG annuel",
+        "type": "engagement",
+        "format": "PDF",
+        "description": "Lettre d'engagement pour un reporting ESG annuel"
+      }
+    ],
+    "tips": {
+      "general": "BEI/Proparco privilegie les projets d'energie renouvelable et d'efficacite energetique. Mettez en avant les indicateurs quantitatifs d'impact.",
+      "amount": "Le ticket moyen est de 1-3M EUR. Les projets < 500K EUR sont rarement finances directement.",
+      "timeline": "Delai moyen de traitement : 2-4 mois apres soumission complete. Diagnostic ESG preliminaire gratuit inclus."
+    }
+  },
+  {
+    "fonds_code": "green_climate_fund",
+    "intermediaire_name": "BOAD - Entite Accreditee GCF",
+    "url_patterns": [
+      "https://www.boad.org/fr/gcf*",
+      "https://www.boad.org/fr/fonds-vert*",
+      "https://www.boad.org/*green-climate*",
+      "https://www.greenclimate.fund/*/submit*",
+      "https://www.greenclimate.fund/projects/funding-proposals*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Concept Note",
+        "description": "Soumission de la note conceptuelle au GCF via la BOAD",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='project_title'], #project-title, [data-field='titre']",
+            "label": "Titre du projet",
+            "source": null,
+            "help_text": "Titre clair et concis de votre projet climat (max 100 caracteres)",
+            "type": "text",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "[name='entity_name'], #entity-name, [data-field='entite']",
+            "label": "Nom de l'entite executrice",
+            "source": "entreprise.nom",
+            "help_text": "L'entite qui mettra en oeuvre le projet",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='country'], #country",
+            "label": "Pays cible",
+            "source": "entreprise.pays",
+            "help_text": "Le pays ou le projet sera mis en oeuvre",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Informations sur l'entite executrice",
+        "description": "Details sur votre organisation",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='org_type'], #org-type",
+            "label": "Type d'organisation",
+            "source": null,
+            "help_text": "PME, cooperative, ONG, entite publique...",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='experience'], #experience, textarea[name='track_record']",
+            "label": "Experience pertinente",
+            "source": null,
+            "help_text": "Decrivez votre experience en gestion de projets climat/environnement",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "[name='employees'], #employees",
+            "label": "Effectifs",
+            "source": "entreprise.effectifs",
+            "help_text": "Nombre total de salaries",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Description du projet climat",
+        "description": "Expliquez en detail votre projet et son impact climatique",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='project_description'], #project-desc",
+            "label": "Description detaillee du projet",
+            "source": null,
+            "help_text": "Contexte, objectifs, activites prevues, resultats attendus",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "select[name='climate_focus'], #climate-focus",
+            "label": "Focus climatique",
+            "source": null,
+            "help_text": "Attenuation (reduction emissions) ou Adaptation (resilience) ou les deux",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='carbon_reduction'], #carbon-reduction",
+            "label": "Potentiel de reduction carbone",
+            "source": null,
+            "help_text": "Estimation chiffree en tonnes de CO2 evitees ou sequestrees par an",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Budget et plan de financement",
+        "description": "Details financiers du projet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='total_budget'], #total-budget",
+            "label": "Budget total du projet (USD)",
+            "source": null,
+            "help_text": "Budget total incluant toutes les sources de financement",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='gcf_amount'], #gcf-amount",
+            "label": "Montant demande au GCF (USD)",
+            "source": null,
+            "help_text": "Entre 500 000 et 10 000 000 USD",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='cofinancing'], #cofinancing",
+            "label": "Co-financement",
+            "source": null,
+            "help_text": "Detaillez les autres sources de financement (apport propre, partenaires)",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "title": "Indicateurs de performance",
+        "description": "Definissez les indicateurs mesurables de votre projet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='kpi_climate'], #kpi-climate",
+            "label": "Indicateurs climatiques",
+            "source": null,
+            "help_text": "tCO2eq evitees, MW renouvelable installe, hectares restaures, etc.",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "textarea[name='kpi_social'], #kpi-social",
+            "label": "Indicateurs sociaux",
+            "source": null,
+            "help_text": "Beneficiaires directs/indirects, emplois, proportion femmes",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 6,
+        "title": "Sauvegardes environnementales et sociales",
+        "description": "Evaluation des risques et mesures de mitigation",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "select[name='risk_level'], #risk-level",
+            "label": "Categorie de risque E&S",
+            "source": null,
+            "help_text": "A (haut), B (moyen), C (faible) — selon les standards GCF",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='mitigation_measures'], #mitigation",
+            "label": "Mesures de mitigation",
+            "source": null,
+            "help_text": "Decrivez les mesures pour attenuer les risques environnementaux et sociaux identifies",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 7,
+        "title": "Documents et soumission",
+        "description": "Telechargez les documents requis et soumettez",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='concept_note'], #upload-cn",
+            "label": "Note conceptuelle",
+            "source": null,
+            "help_text": "Document de 5-10 pages selon le template GCF",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='nol'], #upload-nol",
+            "label": "Lettre de non-objection (AND)",
+            "source": null,
+            "help_text": "Delivree par l'Autorite Nationale Designee de votre pays",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Note conceptuelle GCF",
+        "type": "concept_note",
+        "format": "PDF",
+        "description": "Note conceptuelle de 5-10 pages selon le template GCF officiel"
+      },
+      {
+        "name": "Lettre de non-objection (AND)",
+        "type": "nol",
+        "format": "PDF",
+        "description": "Delivree par l'Autorite Nationale Designee du pays cible"
+      },
+      {
+        "name": "Plan de reduction carbone chiffre",
+        "type": "plan_carbone",
+        "format": "PDF",
+        "description": "Plan detaille avec estimations en tCO2eq"
+      },
+      {
+        "name": "Etude de faisabilite E&S",
+        "type": "faisabilite_es",
+        "format": "PDF",
+        "description": "Etude de faisabilite environnementale et sociale"
+      }
+    ],
+    "tips": {
+      "general": "Le GCF finance des projets a fort impact climatique. La note conceptuelle doit demontrer un changement de paradigme (paradigm shift).",
+      "amount": "Les projets PME passent par le guichet 'micro' (< 10M USD) ou 'small' (10-50M USD).",
+      "timeline": "Delai de 6-18 mois. Le Board GCF se reunit 3 fois par an pour valider les projets.",
+      "key_success": "Associez-vous a une Entite Nationale Accreditee (BOAD, PNUD). Obtenez la lettre de non-objection de l'AND en amont."
+    }
+  },
+  {
+    "fonds_code": "programme_dadaptation_climatique_bad",
+    "intermediaire_name": null,
+    "url_patterns": [
+      "https://www.afdb.org/*/apply*",
+      "https://www.afdb.org/*/proposals*",
+      "https://www.afdb.org/*/appel*",
+      "https://procurement.afdb.org/*",
+      "https://www.afdb.org/*/climate*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Note conceptuelle",
+        "description": "Soumettez une note conceptuelle de 5 pages maximum",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='project_title'], #project-title, [data-field='title']",
+            "label": "Titre du projet",
+            "source": null,
+            "help_text": "Titre court et descriptif de votre projet d'adaptation climatique",
+            "type": "text",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "[name='organization'], #org-name, [data-field='organisation']",
+            "label": "Nom de l'organisation",
+            "source": "entreprise.nom",
+            "help_text": "Nom legal de l'organisation porteuse du projet",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='country'], #country",
+            "label": "Pays d'intervention",
+            "source": "entreprise.pays",
+            "help_text": "Le pays principal ou le projet sera mis en oeuvre",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='sector'], #sector",
+            "label": "Secteur",
+            "source": "entreprise.secteur",
+            "help_text": "Agriculture, eau, energie ou infrastructure",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Description du projet",
+        "description": "Detaillez votre projet d'adaptation climatique",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='concept_summary'], #concept-summary",
+            "label": "Resume du concept (500 mots max)",
+            "source": null,
+            "help_text": "Probleme, solution proposee, beneficiaires cibles, resultats attendus",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "textarea[name='climate_rationale'], #climate-rationale",
+            "label": "Justification climatique",
+            "source": null,
+            "help_text": "Pourquoi ce projet est une reponse au changement climatique ? Quels risques climatiques adresse-t-il ?",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "textarea[name='gender_component'], #gender",
+            "label": "Composante genre",
+            "source": null,
+            "help_text": "Minimum 30% de femmes beneficiaires requises. Decrivez comment le projet integre le genre.",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Budget et financement",
+        "description": "Presentez le budget previsionnel de votre projet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='total_cost'], #total-cost",
+            "label": "Cout total du projet (USD)",
+            "source": null,
+            "help_text": "Budget total incluant toutes les contributions. Min 100K, max 5M USD.",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='grant_requested'], #grant-amount",
+            "label": "Subvention demandee (USD)",
+            "source": null,
+            "help_text": "Montant de la subvention BAD demandee",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='budget_breakdown'], #budget-breakdown",
+            "label": "Repartition budgetaire",
+            "source": null,
+            "help_text": "Principales lignes budgetaires : personnel, equipement, formation, suivi...",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Suivi-evaluation",
+        "description": "Plan de suivi-evaluation avec indicateurs climatiques",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='monitoring_plan'], #monitoring",
+            "label": "Plan de suivi-evaluation",
+            "source": null,
+            "help_text": "Indicateurs de performance, methode de collecte, frequence de reporting",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "title": "Documents et soumission",
+        "description": "Telechargez les documents et soumettez votre candidature",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='concept_note'], #upload-cn",
+            "label": "Note conceptuelle (5 pages max)",
+            "source": null,
+            "help_text": "PDF, 5 pages maximum",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='budget_file'], #upload-budget",
+            "label": "Budget detaille",
+            "source": null,
+            "help_text": "Fichier Excel ou PDF avec la ventilation budgetaire",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Note conceptuelle (5 pages max)",
+        "type": "concept_note",
+        "format": "PDF",
+        "description": "Resumant le projet, sa justification climatique et les resultats attendus"
+      },
+      {
+        "name": "Budget detaille du projet",
+        "type": "budget",
+        "format": "PDF/XLSX",
+        "description": "Ventilation par activite et par annee"
+      },
+      {
+        "name": "Plan de suivi-evaluation",
+        "type": "monitoring",
+        "format": "PDF",
+        "description": "Avec indicateurs climatiques et de genre"
+      },
+      {
+        "name": "Preuve composante genre (30% femmes)",
+        "type": "genre",
+        "format": "PDF",
+        "description": "Analyse genre et plan d'action"
+      }
+    ],
+    "tips": {
+      "general": "La BAD lance des appels a propositions en mars et septembre. Surveillez le site regulierement.",
+      "amount": "Le programme finance des projets de 100K a 5M USD. Privilegiez les budgets < 2M USD pour les PME.",
+      "timeline": "Delai de 4-8 mois entre soumission et decision. La preselection est annoncee sous 6 semaines.",
+      "key_success": "Integrez une composante genre forte (minimum 30% femmes beneficiaires) et des indicateurs climatiques chiffres."
+    }
+  },
+  {
+    "fonds_code": "ligne_de_credit_vert_ifc",
+    "intermediaire_name": "Societe Generale Cote d'Ivoire",
+    "url_patterns": [
+      "https://www.societegenerale.ci/*/financement*",
+      "https://www.societegenerale.ci/*/credit*",
+      "https://www.societegenerale.ci/*/entreprise*",
+      "https://www.societegenerale.ci/*/pme*",
+      "https://entreprises.societegenerale.ci/*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Demande de credit vert",
+        "description": "Formulaire de demande de financement vert via Societe Generale CI",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='raison_sociale'], #raison-sociale, [data-field='company']",
+            "label": "Raison sociale",
+            "source": "entreprise.nom",
+            "help_text": "Nom legal de votre entreprise",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='numero_compte'], #num-compte",
+            "label": "Numero de compte SGCI",
+            "source": null,
+            "help_text": "Votre numero de compte entreprise a la SGCI (si existant)",
+            "type": "text",
+            "required": false,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='secteur'], #secteur",
+            "label": "Secteur d'activite",
+            "source": "entreprise.secteur",
+            "help_text": "Secteurs eligibles IFC : energie, industrie, batiment, transport",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='rccm'], #rccm",
+            "label": "Numero RCCM",
+            "source": null,
+            "help_text": "Numero du Registre du Commerce et du Credit Mobilier",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Projet d'investissement vert",
+        "description": "Details du projet de transition energetique ou d'efficacite des ressources",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='projet_vert'], #projet-vert",
+            "label": "Description du projet vert",
+            "source": null,
+            "help_text": "Decrivez le projet d'investissement vert identifie : equipement, technologie, objectif",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "input[name='montant'], #montant-demande",
+            "label": "Montant du credit demande (USD)",
+            "source": null,
+            "help_text": "Entre 200 000 et 3 000 000 USD. La SGCI convertira en XOF si necessaire.",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='duree'], #duree-credit",
+            "label": "Duree souhaitee",
+            "source": null,
+            "help_text": "Duree du credit en mois (12 a 84 mois)",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Situation financiere",
+        "description": "Informations financieres de votre entreprise",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='ca_annuel'], #ca-annuel",
+            "label": "Chiffre d'affaires annuel",
+            "source": "entreprise.chiffre_affaires",
+            "help_text": "CA du dernier exercice cloture",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='effectifs'], #effectifs",
+            "label": "Nombre d'employes",
+            "source": "entreprise.effectifs",
+            "help_text": "Effectif total actuel",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Documents requis",
+        "description": "Telechargez les pieces justificatives",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='etats_financiers'], #upload-ef",
+            "label": "Etats financiers audites (3 ans)",
+            "source": null,
+            "help_text": "Bilans et comptes de resultat des 3 derniers exercices",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='plan_affaires'], #upload-bp",
+            "label": "Plan d'affaires avec composante verte",
+            "source": null,
+            "help_text": "Plan d'affaires incluant le volet investissement vert",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "title": "Validation",
+        "description": "Verifiez et soumettez votre demande",
+        "url_pattern": null,
+        "fields": []
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Etats financiers audites (3 exercices)",
+        "type": "etats_financiers",
+        "format": "PDF",
+        "description": "Bilans et comptes de resultat certifies des 3 derniers exercices"
+      },
+      {
+        "name": "Plan d'affaires avec composante verte",
+        "type": "plan_affaires",
+        "format": "PDF",
+        "description": "Plan d'affaires incluant le projet d'investissement vert"
+      },
+      {
+        "name": "Verification conformite IFC",
+        "type": "conformite",
+        "format": "PDF",
+        "description": "Auto-declaration de conformite a la liste d'exclusion IFC"
+      },
+      {
+        "name": "RCCM et statuts",
+        "type": "legal",
+        "format": "PDF",
+        "description": "Registre de commerce et statuts a jour"
+      }
+    ],
+    "tips": {
+      "general": "Le financement IFC via SGCI inclut une assistance technique gratuite pour votre projet vert.",
+      "amount": "Credits de 200K a 3M USD. Pas de date limite — soumission en continu.",
+      "timeline": "Delai : 4-8 semaines entre la demande et la decision de credit.",
+      "key_success": "Ayez deja un compte a la SGCI ou ouvrez-en un. Identifiez clairement le projet d'investissement vert."
+    }
+  },
+  {
+    "fonds_code": "programme_sunref",
+    "intermediaire_name": null,
+    "url_patterns": [
+      "https://www.sunref.org/*",
+      "https://sunref.org/*",
+      "https://www.afd.fr/*/sunref*",
+      "https://www.sunref.org/*/project*",
+      "https://www.sunref.org/*/demande*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Identification du projet",
+        "description": "Identifiez votre projet d'efficacite energetique ou d'energie renouvelable",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='company_name'], #company, [data-field='entreprise']",
+            "label": "Nom de l'entreprise",
+            "source": "entreprise.nom",
+            "help_text": "Raison sociale de votre entreprise",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='country'], #country",
+            "label": "Pays",
+            "source": "entreprise.pays",
+            "help_text": "Pays eligible : Cote d'Ivoire, Senegal, Cameroun, Burkina Faso",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='project_type'], #project-type",
+            "label": "Type de projet",
+            "source": null,
+            "help_text": "Efficacite energetique, energie renouvelable, ou les deux",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='project_description'], #project-desc",
+            "label": "Description du projet",
+            "source": null,
+            "help_text": "Decrivez l'investissement vert envisage (equipements, technologie, objectifs)",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Donnees energetiques",
+        "description": "Informations sur votre consommation et vos objectifs energetiques",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='energy_consumption'], #energy-current",
+            "label": "Consommation energetique actuelle (kWh/an)",
+            "source": null,
+            "help_text": "Consommation annuelle en electricite. L'audit SUNREF gratuit vous aidera a la calculer.",
+            "type": "number",
+            "required": false,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='energy_savings_target'], #energy-target",
+            "label": "Objectif d'economies (%)",
+            "source": null,
+            "help_text": "Pourcentage d'economies d'energie vise. SUNREF cible generalement 20-30%.",
+            "type": "number",
+            "required": false,
+            "ai_suggest": true
+          },
+          {
+            "selector": "input[name='investment_amount'], #invest-amount",
+            "label": "Montant de l'investissement (XOF)",
+            "source": null,
+            "help_text": "Entre 10M et 750M XOF. La prime d'investissement de 10-15% sera versee apres realisation.",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Informations financieres",
+        "description": "Situation financiere de votre entreprise",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='revenue'], #chiffre-affaires",
+            "label": "Chiffre d'affaires annuel (XOF)",
+            "source": "entreprise.chiffre_affaires",
+            "help_text": "CA du dernier exercice cloture",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='employees'], #effectifs",
+            "label": "Nombre d'employes",
+            "source": "entreprise.effectifs",
+            "help_text": "Effectif total",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Documents et soumission",
+        "description": "Telechargez les pieces et demandez l'audit SUNREF gratuit",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='id_project'], #upload-project",
+            "label": "Description du projet d'investissement",
+            "source": null,
+            "help_text": "Document decrivant l'investissement vert envisage",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='financials'], #upload-ef",
+            "label": "Dossier de credit bancaire",
+            "source": null,
+            "help_text": "Elements financiers standards exiges par votre banque",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Identification du projet d'investissement vert",
+        "type": "projet",
+        "format": "PDF",
+        "description": "Description de l'investissement envisage"
+      },
+      {
+        "name": "Rapport d'audit energetique SUNREF",
+        "type": "audit",
+        "format": "PDF",
+        "description": "Fourni gratuitement par un expert SUNREF agree"
+      },
+      {
+        "name": "Dossier de credit bancaire standard",
+        "type": "credit",
+        "format": "PDF",
+        "description": "Elements financiers exiges par la banque partenaire"
+      },
+      {
+        "name": "Preuve d'existence formelle (2 ans min)",
+        "type": "legal",
+        "format": "PDF",
+        "description": "RCCM datant de plus de 2 ans"
+      }
+    ],
+    "tips": {
+      "general": "SUNREF offre un audit energetique GRATUIT par un expert agree. Profitez-en avant de constituer votre dossier.",
+      "amount": "Credits de 10M a 750M XOF + prime d'investissement de 10-15% versee apres realisation.",
+      "timeline": "Delai : 4-10 semaines. L'audit energetique gratuit prend environ 2 semaines.",
+      "key_success": "Demandez d'abord l'audit energetique gratuit. Il identifiera les investissements eligibles et renforcera votre dossier."
+    }
+  },
+  {
+    "fonds_code": "fonds_de_garantie_verte_fagace",
+    "intermediaire_name": null,
+    "url_patterns": [
+      "https://www.fagace.org/*",
+      "https://www.fagace.org/*/garantie*",
+      "https://www.fagace.org/*/demande*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Informations entreprise",
+        "description": "Identification de votre entreprise pour la garantie FAGACE",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='company_name'], #company, [data-field='entreprise']",
+            "label": "Raison sociale",
+            "source": "entreprise.nom",
+            "help_text": "Nom legal de votre entreprise",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='pays'], #pays",
+            "label": "Pays",
+            "source": "entreprise.pays",
+            "help_text": "Pays membre FAGACE de la zone franc",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='secteur'], #secteur",
+            "label": "Secteur d'activite",
+            "source": "entreprise.secteur",
+            "help_text": "Agriculture, energie, recyclage ou eau",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='banque'], #banque-partenaire",
+            "label": "Banque partenaire",
+            "source": null,
+            "help_text": "Votre banque commerciale qui soumettra la demande de garantie au FAGACE",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Projet vert et credit",
+        "description": "Details du credit vert et du projet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='project_description'], #project-desc",
+            "label": "Description du projet vert",
+            "source": null,
+            "help_text": "Projet pour lequel vous sollicitez un credit avec garantie FAGACE",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "input[name='montant_credit'], #montant-credit",
+            "label": "Montant du credit demande (XOF)",
+            "source": null,
+            "help_text": "Entre 10M et 500M XOF. C'est votre banque qui sollicitera la garantie aupres du FAGACE.",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='politique_env'], #politique-env",
+            "label": "Politique environnementale",
+            "source": null,
+            "help_text": "Decrivez votre politique environnementale ou vos engagements ESG",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Situation financiere",
+        "description": "Donnees financieres pour l'evaluation",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='ca'], #chiffre-affaires",
+            "label": "Chiffre d'affaires annuel (XOF)",
+            "source": "entreprise.chiffre_affaires",
+            "help_text": "CA du dernier exercice",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='effectifs'], #effectifs",
+            "label": "Nombre d'employes",
+            "source": "entreprise.effectifs",
+            "help_text": "Effectif total",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Documents et soumission",
+        "description": "Documents a transmettre a votre banque pour la demande de garantie",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='dossier_credit'], #upload-credit",
+            "label": "Dossier de credit standard",
+            "source": null,
+            "help_text": "Votre dossier de credit tel que demande par votre banque",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='politique_env'], #upload-env",
+            "label": "Politique environnementale documentee",
+            "source": null,
+            "help_text": "Document formalisant votre engagement ESG",
+            "type": "file",
+            "required": false,
+            "ai_suggest": false
+          }
+        ]
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Dossier de credit bancaire standard",
+        "type": "credit",
+        "format": "PDF",
+        "description": "Dossier complet pour votre banque commerciale"
+      },
+      {
+        "name": "Politique environnementale documentee",
+        "type": "politique_env",
+        "format": "PDF",
+        "description": "Document formalisant votre politique ESG ou certification en cours"
+      },
+      {
+        "name": "Etats financiers recents",
+        "type": "etats_financiers",
+        "format": "PDF",
+        "description": "Bilans et comptes de resultat des 2 derniers exercices"
+      },
+      {
+        "name": "Historique de paiement",
+        "type": "historique",
+        "format": "PDF",
+        "description": "Attestation de votre banque (pas d'incidents majeurs sur 12 mois)"
+      }
+    ],
+    "tips": {
+      "general": "La demande de garantie FAGACE est initiee par votre BANQUE, pas par vous directement. Sollicitez d'abord un credit vert aupres de votre banque.",
+      "amount": "Garantie de 10M a 500M XOF. Le FAGACE couvre generalement 50-70% du montant du credit.",
+      "timeline": "Evaluation par le FAGACE : 2-3 semaines apres soumission par votre banque. Delai total : 4-8 semaines.",
+      "key_success": "Avoir un bon historique de paiement (aucun incident sur 12 mois) et une politique ESG documentee."
+    }
+  },
+  {
+    "fonds_code": "fonds_climat_bceao",
+    "intermediaire_name": null,
+    "url_patterns": [
+      "https://www.bceao.int/*/financement-vert*",
+      "https://www.bceao.int/*/climat*",
+      "https://www.bceao.int/*/refinancement*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Identification",
+        "description": "Informations sur votre entreprise et votre banque",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='company_name'], #company",
+            "label": "Raison sociale",
+            "source": "entreprise.nom",
+            "help_text": "Nom legal de votre entreprise enregistree dans l'UEMOA",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='pays'], #pays",
+            "label": "Pays UEMOA",
+            "source": "entreprise.pays",
+            "help_text": "Votre pays au sein de l'UEMOA (8 pays membres)",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "[name='banque'], #banque",
+            "label": "Banque commerciale",
+            "source": null,
+            "help_text": "Votre banque commerciale dans l'UEMOA (c'est elle qui demandera le refinancement BCEAO)",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='secteur'], #secteur",
+            "label": "Secteur d'activite",
+            "source": "entreprise.secteur",
+            "help_text": "Tous les secteurs sont eligibles au taux prefentiel BCEAO (3,5-5,5%)",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Projet d'investissement vert",
+        "description": "Details de votre projet vert eligible au refinancement BCEAO",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='projet_vert'], #projet-vert",
+            "label": "Description du projet vert",
+            "source": null,
+            "help_text": "Decrivez le projet d'investissement vert : nature, technologie, impact attendu",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "input[name='montant'], #montant",
+            "label": "Montant du pret demande (XOF)",
+            "source": null,
+            "help_text": "Entre 25M et 1Md XOF. Taux prefentiel BCEAO de 3,5% a 5,5% selon votre profil ESG.",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Profil ESG",
+        "description": "Votre profil de durabilite influence le taux d'interet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='profil_esg'], #profil-esg",
+            "label": "Profil ESG de l'entreprise",
+            "source": null,
+            "help_text": "Decrivez vos pratiques ESG. Un meilleur profil = un taux plus bas (3,5% au lieu de 5,5%).",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "input[name='ca'], #ca",
+            "label": "Chiffre d'affaires annuel (XOF)",
+            "source": "entreprise.chiffre_affaires",
+            "help_text": "CA du dernier exercice cloture",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Documents",
+        "description": "Pieces a fournir a votre banque commerciale",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='dossier_credit'], #upload-credit",
+            "label": "Dossier de credit bancaire",
+            "source": null,
+            "help_text": "Dossier standard exige par votre banque",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='projet_vert'], #upload-projet",
+            "label": "Document de projet vert",
+            "source": null,
+            "help_text": "Description chiffree de l'investissement vert",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Dossier de credit bancaire standard",
+        "type": "credit",
+        "format": "PDF",
+        "description": "Dossier complet pour votre banque commerciale UEMOA"
+      },
+      {
+        "name": "Projet d'investissement vert",
+        "type": "projet",
+        "format": "PDF",
+        "description": "Description chiffree du projet vert identifie"
+      },
+      {
+        "name": "Profil ESG de l'entreprise",
+        "type": "esg",
+        "format": "PDF",
+        "description": "Auto-evaluation ou rapport ESG Mefali"
+      },
+      {
+        "name": "Compte bancaire actif UEMOA",
+        "type": "bancaire",
+        "format": "PDF",
+        "description": "Attestation d'un compte actif dans une banque de l'UEMOA"
+      }
+    ],
+    "tips": {
+      "general": "Le Fonds Climat BCEAO offre des taux preferentiels de 3,5% a 5,5% — bien en dessous des taux du marche (8-12%). Le taux depend de votre profil ESG.",
+      "amount": "Credits de 25M a 1Md XOF. Pas de date limite — soumission en continu via votre banque.",
+      "timeline": "Validation BCEAO : 2-3 semaines. Delai total : 3-6 semaines.",
+      "key_success": "Un bon profil ESG vous donne le taux le plus bas (3,5%). Generez votre rapport ESG via Mefali avant de deposer votre dossier."
+    }
+  },
+  {
+    "fonds_code": "fonds_paysan_resilient_fida",
+    "intermediaire_name": null,
+    "url_patterns": [
+      "https://www.ifad.org/*/apply*",
+      "https://www.ifad.org/*/proposals*",
+      "https://www.ifad.org/*/grants*",
+      "https://www.ifad.org/*/west-africa*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Identification du porteur de projet",
+        "description": "Informations sur votre organisation agricole",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='org_name'], #org-name",
+            "label": "Nom de l'organisation",
+            "source": "entreprise.nom",
+            "help_text": "Cooperative, GIE, PME agricole ou association de producteurs",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='org_type'], #org-type",
+            "label": "Type d'organisation",
+            "source": null,
+            "help_text": "Cooperative, GIE, PME, association de producteurs",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='country'], #country",
+            "label": "Pays",
+            "source": "entreprise.pays",
+            "help_text": "Pays cible du projet (zone UEMOA)",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Note conceptuelle",
+        "description": "Resume de votre projet agricole resilient",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='concept'], #concept-note",
+            "label": "Resume du concept (3-5 pages)",
+            "source": null,
+            "help_text": "Contexte, objectifs, activites, resultats attendus, beneficiaires",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "textarea[name='climate_adaptation'], #climate",
+            "label": "Composante adaptation climatique",
+            "source": null,
+            "help_text": "Comment le projet renforce la resilience climatique des producteurs ?",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "textarea[name='gender'], #gender",
+            "label": "Composante genre (40% femmes min)",
+            "source": null,
+            "help_text": "Le FIDA exige 40% minimum de beneficiaires femmes. Decrivez votre approche genre.",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Budget",
+        "description": "Budget previsionnel du projet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='total_budget'], #budget-total",
+            "label": "Budget total (USD)",
+            "source": null,
+            "help_text": "Entre 50 000 et 2 000 000 USD",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='grant_amount'], #grant-amount",
+            "label": "Subvention demandee (USD)",
+            "source": null,
+            "help_text": "Montant de la subvention FIDA demandee",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='own_contribution'], #own-contribution",
+            "label": "Apport propre (%)",
+            "source": null,
+            "help_text": "Minimum 20% d'apport propre requis par le FIDA",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Documents et soumission",
+        "description": "Telechargez les documents requis",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[type='file'][name='concept_note'], #upload-cn",
+            "label": "Note conceptuelle (3-5 pages)",
+            "source": null,
+            "help_text": "PDF, 3 a 5 pages maximum",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='legal_status'], #upload-legal",
+            "label": "Statut juridique",
+            "source": null,
+            "help_text": "Preuve de statut (cooperative, GIE, PME agricole)",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Note conceptuelle (3-5 pages)",
+        "type": "concept_note",
+        "format": "PDF",
+        "description": "Resume du projet avec composantes climat et genre"
+      },
+      {
+        "name": "Preuve de statut juridique",
+        "type": "legal",
+        "format": "PDF",
+        "description": "Cooperative, GIE, PME agricole enregistree"
+      },
+      {
+        "name": "Plan d'adaptation climatique",
+        "type": "plan_climat",
+        "format": "PDF",
+        "description": "Plan demontrant l'impact sur la resilience climatique"
+      },
+      {
+        "name": "Preuve d'apport propre (20% min)",
+        "type": "apport",
+        "format": "PDF",
+        "description": "Attestation bancaire ou engagement ecrit"
+      },
+      {
+        "name": "Engagement formation agriculture durable",
+        "type": "formation",
+        "format": "PDF",
+        "description": "Plan de formation en pratiques agricoles durables"
+      }
+    ],
+    "tips": {
+      "general": "Le FIDA cible les petits producteurs et les cooperatives agricoles. Mettez en avant l'impact sur les communautes rurales.",
+      "amount": "Subventions de 50K a 2M USD. Appels a propositions en avril et octobre.",
+      "timeline": "Delai : 3-6 mois entre soumission et decision.",
+      "key_success": "Minimum 40% de beneficiaires femmes obligatoire. Integrez un plan de formation en agriculture durable. Apport propre de 20% requis."
+    }
+  },
+  {
+    "fonds_code": "programme_srep",
+    "intermediaire_name": null,
+    "url_patterns": [
+      "https://www.cif.org/*/srep*",
+      "https://www.cif.org/*/apply*",
+      "https://www.climateinvestmentfunds.org/*/srep*",
+      "https://www.climateinvestmentfunds.org/*/proposals*"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "title": "Identification du projet",
+        "description": "Informations sur votre projet d'energie renouvelable",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "[name='org_name'], #org-name",
+            "label": "Nom de l'organisation",
+            "source": "entreprise.nom",
+            "help_text": "Nom legal de l'entite porteuse du projet",
+            "type": "text",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='country'], #country",
+            "label": "Pays",
+            "source": "entreprise.pays",
+            "help_text": "Pays eligibles SREP : Mali, Burkina Faso, Niger, Ethiopie, Kenya, Tanzanie, Ghana",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "select[name='energy_type'], #energy-type",
+            "label": "Type d'energie renouvelable",
+            "source": null,
+            "help_text": "Solaire, eolien, biomasse, ou hybride",
+            "type": "select",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Description technique du projet",
+        "description": "Details techniques de votre projet d'energie renouvelable",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='project_description'], #project-desc",
+            "label": "Description technique du projet",
+            "source": null,
+            "help_text": "Technologie, capacite installee (kW/MW), zone geographique, beneficiaires",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "input[name='capacity_kw'], #capacity",
+            "label": "Capacite installee (kW)",
+            "source": null,
+            "help_text": "Puissance prevue de l'installation",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='srep_alignment'], #srep-alignment",
+            "label": "Alignement avec le Plan SREP national",
+            "source": null,
+            "help_text": "Comment votre projet s'inscrit dans le Plan d'Investissement SREP de votre pays",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Financement",
+        "description": "Plan de financement du projet",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "input[name='total_cost'], #total-cost",
+            "label": "Cout total du projet (USD)",
+            "source": null,
+            "help_text": "Entre 200K et 8M USD. Subventions + prets concessionnels combines.",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[name='srep_amount'], #srep-amount",
+            "label": "Montant demande au SREP (USD)",
+            "source": null,
+            "help_text": "Part du financement demande au programme SREP",
+            "type": "number",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "textarea[name='sustainability'], #sustainability",
+            "label": "Plan de viabilite sur 10 ans",
+            "source": null,
+            "help_text": "Comment le projet sera economiquement viable sur la duree (tarifs, maintenance, revenus)",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "title": "Partenariats et documents",
+        "description": "Partenariats locaux et documents justificatifs",
+        "url_pattern": null,
+        "fields": [
+          {
+            "selector": "textarea[name='partnerships'], #partnerships",
+            "label": "Partenariats locaux",
+            "source": null,
+            "help_text": "Gouvernement, ONG, cooperatives, entites locales impliquees",
+            "type": "textarea",
+            "required": true,
+            "ai_suggest": true
+          },
+          {
+            "selector": "input[type='file'][name='project_doc'], #upload-project",
+            "label": "Document de projet 100% EnR",
+            "source": null,
+            "help_text": "Description technique detaillee du projet d'energie renouvelable",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          },
+          {
+            "selector": "input[type='file'][name='viability'], #upload-viability",
+            "label": "Etude de viabilite financiere (10 ans)",
+            "source": null,
+            "help_text": "Projections financieres sur 10 ans minimum",
+            "type": "file",
+            "required": true,
+            "ai_suggest": false
+          }
+        ]
+      }
+    ],
+    "required_docs": [
+      {
+        "name": "Projet 100% energie renouvelable",
+        "type": "projet_enr",
+        "format": "PDF",
+        "description": "Description technique et etude de faisabilite"
+      },
+      {
+        "name": "Preuve de viabilite financiere (10 ans)",
+        "type": "viabilite",
+        "format": "PDF",
+        "description": "Projections financieres sur 10 ans avec hypotheses detaillees"
+      },
+      {
+        "name": "Partenariat avec entite locale",
+        "type": "partenariat",
+        "format": "PDF",
+        "description": "Convention avec gouvernement, ONG ou cooperative locale"
+      },
+      {
+        "name": "Plan de maintenance et durabilite",
+        "type": "maintenance",
+        "format": "PDF",
+        "description": "Plan de maintenance et de durabilite post-projet"
+      },
+      {
+        "name": "Alignement Plan SREP national",
+        "type": "alignement",
+        "format": "PDF",
+        "description": "Demonstration d'alignement avec le Plan d'Investissement SREP du pays"
+      }
+    ],
+    "tips": {
+      "general": "Le SREP ne finance QUE des projets 100% energie renouvelable (solaire, eolien, biomasse). Pas de projets fossiles ou mixtes.",
+      "amount": "Subventions + prets concessionnels de 200K a 8M USD.",
+      "timeline": "Delai : 6-12 mois. Le sous-comite SREP se reunit tous les 6 mois.",
+      "key_success": "Votre projet doit s'inscrire dans le Plan d'Investissement SREP de votre pays. Contactez une BMD partenaire (Banque Mondiale, BAD)."
     }
   }
 ]
