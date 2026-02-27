@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import DossierGeneratedCard from './DossierGeneratedCard.vue'
 
 const props = defineProps<{
   name: string
@@ -18,6 +19,7 @@ const skillLabels: Record<string, { running: string; done: string }> = {
   generate_report_section: { running: 'Génération de la section...', done: 'Section générée' },
   assemble_pdf: { running: 'Génération du rapport PDF...', done: 'Rapport PDF généré' },
   generate_document: { running: 'Rédaction du document Word...', done: 'Document Word généré' },
+  generate_dossier_candidature: { running: 'Génération du dossier de candidature...', done: 'Dossier de candidature généré' },
   search_knowledge_base: { running: 'Recherche dans la base...', done: 'Recherche terminée' },
   manage_action_plan: { running: "Création du plan d'action...", done: "Plan d'action créé" },
   generate_reduction_plan: { running: 'Génération du plan carbone...', done: 'Plan carbone généré' },
@@ -25,7 +27,13 @@ const skillLabels: Record<string, { running: string; done: string }> = {
   get_action_plans: { running: "Chargement des plans d'action...", done: "Plans d'action chargés" },
   simulate_funding: { running: 'Simulation du financement...', done: 'Simulation terminée' },
   get_sector_benchmark: { running: 'Chargement du benchmark...', done: 'Benchmark chargé' },
+  get_intermediaires: { running: 'Recherche des intermédiaires...', done: 'Intermédiaires trouvés' },
+  guide_candidature: { running: 'Analyse de la candidature...', done: 'Analyse terminée' },
 }
+
+const isDossierSkill = computed(() =>
+  props.name === 'generate_dossier_candidature' && props.status === 'done' && props.result?.documents_generes
+)
 
 const label = computed(() => {
   const labels = skillLabels[props.name]
@@ -123,9 +131,12 @@ async function handleDownload() {
       </span>
     </div>
 
-    <!-- Download button -->
+    <!-- Dossier candidature card -->
+    <DossierGeneratedCard v-if="isDossierSkill" :result="result as any" />
+
+    <!-- Download button (for non-dossier skills) -->
     <button
-      v-if="downloadUrl"
+      v-if="downloadUrl && !isDossierSkill"
       :disabled="downloading"
       class="mt-2 inline-flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-100 disabled:opacity-50"
       @click="handleDownload"

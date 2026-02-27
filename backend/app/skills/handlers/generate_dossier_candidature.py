@@ -1,22 +1,24 @@
 """
 Handler builtin : génère un dossier complet de candidature pour un fonds vert.
 Orchestre la génération de multiples documents (Word + PDF) et crée un ZIP.
+
+Phase 3 : ajout de fiche_projet, note_impact_esg, page_garde, checklist_documents,
+mode template_vierge, prompts par fonds, assembleur ZIP dédié, persistance en BDD.
 """
 
-import io
 import logging
 import re
 import uuid
-import zipfile
 from datetime import datetime, timezone
-from pathlib import Path
 
 from openai import AsyncOpenAI
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
-from app.documents.word_generator import VALID_TYPES as WORD_VALID_TYPES, generate_word_document
+from app.documents.dossier_assembler import DossierAssembler
+from app.documents.word_generator import generate_word_document
+from app.models.dossier_candidature import DossierCandidature
 from app.models.entreprise import Entreprise
 from app.models.fonds_vert import FondsVert
 from app.models.intermediaire import Intermediaire
@@ -24,13 +26,18 @@ from app.reports.generator import UPLOADS_DIR, generate_report
 
 logger = logging.getLogger(__name__)
 
-# Mapping : type de document → stratégie de génération
+# ── Types de documents supportés ──
+
 _WORD_DOCS = {
     "lettre_motivation",
     "plan_affaires",
     "budget_previsionnel",
     "engagement_esg",
     "note_presentation",
+    "fiche_projet",
+    "note_impact_esg",
+    "page_garde",
+    "checklist_documents",
 }
 
 _PDF_REPORTS = {
@@ -39,9 +46,13 @@ _PDF_REPORTS = {
 }
 
 _DEFAULT_DOCUMENTS = [
+    "page_garde",
+    "checklist_documents",
     "lettre_motivation",
+    "fiche_projet",
     "plan_affaires",
     "budget_previsionnel",
+    "note_impact_esg",
     "engagement_esg",
     "rapport_esg_complet",
     "bilan_carbone",
@@ -55,6 +66,25 @@ _DOC_LABELS = {
     "note_presentation": "Note de présentation",
     "rapport_esg_complet": "Rapport ESG complet",
     "bilan_carbone": "Bilan carbone",
+    "fiche_projet": "Fiche Projet Vert",
+    "note_impact_esg": "Note d'Impact ESG",
+    "page_garde": "Page de Garde",
+    "checklist_documents": "Checklist Documents",
+}
+
+# Numérotation pour la nomenclature des fichiers dans le ZIP
+_DOC_ORDER = {
+    "page_garde": "00",
+    "checklist_documents": "01",
+    "lettre_motivation": "02",
+    "fiche_projet": "03",
+    "plan_affaires": "04",
+    "budget_previsionnel": "05",
+    "note_impact_esg": "06",
+    "note_presentation": "07",
+    "engagement_esg": "08",
+    "rapport_esg_complet": "09",
+    "bilan_carbone": "10",
 }
 
 
@@ -108,6 +138,7 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
     fonds_id = params.get("fonds_id")
     intermediaire_id = params.get("intermediaire_id")
     format_sortie = params.get("format", "both")
+    type_dossier = params.get("type_dossier", "complet")
     instructions = params.get("instructions")
 
     if not entreprise_id:
@@ -136,7 +167,7 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
 
     # ── Liste des documents à générer ──
 
-    doc_list = params.get("documents") or _DEFAULT_DOCUMENTS
+    doc_list = params.get("documents") or list(_DEFAULT_DOCUMENTS)
     known_types = _WORD_DOCS | set(_PDF_REPORTS.keys())
     doc_list = [d for d in doc_list if d in known_types]
 
@@ -158,11 +189,30 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
     if instructions:
         enriched_instructions += instructions
 
+    # ── Données supplémentaires pour les nouveaux templates ──
+
+    dossier_ref = f"DOSS-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{uuid.uuid4().hex[:6].upper()}"
+    intermediaire_nom = intermediaire.nom if intermediaire else None
+
+    # Labels pour la page de garde et la checklist
+    documents_inclus_labels = [
+        _DOC_LABELS.get(d, d) for d in doc_list if d not in ("page_garde", "checklist_documents")
+    ]
+
+    extra_data = {
+        "intermediaire_nom": intermediaire_nom,
+        "documents_inclus": documents_inclus_labels,
+        "reference": dossier_ref,
+    }
+
     # ── Génération des documents ──
 
     UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
     documents_generes = []
     documents_en_erreur = []
+
+    # Construire le statut des documents pour la checklist
+    documents_status = []
 
     for doc_type in doc_list:
 
@@ -177,6 +227,11 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
                         llm_callback=_llm_generate,
                         fonds_id=str(fonds_id),
                         instructions=enriched_instructions,
+                        mode=type_dossier,
+                        extra_data={
+                            **extra_data,
+                            "documents_status": documents_status,
+                        },
                     )
                     documents_generes.append({
                         "type": doc_type,
@@ -186,12 +241,22 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
                         "taille": len(docx_bytes),
                         "url_telechargement": f"/api/reports/download/{filename}",
                     })
+                    documents_status.append({
+                        "nom": _DOC_LABELS.get(doc_type, doc_type),
+                        "statut": "inclus",
+                        "notes": "Généré automatiquement",
+                    })
                 except Exception as e:
                     logger.exception("Erreur génération Word %s", doc_type)
                     documents_en_erreur.append({
                         "type": doc_type,
                         "format": "docx",
                         "erreur": str(e),
+                    })
+                    documents_status.append({
+                        "nom": _DOC_LABELS.get(doc_type, doc_type),
+                        "statut": "a_fournir",
+                        "notes": f"Erreur de génération : {str(e)[:60]}",
                     })
 
         # Rapports PDF
@@ -213,6 +278,11 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
                         "taille": len(pdf_bytes),
                         "url_telechargement": f"/api/reports/download/{filename}",
                     })
+                    documents_status.append({
+                        "nom": _DOC_LABELS.get(doc_type, doc_type),
+                        "statut": "inclus",
+                        "notes": "Rapport PDF généré",
+                    })
                 except Exception as e:
                     logger.exception("Erreur génération PDF %s", doc_type)
                     documents_en_erreur.append({
@@ -220,25 +290,36 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
                         "format": "pdf",
                         "erreur": str(e),
                     })
+                    documents_status.append({
+                        "nom": _DOC_LABELS.get(doc_type, doc_type),
+                        "statut": "a_fournir",
+                        "notes": f"Erreur de génération : {str(e)[:60]}",
+                    })
 
-    # ── Créer le ZIP ──
+    # ── Créer le ZIP avec DossierAssembler ──
 
     zip_url = None
+    zip_filename = None
     if documents_generes:
-        fonds_clean = _sanitize_filename(fonds.nom)
-        entreprise_clean = _sanitize_filename(entreprise.nom)
+        assembler = DossierAssembler(
+            entreprise_nom=entreprise.nom,
+            fonds_nom=fonds.nom,
+            intermediaire_nom=intermediaire_nom,
+        )
+
+        for doc_info in documents_generes:
+            filepath = UPLOADS_DIR / doc_info["nom"]
+            order = _DOC_ORDER.get(doc_info["type"], "99")
+            ext = doc_info["format"]
+            label_clean = _sanitize_filename(_DOC_LABELS.get(doc_info["type"], doc_info["type"]))
+            ordered_name = f"{order}_{label_clean}.{ext}"
+            assembler.add_from_path(ordered_name, filepath)
+
+        zip_bytes = assembler.assemble()
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M")
-        zip_filename = f"Dossier_{fonds_clean}_{entreprise_clean}_{timestamp}.zip"
+        zip_filename = f"Dossier_{_sanitize_filename(fonds.nom)}_{_sanitize_filename(entreprise.nom)}_{timestamp}.zip"
         zip_path = UPLOADS_DIR / zip_filename
-
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
-            for doc in documents_generes:
-                filepath = UPLOADS_DIR / doc["nom"]
-                if filepath.exists():
-                    zf.write(filepath, doc["nom"])
-
-        zip_path.write_bytes(zip_buffer.getvalue())
+        zip_path.write_bytes(zip_bytes)
         zip_url = f"/api/reports/download/{zip_filename}"
 
     # ── Documents manquants (non générables) ──
@@ -248,6 +329,7 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
         _noms_generes = {
             "lettre de motivation", "plan d'affaires", "budget prévisionnel",
             "engagement esg", "note de présentation", "rapport esg", "bilan carbone",
+            "fiche projet", "note d'impact esg", "page de garde", "checklist",
         }
         for doc in intermediaire.documents_requis:
             nom = doc if isinstance(doc, str) else doc.get("nom", str(doc))
@@ -256,6 +338,39 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
                     "nom": nom,
                     "note": "À fournir par l'entreprise (non générable automatiquement)",
                 })
+                documents_status.append({
+                    "nom": nom,
+                    "statut": "a_fournir",
+                    "notes": "À fournir par l'entreprise",
+                })
+
+    # ── Persister le dossier en BDD ──
+
+    dossier_id = uuid.uuid4()
+    try:
+        dossier = DossierCandidature(
+            id=dossier_id,
+            entreprise_id=entreprise.id,
+            fonds_id=fonds.id,
+            intermediaire_id=intermediaire.id if intermediaire else None,
+            type_dossier=type_dossier,
+            documents_json=[
+                {
+                    "type": d["type"],
+                    "nom": d["nom"],
+                    "format": d["format"],
+                    "url": d["url_telechargement"],
+                }
+                for d in documents_generes
+            ],
+            zip_path=zip_filename,
+            statut="genere",
+        )
+        db.add(dossier)
+        await db.commit()
+    except Exception:
+        logger.exception("Erreur persistance dossier en BDD (non bloquant)")
+        await db.rollback()
 
     # ── Prochaine étape ──
 
@@ -263,6 +378,8 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
         type_soumission = intermediaire.type_soumission or ""
         if type_soumission in ("formulaire_en_ligne", "portail_dedie"):
             prochaine_etape = f"Téléchargez le dossier et soumettez-le via le portail de {intermediaire.nom}"
+            if intermediaire.url_formulaire:
+                prochaine_etape += f" : {intermediaire.url_formulaire}"
         elif type_soumission == "email":
             prochaine_etape = f"Envoyez le dossier par email à {intermediaire.email or intermediaire.nom}"
         else:
@@ -271,12 +388,16 @@ async def generate_dossier_candidature(params: dict, context: dict) -> dict:
         prochaine_etape = "Téléchargez le dossier et soumettez-le selon les instructions du fonds"
 
     return {
-        "dossier_id": str(uuid.uuid4()),
+        "dossier_id": str(dossier_id),
+        "reference": dossier_ref,
+        "type_dossier": type_dossier,
         "fonds": fonds.nom,
-        "intermediaire": intermediaire.nom if intermediaire else None,
+        "fonds_institution": fonds.institution,
+        "intermediaire": intermediaire_nom,
         "documents_generes": documents_generes,
         "documents_en_erreur": documents_en_erreur if documents_en_erreur else None,
         "documents_manquants": documents_manquants if documents_manquants else None,
         "zip_url": zip_url,
         "prochaine_etape": prochaine_etape,
+        "nb_documents": len(documents_generes),
     }

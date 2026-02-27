@@ -138,7 +138,7 @@ async def list_reports(
     reports = []
     if UPLOADS_DIR.exists():
         for f in sorted(UPLOADS_DIR.iterdir(), reverse=True):
-            if f.is_file() and f.suffix in (".pdf", ".docx") and nom_clean in f.name:
+            if f.is_file() and f.suffix in (".pdf", ".docx", ".zip") and nom_clean in f.name:
                 reports.append(
                     ReportFileInfo(
                         filename=f.name,
@@ -167,6 +167,7 @@ async def download_report(
     media_types = {
         ".pdf": "application/pdf",
         ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ".zip": "application/zip",
     }
     media_type = media_types.get(filepath.suffix.lower(), "application/octet-stream")
 

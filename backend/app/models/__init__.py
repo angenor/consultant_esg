@@ -15,6 +15,7 @@ from app.models.sector_benchmark import SectorBenchmark
 from app.models.report_template import ReportTemplate
 from app.models.fund_application import FundApplication, FundSiteConfig
 from app.models.intermediaire import Intermediaire
+from app.models.dossier_candidature import DossierCandidature
 
 __all__ = [
     "User",
@@ -38,4 +39,5 @@ __all__ = [
     "FundApplication",
     "FundSiteConfig",
     "Intermediaire",
+    "DossierCandidature",
 ]

@@ -143,6 +143,8 @@ export type MessageType =
   | 'AUTOFILL_FIELD'
   | 'HIGHLIGHT_FIELDS'
   | 'BATCH_AUTOFILL'
+  | 'OPEN_FUND_APPLICATION'
+  | 'GET_APPLICATION_PROGRESS'
 
 export interface ExtensionMessage {
   type: MessageType

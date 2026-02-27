@@ -525,9 +525,13 @@ BUILTIN_SKILLS = [
         "nom": "generate_dossier_candidature",
         "description": (
             "Génère un dossier complet de candidature pour un fonds vert. "
-            "Produit les documents nécessaires (lettre de motivation, plan d'affaires, "
-            "budget prévisionnel, engagement ESG, rapport ESG, bilan carbone) en Word et/ou PDF, "
-            "adaptés au fonds et à l'intermédiaire. Crée un fichier ZIP regroupant tous les documents. "
+            "Produit les documents nécessaires : page de garde, checklist, lettre de motivation, "
+            "fiche projet vert, plan d'affaires, budget prévisionnel, note d'impact ESG, "
+            "engagement ESG, rapport ESG complet, bilan carbone — en Word et/ou PDF, "
+            "adaptés au fonds et à l'intermédiaire avec des prompts spécifiques. "
+            "Supporte deux modes : 'complet' (pré-rempli avec les données) et 'template_vierge' "
+            "(structure avec placeholders [À COMPLÉTER]). "
+            "Crée un fichier ZIP regroupant tous les documents avec nomenclature ordonnée. "
             "Le paramètre 'documents' permet de ne générer qu'une partie du dossier."
         ),
         "category": "document",
@@ -551,14 +555,15 @@ BUILTIN_SKILLS = [
                     "type": "string",
                     "enum": ["complet", "template_vierge"],
                     "default": "complet",
-                    "description": "complet = pré-rempli avec données entreprise, template_vierge = structure à remplir",
+                    "description": "complet = pré-rempli avec données entreprise, template_vierge = structure avec placeholders à remplir",
                 },
                 "documents": {
                     "type": "array",
                     "items": {"type": "string"},
                     "description": (
                         "Liste des documents à générer. Si vide, génère le dossier complet. "
-                        "Types possibles : lettre_motivation, plan_affaires, budget_previsionnel, "
+                        "Types possibles : page_garde, checklist_documents, lettre_motivation, "
+                        "fiche_projet, plan_affaires, budget_previsionnel, note_impact_esg, "
                         "engagement_esg, note_presentation, rapport_esg_complet, bilan_carbone"
                     ),
                 },

@@ -46,6 +46,10 @@ VALID_TYPES = [
     "plan_affaires",
     "engagement_esg",
     "budget_previsionnel",
+    "fiche_projet",
+    "note_impact_esg",
+    "page_garde",
+    "checklist_documents",
 ]
 
 TYPE_LABELS = {
@@ -54,7 +58,102 @@ TYPE_LABELS = {
     "plan_affaires": "Plan d'Affaires Vert",
     "engagement_esg": "Lettre d'Engagement ESG",
     "budget_previsionnel": "Budget Prévisionnel",
+    "fiche_projet": "Fiche Projet Vert",
+    "note_impact_esg": "Note d'Impact ESG",
+    "page_garde": "Page de Garde",
+    "checklist_documents": "Checklist Documents",
 }
+
+# ── Prompts adaptés par fonds ──────────────────────────────────────
+
+PROMPTS_PAR_FONDS: dict[str, dict[str, str]] = {
+    "GCF": {
+        "contexte": (
+            "Ce dossier est destiné au Green Climate Fund (GCF). "
+            "Mets l'accent sur l'impact climatique, l'adaptation et l'atténuation "
+            "du changement climatique. Mentionne l'alignement avec les priorités du GCF."
+        ),
+        "lettre_motivation": (
+            "Rédige une lettre de motivation pour le Green Climate Fund. "
+            "Insiste sur l'impact climatique et l'alignement avec les priorités du GCF "
+            "(adaptation, atténuation). Mentionne le passage par l'entité accréditée."
+        ),
+        "fiche_projet": (
+            "Rédige une fiche projet pour le GCF. Mets l'accent sur la contribution "
+            "à la réduction des émissions de GES et l'adaptation climatique."
+        ),
+    },
+    "BOAD-PME": {
+        "contexte": (
+            "Ce dossier est destiné à la Facilité Verte BOAD-PME. "
+            "Mets l'accent sur la dimension PME, le développement de l'espace UEMOA, "
+            "et la conformité BCEAO."
+        ),
+        "lettre_motivation": (
+            "Rédige une lettre pour la Facilité Verte BOAD-PME. "
+            "Insiste sur la dimension PME, le développement de l'espace UEMOA, "
+            "et la conformité aux standards BCEAO."
+        ),
+        "fiche_projet": (
+            "Rédige une fiche projet pour la BOAD-PME. Mets en avant l'impact "
+            "sur les PME de l'espace UEMOA et le développement durable régional."
+        ),
+    },
+    "BAD": {
+        "contexte": (
+            "Ce dossier est destiné à un fonds de la Banque Africaine de Développement (BAD). "
+            "Mets l'accent sur le développement inclusif, la transformation économique "
+            "de l'Afrique, et les critères de la BAD."
+        ),
+        "lettre_motivation": (
+            "Rédige une lettre pour un fonds BAD. Insiste sur le développement "
+            "inclusif et la transformation économique du continent africain."
+        ),
+        "fiche_projet": (
+            "Rédige une fiche projet pour la BAD. Mets en avant la contribution "
+            "au développement durable et inclusif de l'Afrique."
+        ),
+    },
+    "AECF": {
+        "contexte": (
+            "Ce dossier est destiné à l'Africa Enterprise Challenge Fund (AECF). "
+            "Mets l'accent sur l'innovation, l'entreprise sociale et l'impact mesurable."
+        ),
+        "lettre_motivation": (
+            "Rédige une lettre pour l'AECF. Insiste sur l'innovation, "
+            "l'entrepreneuriat et l'impact social mesurable en Afrique."
+        ),
+        "fiche_projet": (
+            "Rédige une fiche projet pour l'AECF. Mets en avant le caractère "
+            "innovant du projet et son impact social mesurable."
+        ),
+    },
+}
+
+
+def get_fonds_prompt(fonds_nom: str | None, doc_type: str) -> str:
+    """Retourne le prompt spécifique au fonds pour un type de document, ou chaîne vide."""
+    if not fonds_nom:
+        return ""
+    # Cherche par correspondance partielle (GCF, BOAD, BAD, AECF...)
+    for key, prompts in PROMPTS_PAR_FONDS.items():
+        if key.lower() in fonds_nom.lower():
+            return prompts.get(doc_type, prompts.get("contexte", ""))
+    return ""
+
+
+def _add_placeholder(doc: Document, text: str) -> None:
+    """Ajoute un placeholder [A COMPLETER] avec instructions en italique."""
+    p = doc.add_paragraph()
+    run = p.add_run("[À COMPLÉTER] ")
+    run.font.bold = True
+    run.font.color.rgb = RGBColor(0xDC, 0x26, 0x26)  # rouge
+    run.font.size = Pt(11)
+
+    run = p.add_run(text)
+    run.font.italic = True
+    run.font.color.rgb = MEDIUM_GRAY
+    run.font.size = Pt(10)
 
 LlmCallback = Callable[[str], Coroutine[Any, Any, str]]
 
@@ -725,12 +824,48 @@ async def _build_budget_previsionnel(
 # ── Fonction principale ───────────────────────────────────────────
 
 
+async def _build_fiche_projet(
+    doc: Document, data: dict, llm: LlmCallback
+) -> None:
+    """Construit une fiche projet vert (délègue au template)."""
+    from app.documents.templates.fiche_projet import build_fiche_projet
+    await build_fiche_projet(doc, data, llm, mode=data.get("mode", "complet"))
+
+
+async def _build_note_impact_esg(
+    doc: Document, data: dict, llm: LlmCallback
+) -> None:
+    """Construit une note d'impact ESG (délègue au template)."""
+    from app.documents.templates.note_impact_esg import build_note_impact_esg
+    await build_note_impact_esg(doc, data, llm, mode=data.get("mode", "complet"))
+
+
+async def _build_page_garde(
+    doc: Document, data: dict, llm: LlmCallback
+) -> None:
+    """Construit la page de garde (pas d'appel LLM)."""
+    from app.documents.templates.page_garde import build_page_garde
+    build_page_garde(doc, data)
+
+
+async def _build_checklist_documents(
+    doc: Document, data: dict, llm: LlmCallback
+) -> None:
+    """Construit la checklist des documents (pas d'appel LLM)."""
+    from app.documents.templates.checklist_documents import build_checklist
+    build_checklist(doc, data)
+
+
 BUILDERS = {
     "lettre_motivation": _build_lettre_motivation,
     "note_presentation": _build_note_presentation,
     "plan_affaires": _build_plan_affaires,
     "engagement_esg": _build_engagement_esg,
     "budget_previsionnel": _build_budget_previsionnel,
+    "fiche_projet": _build_fiche_projet,
+    "note_impact_esg": _build_note_impact_esg,
+    "page_garde": _build_page_garde,
+    "checklist_documents": _build_checklist_documents,
 }
 
 
@@ -741,9 +876,15 @@ async def generate_word_document(
     llm_callback: LlmCallback,
     fonds_id: str | None = None,
     instructions: str | None = None,
+    mode: str = "complet",
+    extra_data: dict | None = None,
 ) -> tuple[bytes, str]:
     """
     Génère un document Word (.docx) professionnel.
+
+    Args:
+        mode: "complet" (pré-rempli) ou "template_vierge" (structure avec placeholders)
+        extra_data: données supplémentaires (intermediaire_nom, documents_inclus, etc.)
 
     Returns:
         tuple[bytes, str]: (contenu du fichier, nom du fichier)
@@ -776,7 +917,18 @@ async def generate_word_document(
         "action_plan": action_plan,
         "fonds": fonds,
         "instructions": instructions or "",
+        "mode": mode,
     }
+
+    # Fusionner les données supplémentaires (intermediaire_nom, documents_status, etc.)
+    if extra_data:
+        data.update(extra_data)
+
+    # Enrichir les instructions avec le prompt spécifique au fonds
+    fonds_nom = fonds["nom"] if fonds else None
+    fonds_prompt = get_fonds_prompt(fonds_nom, document_type)
+    if fonds_prompt:
+        data["instructions"] = f"{fonds_prompt} {data['instructions']}".strip()
 
     # Créer le document
     doc = Document()
@@ -790,7 +942,8 @@ async def generate_word_document(
     UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc)
     nom_clean = entreprise["nom"].replace(" ", "_").replace("/", "_")
-    filename = f"{document_type}_{nom_clean}_{now.strftime('%Y%m%d_%H%M%S')}.docx"
+    mode_suffix = "_template" if mode == "template_vierge" else ""
+    filename = f"{document_type}{mode_suffix}_{nom_clean}_{now.strftime('%Y%m%d_%H%M%S')}.docx"
     filepath = UPLOADS_DIR / filename
 
     # Écrire en mémoire puis sur disque

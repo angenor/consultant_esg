@@ -44,7 +44,7 @@ Utilisateur
 |-------|-----|---------------|-------------|--------|
 | 1 | [Enrichissement donnees intermediaires](01_enrichissement_donnees_intermediaires.md) | 1 semaine | Aucune | [x] Termine |
 | 2 | [Skills LLM pour candidature guidee](02_skills_llm_candidature.md) | 1.5 semaines | Phase 1 | [x] Termine |
-| 3 | [Generation de dossiers avancee](03_generation_dossiers.md) | 1.5 semaines | Phase 1 | [ ] Non demarre |
+| 3 | [Generation de dossiers avancee](03_generation_dossiers.md) | 1.5 semaines | Phase 1 | [x] Termine |
 | 4 | [Synchronisation plateforme-extension](04_sync_plateforme_extension.md) | 1 semaine | Phases 2, 3 | [ ] Non demarre |
 | 5 | [Configurations extension pour tous les fonds](05_configs_extension_fonds.md) | 1 semaine | Phase 1 | [ ] Non demarre |
 | 6 | [Interface de suivi des candidatures](06_interface_suivi_candidature.md) | 1 semaine | Phases 4, 5 | [ ] Non demarre |
@@ -55,7 +55,7 @@ Utilisateur
 
 - [x] **Phase 1** : Donnees intermediaires (7/7 taches)
 - [x] **Phase 2** : Skills LLM candidature (8/9 taches — code termine, tests manuels restants)
-- [ ] **Phase 3** : Generation dossiers (0/10 taches)
+- [x] **Phase 3** : Generation dossiers (10/10 taches)
 - [ ] **Phase 4** : Sync plateforme-extension (0/7 taches)
 - [ ] **Phase 5** : Configs extension fonds (0/8 taches)
 - [ ] **Phase 6** : Interface suivi candidatures (0/11 taches)
