@@ -7,13 +7,13 @@
 
 ## Progression
 
-- [ ] 1.1 Affiner l'algorithme de scoring avec ponderation configurable
-- [ ] 1.2 Ajouter le cache Redis/memoire pour eviter le recalcul a chaque appel
-- [ ] 1.3 Ajouter les filtres utilisateur (type de financement, montant, secteur)
-- [ ] 1.4 Creer un endpoint `/api/candidatures/fonds-eligibles` dedie (distinct de l'extension)
-- [ ] 1.5 Ajouter le tri cote extension (par compatibilite, par montant, par date limite)
-- [ ] 1.6 Afficher un message explicatif du score de compatibilite
-- [ ] 1.7 Tests unitaires de l'algorithme de scoring
+- [x] 1.1 Affiner l'algorithme de scoring avec ponderation configurable
+- [x] 1.2 Ajouter le cache Redis/memoire pour eviter le recalcul a chaque appel
+- [x] 1.3 Ajouter les filtres utilisateur (type de financement, montant, secteur)
+- [x] 1.4 Creer un endpoint `/api/candidatures/fonds-eligibles` dedie (distinct de l'extension)
+- [x] 1.5 Ajouter le tri cote extension (par compatibilite, par montant, par date limite)
+- [x] 1.6 Afficher un message explicatif du score de compatibilite
+- [x] 1.7 Tests unitaires de l'algorithme de scoring
 
 ## Objectif
 

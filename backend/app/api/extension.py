@@ -111,6 +111,27 @@ async def create_application(
     if not entreprise:
         raise HTTPException(404, "Aucune entreprise trouvee")
 
+    # Deduplication : verifier si une candidature active existe deja pour ce fonds
+    if data.fonds_id:
+        existing = await db.execute(
+            select(FundApplication).where(
+                FundApplication.entreprise_id == entreprise.id,
+                FundApplication.fonds_id == data.fonds_id,
+                FundApplication.status.in_(["brouillon", "en_cours"]),
+            )
+        )
+        existing_app = existing.scalar_one_or_none()
+        if existing_app:
+            raise HTTPException(
+                409,
+                detail={
+                    "message": "Une candidature est deja en cours pour ce fonds",
+                    "existing_id": str(existing_app.id),
+                    "status": existing_app.status,
+                    "progress_pct": existing_app.progress_pct,
+                },
+            )
+
     application = FundApplication(
         entreprise_id=entreprise.id,
         fonds_id=data.fonds_id,

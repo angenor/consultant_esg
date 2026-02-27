@@ -4,17 +4,19 @@ Calcule un score de compatibilité (0-100) entre une entreprise et les fonds dis
 avec pondération configurable et détails explicatifs.
 """
 
+from __future__ import annotations
+
 import os
 import time
 from dataclasses import dataclass, field
 from datetime import date
+from typing import TYPE_CHECKING, Any
 
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.entreprise import Entreprise
-from app.models.esg_score import ESGScore
-from app.models.fonds_vert import FondsVert
+    from app.models.entreprise import Entreprise
+    from app.models.fonds_vert import FondsVert
 
 
 # --- Pondération configurable via env ---
@@ -90,15 +92,15 @@ class CompatibilityDetails:
 @dataclass
 class FundScore:
     """Résultat du scoring d'un fonds pour une entreprise."""
-    fonds: FondsVert
+    fonds: Any  # FondsVert at runtime
     compatibility_score: int
     details: CompatibilityDetails
     score_esg_minimum: float
 
 
 def compute_compatibility(
-    fonds: FondsVert,
-    entreprise: Entreprise | None,
+    fonds: Any,
+    entreprise: Any | None,
     entreprise_iso: str | None,
     best_esg_score: float | None,
 ) -> FundScore:
@@ -237,7 +239,7 @@ def invalidate_cache(entreprise_id: str | None = None) -> None:
 
 async def get_recommendations(
     db: AsyncSession,
-    entreprise: Entreprise | None,
+    entreprise: Any | None,
     *,
     type_filter: str | None = None,
     montant_max: float | None = None,
@@ -254,6 +256,11 @@ async def get_recommendations(
         secteur_filter: Filtrer par secteur
         limit: Nombre max de résultats
     """
+    from sqlalchemy import select
+
+    from app.models.esg_score import ESGScore
+    from app.models.fonds_vert import FondsVert
+
     ent_id = str(entreprise.id) if entreprise else "anonymous"
     cache_key = _make_cache_key(ent_id, type_filter, montant_max, secteur_filter)
 

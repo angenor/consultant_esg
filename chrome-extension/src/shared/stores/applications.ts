@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue'
-import { apiClient } from '../api-client'
+import { apiClient, ApiError } from '../api-client'
 import type { FundApplication } from '../types'
 
 const applications = ref<FundApplication[]>([])
