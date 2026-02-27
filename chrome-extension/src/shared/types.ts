@@ -78,6 +78,12 @@ export interface FondsVert {
     periodicite: string
     documents_requis: string[]
   } | null
+  intermediaires?: {
+    nom: string
+    type: string
+    pays: string
+    contact: string | null
+  }[]
 }
 
 // === Candidature ===
@@ -102,6 +108,7 @@ export interface FundApplication {
 export type ApplicationStatus =
   | 'brouillon'
   | 'en_cours'
+  | 'en_attente_intermediaire'
   | 'soumise'
   | 'acceptee'
   | 'refusee'
@@ -112,6 +119,7 @@ export interface FundSiteConfig {
   id: string
   fonds_id: string
   fonds_nom: string
+  mode_acces?: string | null
   url_patterns: string[]
   steps: FundStep[]
   required_docs: RequiredDoc[]
@@ -145,6 +153,20 @@ export interface RequiredDoc {
   description: string
   available_on_platform: boolean
   document_id: string | null
+}
+
+export type DocStatus = 'ready' | 'missing' | 'generating'
+
+export interface DocWithStatus extends RequiredDoc {
+  status: DocStatus
+  can_generate: boolean
+  warnings: string[]
+  matched_doc: DocumentSummary | null
+}
+
+export interface DocValidation {
+  valid: boolean
+  warnings: string[]
 }
 
 // === Messages inter-composants ===

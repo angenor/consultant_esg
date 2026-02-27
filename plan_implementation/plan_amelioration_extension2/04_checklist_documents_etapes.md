@@ -7,12 +7,12 @@
 
 ## Progression
 
-- [ ] 4.1 Enrichir la checklist documents avec statut temps-reel
-- [ ] 4.2 Lien direct vers le telechargement/generation de documents sur la plateforme
-- [ ] 4.3 Validation automatique des documents (format, taille, completude)
-- [ ] 4.4 Etapes interactives avec persistance de l'etat
-- [ ] 4.5 Barre de progression enrichie (documents + etapes + pre-etapes)
-- [ ] 4.6 Tests unitaires de la checklist et des etapes
+- [x] 4.1 Enrichir la checklist documents avec statut temps-reel
+- [x] 4.2 Lien direct vers le telechargement/generation de documents sur la plateforme
+- [x] 4.3 Validation automatique des documents (format, taille, completude)
+- [x] 4.4 Etapes interactives avec persistance de l'etat
+- [x] 4.5 Barre de progression enrichie (documents + etapes + pre-etapes)
+- [x] 4.6 Tests unitaires de la checklist et des etapes
 
 ## Objectif
 
@@ -348,9 +348,9 @@ const globalProgress = computed(() => {
 
 ## Criteres de validation
 
-- [ ] La checklist se met a jour quand un document est ajoute sur la plateforme
-- [ ] Le bouton "Generer" fonctionne pour les documents auto-generables
-- [ ] Les warnings de validation (format, taille, anciennete) s'affichent
-- [ ] Les etapes cochees sont persistees entre les sessions
-- [ ] La barre de progression integre les 3 sources (pre-etapes, docs, etapes)
-- [ ] Tests unitaires passent
+- [x] La checklist se met a jour quand un document est ajoute sur la plateforme
+- [x] Le bouton "Generer" fonctionne pour les documents auto-generables
+- [x] Les warnings de validation (format, taille, anciennete) s'affichent
+- [x] Les etapes cochees sont persistees entre les sessions
+- [x] La barre de progression integre les 3 sources (pre-etapes, docs, etapes)
+- [x] Tests unitaires passent (74 tests, 6 fichiers)

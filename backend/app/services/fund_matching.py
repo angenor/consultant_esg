@@ -177,7 +177,10 @@ def compute_compatibility(
     )
 
 
-def fund_score_to_dict(fs: FundScore) -> dict:
+def fund_score_to_dict(
+    fs: FundScore,
+    intermediaires: list[dict] | None = None,
+) -> dict:
     """Convertit un FundScore en dict pour la réponse API."""
     f = fs.fonds
     criteres = f.criteres_json or {}
@@ -202,6 +205,7 @@ def fund_score_to_dict(fs: FundScore) -> dict:
         "compatibility_details": fs.details.to_dict(),
         "score_esg_minimum": fs.score_esg_minimum,
         "acces_details": acces_details,
+        "intermediaires": intermediaires or [],
     }
 
 
@@ -260,6 +264,7 @@ async def get_recommendations(
 
     from app.models.esg_score import ESGScore
     from app.models.fonds_vert import FondsVert
+    from app.models.intermediaire import Intermediaire
 
     ent_id = str(entreprise.id) if entreprise else "anonymous"
     cache_key = _make_cache_key(ent_id, type_filter, montant_max, secteur_filter)
@@ -315,7 +320,38 @@ async def get_recommendations(
     # Tri par score décroissant
     scores.sort(key=lambda s: s.compatibility_score, reverse=True)
 
-    recommendations = [fund_score_to_dict(s) for s in scores]
+    # Charger les intermédiaires pour les fonds avec mode d'accès indirect
+    indirect_modes = {"banque_partenaire", "entite_accreditee", "banque_multilaterale", "garantie_bancaire"}
+    fonds_ids_needing_intermediaires = [
+        fs.fonds.id for fs in scores
+        if fs.fonds.mode_acces in indirect_modes
+    ]
+
+    intermediaires_map: dict[str, list[dict]] = {}
+    if fonds_ids_needing_intermediaires:
+        inter_result = await db.execute(
+            select(Intermediaire)
+            .where(
+                Intermediaire.fonds_id.in_(fonds_ids_needing_intermediaires),
+                Intermediaire.is_active == True,  # noqa: E712
+            )
+            .limit(30)
+        )
+        for inter in inter_result.scalars().all():
+            fid = str(inter.fonds_id)
+            if fid not in intermediaires_map:
+                intermediaires_map[fid] = []
+            intermediaires_map[fid].append({
+                "nom": inter.nom,
+                "type": inter.type,
+                "pays": inter.pays or "",
+                "contact": inter.site_web or inter.email,
+            })
+
+    recommendations = [
+        fund_score_to_dict(s, intermediaires_map.get(str(s.fonds.id)))
+        for s in scores
+    ]
 
     # Mettre en cache
     _cache[cache_key] = _CacheEntry(

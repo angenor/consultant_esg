@@ -49,7 +49,7 @@ function mockFetchResponse(status: number, body: unknown) {
 
 beforeEach(() => {
   mockStorage.session = {
-    esg_mefali_token: 'test-token',
+    esg_jwt_token: 'test-token',
   }
   mockStorage.local = {}
   vi.clearAllMocks()
@@ -59,10 +59,14 @@ beforeEach(() => {
 
 describe('Candidature flow - createApplication', () => {
   it('cree une candidature avec succes', async () => {
+    vi.resetModules()
+    // Token must be set BEFORE import (apiClient reads it via chrome.storage)
+    mockStorage.session.esg_mefali_token = 'test-token'
+
     const { useApplications } = await import('../src/shared/stores/applications')
     const { createApplication } = useApplications()
 
-    mockFetchResponse(201, {
+    const mockApp = {
       id: 'app-123',
       status: 'brouillon',
       progress_pct: 0,
@@ -78,7 +82,9 @@ describe('Candidature flow - createApplication', () => {
       submitted_at: null,
       updated_at: null,
       entreprise_id: 'ent-1',
-    })
+    }
+
+    mockFetchResponse(201, mockApp)
 
     const result = await createApplication({
       fonds_id: 'fonds-1',
@@ -93,7 +99,6 @@ describe('Candidature flow - createApplication', () => {
   })
 
   it('detecte un doublon (409) et retourne isDuplicate=true', async () => {
-    // Reset module to get fresh state
     vi.resetModules()
     mockStorage.session.esg_mefali_token = 'test-token'
 
@@ -121,14 +126,13 @@ describe('Candidature flow - createApplication', () => {
       },
     ]
 
-    // API returns 409
-    mockFetchResponse(409, {
-      detail: {
-        message: 'Une candidature est deja en cours pour ce fonds',
-        existing_id: 'existing-app',
-        status: 'en_cours',
-        progress_pct: 40,
-      },
+    // API returns 409 - non-ok response
+    mockFetch.mockResolvedValueOnce({
+      ok: false,
+      status: 409,
+      json: async () => ({
+        detail: 'Une candidature est deja en cours pour ce fonds',
+      }),
     })
 
     const result = await createApplication({

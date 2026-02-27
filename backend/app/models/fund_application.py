@@ -20,6 +20,7 @@ class FundApplication(Base):
     )
     fonds_nom: Mapped[str] = mapped_column(String(255), nullable=False)
     fonds_institution: Mapped[str] = mapped_column(String(255), default="")
+    # Statuts: brouillon, en_cours, en_attente_intermediaire, soumise, acceptee, refusee, abandonnee
     status: Mapped[str] = mapped_column(String(50), default="brouillon")
     progress_pct: Mapped[float] = mapped_column(Float, default=0)
     form_data: Mapped[dict | None] = mapped_column(JSONB, default={})

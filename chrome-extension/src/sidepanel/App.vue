@@ -16,17 +16,53 @@
 
       <!-- Etat : guide actif -->
       <template v-else>
+        <!-- Guide adaptatif par mode d'acces -->
+        <AccessGuide
+          :mode-acces="fundConfig.mode_acces"
+          :intermediaires="fundIntermédiaires"
+          @pre-steps-change="onPreStepsChange"
+        />
+
+        <!-- Template de guide specifique au mode -->
+        <ModeDirectGuide
+          v-if="guideMode === 'direct'"
+          :steps="fundConfig.steps"
+          :current-step="currentStep"
+        />
+        <ModeAppelGuide
+          v-else-if="guideMode === 'appel'"
+          :calendar-checked="appelState.calendarChecked"
+          :concept-note-ready="appelState.conceptNoteReady"
+          :delai="fundAccesDetails?.delai_estime"
+          @toggle-calendar="appelState.calendarChecked = !appelState.calendarChecked"
+          @toggle-concept-note="appelState.conceptNoteReady = !appelState.conceptNoteReady"
+        />
+        <ModeIntermediaireGuide
+          v-else-if="guideMode === 'intermediaire'"
+          :mode-acces="fundConfig.mode_acces || 'direct'"
+          :pre-step-completed="preStepCompleted"
+          :current-step="currentStep"
+          :total-steps="fundConfig.steps.length"
+          :intermediaires="fundIntermédiaires"
+        />
+
         <!-- Barre de progression globale -->
         <ProgressBar
           :current-step="currentStep"
           :total-steps="fundConfig.steps.length"
           :progress-pct="progressPct"
+          :pre-step-done="preStepDoneCount"
+          :pre-step-count="preStepTotalCount"
+          :doc-ready="docReadyCount"
+          :doc-total="docTotalCount"
         />
 
         <!-- Navigation par etapes -->
         <StepNavigator
           :steps="fundConfig.steps"
           :current-step="currentStep"
+          :pre-steps="accessModeConfig.preSteps"
+          :pre-step-completed="preStepCompleted"
           @select="goToStep"
         />
 
@@ -35,6 +71,7 @@
           :step="fundConfig.steps[currentStep]"
           :company-data="companyData"
           :fund-config="fundConfig"
+          :mode-acces="fundConfig.mode_acces"
           @field-autofill="handleAutofill"
           @field-ai-suggest="handleAiSuggest"
           @next="nextStep"
@@ -43,9 +80,10 @@
 
         <!-- Checklist documents -->
         <DocChecklist
-          v-if="currentStep === docChecklistStep"
           :required-docs="fundConfig.required_docs"
           :available-docs="companyData?.documents || []"
+          :entreprise-id="companyData?.entreprise?.id"
+          @refresh="refreshCompanyData"
         />
       </template>
     </main>
@@ -61,34 +99,87 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, reactive, watch, onMounted } from 'vue'
 import type { FundSiteConfig, SyncedData } from '@shared/types'
 import { useApplications } from '@shared/stores/applications'
+import { getAccessModeConfig } from '@shared/access-mode-config'
 import NoFundDetected from './components/NoFundDetected.vue'
 import ProgressBar from './components/ProgressBar.vue'
 import StepNavigator from './components/StepNavigator.vue'
 import StepContent from './components/StepContent.vue'
 import DocChecklist from './components/DocChecklist.vue'
 import MiniChat from './components/MiniChat.vue'
+import AccessGuide from './components/AccessGuide.vue'
+import ModeDirectGuide from './components/ModeDirectGuide.vue'
+import ModeIntermediaireGuide from './components/ModeIntermediaireGuide.vue'
+import ModeAppelGuide from './components/ModeAppelGuide.vue'
 
 const fundConfig = ref<FundSiteConfig | null>(null)
 const companyData = ref<SyncedData | null>(null)
 const currentStep = ref(0)
 const activeApplicationId = ref<string | null>(null)
+const preStepCompleted = ref<boolean[]>([])
+const fundIntermédiaires = ref<{ nom: string; type: string; pays: string; contact: string | null }[]>([])
+
+// Etat pour le mode appel à propositions
+const appelState = reactive({
+  calendarChecked: false,
+  conceptNoteReady: false,
+})
 
 const { createApplication, saveProgress: saveAppProgress } = useApplications()
 
-const progressPct = computed(() => {
-  if (!fundConfig.value) return 0
-  return Math.round((currentStep.value / fundConfig.value.steps.length) * 100)
+const accessModeConfig = computed(() =>
+  getAccessModeConfig(fundConfig.value?.mode_acces)
+)
+
+// Déterminer le type de guide à afficher
+const guideMode = computed<'direct' | 'appel' | 'intermediaire'>(() => {
+  const mode = fundConfig.value?.mode_acces
+  if (!mode || mode === 'direct') return 'direct'
+  if (mode === 'appel_propositions') return 'appel'
+  return 'intermediaire'
 })
 
-const docChecklistStep = computed(() => {
-  if (!fundConfig.value) return -1
-  return fundConfig.value.steps.findIndex(s =>
-    s.title.toLowerCase().includes('document')
+// Récupérer les acces_details depuis les fonds recommandés synchronisés
+const fundAccesDetails = computed(() => {
+  if (!companyData.value?.fonds_recommandes || !fundConfig.value) return null
+  const fonds = companyData.value.fonds_recommandes.find(
+    f => f.id === fundConfig.value?.fonds_id
   )
+  return fonds?.acces_details || null
 })
+
+const progressPct = computed(() => {
+  if (!fundConfig.value) return 0
+  const totalItems = preStepTotalCount.value + docTotalCount.value + fundConfig.value.steps.length
+  if (totalItems === 0) return 0
+  const doneItems = preStepDoneCount.value + docReadyCount.value + currentStep.value
+  return Math.round((doneItems / totalItems) * 100)
+})
+
+// Compteurs documents pour la barre de progression
+const docReadyCount = computed(() => {
+  if (!fundConfig.value) return 0
+  const available = companyData.value?.documents || []
+  return fundConfig.value.required_docs.filter(doc =>
+    doc.available_on_platform ||
+    available.some(d =>
+      d.nom_fichier.toLowerCase().includes(doc.type.toLowerCase()) ||
+      d.type_mime?.includes(doc.format.toLowerCase())
+    )
+  ).length
+})
+
+const docTotalCount = computed(() => fundConfig.value?.required_docs.length || 0)
+
+const preStepDoneCount = computed(() =>
+  preStepCompleted.value.filter(Boolean).length
+)
+
+const preStepTotalCount = computed(() =>
+  accessModeConfig.value.preSteps.length
+)
 
 onMounted(async () => {
   // Charger les donnees de l'entreprise
@@ -96,11 +187,22 @@ onMounted(async () => {
   companyData.value = data
 
   // Ecouter les detections de fonds (ou ouverture depuis le popup)
-  chrome.runtime.onMessage.addListener((message) => {
+  chrome.runtime.onMessage.addListener(async (message) => {
     if (message.type === 'FUND_DETECTED') {
       if (message.payload?.config) {
         fundConfig.value = message.payload.config
+        // Initialiser les pré-étapes par défaut
+        const modeConfig = getAccessModeConfig(message.payload.config.mode_acces)
+        preStepCompleted.value = new Array(modeConfig.preSteps.length).fill(false)
         currentStep.value = 0
+        appelState.calendarChecked = false
+        appelState.conceptNoteReady = false
+        // Restaurer l'état sauvegardé s'il existe
+        await loadSavedSteps(message.payload.config.id)
+      }
+      // Charger les intermédiaires depuis le payload si disponibles
+      if (message.payload?.intermediaires) {
+        fundIntermédiaires.value = message.payload.intermediaires
       }
       // Reutiliser l'application existante si fournie (depuis popup)
       if (message.payload?.applicationId) {
@@ -111,6 +213,52 @@ onMounted(async () => {
     }
   })
 })
+
+// --- Persistance des etapes via chrome.storage.local ---
+async function loadSavedSteps(configId: string) {
+  try {
+    const stored = await chrome.storage.local.get(`steps_${configId}`)
+    const data = stored[`steps_${configId}`]
+    if (data) {
+      if (Array.isArray(data.preSteps)) preStepCompleted.value = data.preSteps
+      if (typeof data.currentStep === 'number') currentStep.value = data.currentStep
+      if (data.appelState) {
+        appelState.calendarChecked = data.appelState.calendarChecked ?? false
+        appelState.conceptNoteReady = data.appelState.conceptNoteReady ?? false
+      }
+    }
+  } catch (e) {
+    console.error('Erreur chargement etapes sauvegardees:', e)
+  }
+}
+
+watch([preStepCompleted, currentStep, () => appelState.calendarChecked, () => appelState.conceptNoteReady], async () => {
+  if (!fundConfig.value) return
+  try {
+    await chrome.storage.local.set({
+      [`steps_${fundConfig.value.id}`]: {
+        preSteps: preStepCompleted.value,
+        currentStep: currentStep.value,
+        appelState: {
+          calendarChecked: appelState.calendarChecked,
+          conceptNoteReady: appelState.conceptNoteReady,
+        },
+      },
+    })
+  } catch (e) {
+    console.error('Erreur sauvegarde etapes:', e)
+  }
+  saveProgress()
+}, { deep: true })
+
+function onPreStepsChange(completed: boolean[]) {
+  preStepCompleted.value = completed
+}
+
+async function refreshCompanyData() {
+  const data = await chrome.runtime.sendMessage({ type: 'GET_COMPANY_DATA' })
+  companyData.value = data
+}
 
 async function autoCreateApplication(config: FundSiteConfig) {
   if (!companyData.value?.entreprise) return

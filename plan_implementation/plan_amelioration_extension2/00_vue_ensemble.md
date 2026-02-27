@@ -18,9 +18,9 @@ Lors de l'implementation de la Phase 6 (Interface suivi candidatures), une analy
 | Phase | Nom | Duree estimee | Dependances |Statut |
 |-------|-----|---------------|-------------|-------|
 | 1 | [Recommandations intelligentes](01_recommandations_intelligentes.md) | 3 jours | Aucune | [x] Termine |
-| 2 | [Flux candidature depuis recommandation](02_flux_candidature_recommandation.md) | 3 jours | Phase 1 | [ ] Non demarre |
-| 3 | [Guide adaptatif par mode d'acces](03_guide_adaptatif_mode_acces.md) | 4 jours | Phases 1, 2 | [ ] Non demarre |
-| 4 | [Checklist documents & etapes interactives](04_checklist_documents_etapes.md) | 3 jours | Phase 3 | [ ] Non demarre |
+| 2 | [Flux candidature depuis recommandation](02_flux_candidature_recommandation.md) | 3 jours | Phase 1 | [x] Termine |
+| 3 | [Guide adaptatif par mode d'acces](03_guide_adaptatif_mode_acces.md) | 4 jours | Phases 1, 2 | [x] Termine |
+| 4 | [Checklist documents & etapes interactives](04_checklist_documents_etapes.md) | 3 jours | Phase 3 | [x] Termine |
 
 **Duree totale estimee : 2 semaines** (avec parallelisation phases 1-2)
 
@@ -45,6 +45,6 @@ Phase 4
 ## Progression globale
 
 - [x] **Phase 1** : Recommandations intelligentes (7/7 taches)
-- [ ] **Phase 2** : Flux candidature depuis recommandation (0/6 taches)
-- [ ] **Phase 3** : Guide adaptatif par mode d'acces (0/8 taches)
-- [ ] **Phase 4** : Checklist documents & etapes interactives (0/6 taches)
+- [x] **Phase 2** : Flux candidature depuis recommandation (6/6 taches)
+- [x] **Phase 3** : Guide adaptatif par mode d'acces (8/8 taches)
+- [x] **Phase 4** : Checklist documents & etapes interactives (6/6 taches)

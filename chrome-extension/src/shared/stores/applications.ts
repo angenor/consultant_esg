@@ -7,7 +7,7 @@ const loading = ref(false)
 
 export function useApplications() {
   const activeApplications = computed(() =>
-    applications.value.filter(a => ['brouillon', 'en_cours'].includes(a.status))
+    applications.value.filter(a => ['brouillon', 'en_cours', 'en_attente_intermediaire'].includes(a.status))
   )
 
   const completedApplications = computed(() =>
@@ -41,7 +41,7 @@ export function useApplications() {
       // Doublon detecte : retourner la candidature existante
       if (error instanceof ApiError && error.status === 409) {
         const existing = applications.value.find(
-          a => a.fonds_id === data.fonds_id && ['brouillon', 'en_cours'].includes(a.status)
+          a => a.fonds_id === data.fonds_id && ['brouillon', 'en_cours', 'en_attente_intermediaire'].includes(a.status)
         )
         return { application: existing || null, isDuplicate: true }
       }

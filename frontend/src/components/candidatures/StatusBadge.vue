@@ -8,6 +8,7 @@ const props = defineProps<{
 const STATUS_CONFIG: Record<string, { bg: string; text: string; label: string }> = {
   brouillon: { bg: 'bg-gray-100', text: 'text-gray-600', label: 'Brouillon' },
   en_cours: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'En cours' },
+  en_attente_intermediaire: { bg: 'bg-indigo-100', text: 'text-indigo-800', label: 'En attente intermédiaire' },
   soumise: { bg: 'bg-amber-100', text: 'text-amber-700', label: 'Soumise' },
   acceptee: { bg: 'bg-emerald-100', text: 'text-emerald-700', label: 'Acceptée' },
   refusee: { bg: 'bg-red-100', text: 'text-red-700', label: 'Refusée' },

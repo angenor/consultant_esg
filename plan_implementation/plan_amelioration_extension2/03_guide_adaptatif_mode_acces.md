@@ -7,14 +7,14 @@
 
 ## Progression
 
-- [ ] 3.1 Definir les parcours type par mode_acces (mapping config)
-- [ ] 3.2 Creer le composant `AccessGuide.vue` dans le side panel
-- [ ] 3.3 Adapter les etapes du `StepNavigator` selon le mode d'acces
-- [ ] 3.4 Ajouter les informations intermediaire dans la reponse API
-- [ ] 3.5 Creer les templates de guide par mode (direct, intermediaire, appel a propositions)
-- [ ] 3.6 Integrer les conseils contextuels (tips) par mode d'acces
-- [ ] 3.7 Ajouter l'etat "en attente intermediaire" dans le suivi
-- [ ] 3.8 Tests unitaires des parcours adaptatifs
+- [x] 3.1 Definir les parcours type par mode_acces (mapping config)
+- [x] 3.2 Creer le composant `AccessGuide.vue` dans le side panel
+- [x] 3.3 Adapter les etapes du `StepNavigator` selon le mode d'acces
+- [x] 3.4 Ajouter les informations intermediaire dans la reponse API
+- [x] 3.5 Creer les templates de guide par mode (direct, intermediaire, appel a propositions)
+- [x] 3.6 Integrer les conseils contextuels (tips) par mode d'acces
+- [x] 3.7 Ajouter l'etat "en attente intermediaire" dans le suivi
+- [x] 3.8 Tests unitaires des parcours adaptatifs
 
 ## Objectif
 

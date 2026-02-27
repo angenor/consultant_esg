@@ -89,12 +89,14 @@ import { ref, computed } from 'vue'
 import type { FundStep, FundSiteConfig, FundField } from '@shared/types'
 import { DataMapper } from '@shared/data-mapper'
 import { t } from '@shared/i18n'
+import { getAccessModeConfig } from '@shared/access-mode-config'
 import FieldHelper from './FieldHelper.vue'
 
 const props = defineProps<{
   step: FundStep
   companyData: Record<string, unknown> | null
   fundConfig: FundSiteConfig
+  modeAcces?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -115,12 +117,23 @@ const isLastStep = computed(() =>
 )
 
 const tip = computed(() => {
-  if (!props.fundConfig.tips) return null
-  const stepKey = props.step.title.toLowerCase()
-  for (const [key, value] of Object.entries(props.fundConfig.tips)) {
-    if (stepKey.includes(key)) return value
+  // 1. Conseil spécifique à l'étape (prioritaire)
+  if (props.fundConfig.tips) {
+    const stepKey = props.step.title.toLowerCase()
+    for (const [key, value] of Object.entries(props.fundConfig.tips)) {
+      if (stepKey.includes(key)) return value
+    }
+    if (props.fundConfig.tips.general) return props.fundConfig.tips.general
   }
-  return props.fundConfig.tips.general || null
+
+  // 2. Conseil spécifique au mode d'accès (fallback)
+  const modeConfig = getAccessModeConfig(props.modeAcces || props.fundConfig.mode_acces)
+  if (modeConfig.tips.length > 0) {
+    const modeIndex = (props.step.order - 1) % modeConfig.tips.length
+    return modeConfig.tips[modeIndex]
+  }
+
+  return null
 })
 
 const autoFillableCount = computed(() => {

@@ -7,12 +7,12 @@
 
 ## Progression
 
-- [ ] 2.1 Deduplication des candidatures (empecher les doublons fonds_id + entreprise_id)
-- [ ] 2.2 Confirmation utilisateur avant creation de candidature
-- [ ] 2.3 Workflow adapte selon `mode_acces` (direct vs intermediaire)
-- [ ] 2.4 Lien bidirectionnel popup ↔ side panel (ouvrir le guide apres "Postuler")
-- [ ] 2.5 Feedback visuel post-creation (toast + mise a jour de la liste)
-- [ ] 2.6 Tests unitaires du flux candidature
+- [x] 2.1 Deduplication des candidatures (empecher les doublons fonds_id + entreprise_id)
+- [x] 2.2 Confirmation utilisateur avant creation de candidature
+- [x] 2.3 Workflow adapte selon `mode_acces` (direct vs intermediaire)
+- [x] 2.4 Lien bidirectionnel popup ↔ side panel (ouvrir le guide apres "Postuler")
+- [x] 2.5 Feedback visuel post-creation (toast + mise a jour de la liste)
+- [x] 2.6 Tests unitaires du flux candidature
 
 ## Objectif
 

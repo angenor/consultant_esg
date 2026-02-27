@@ -31,18 +31,19 @@ async def get_fund_configs(
 ):
     """Retourne les configurations de sites de fonds actives"""
     query = (
-        select(FundSiteConfig, FondsVert.nom)
+        select(FundSiteConfig, FondsVert.nom, FondsVert.mode_acces)
         .join(FondsVert, FundSiteConfig.fonds_id == FondsVert.id)
         .where(FundSiteConfig.is_active == True)  # noqa: E712
     )
     result = await db.execute(query)
     configs = []
-    for config, fonds_nom in result.all():
+    for config, fonds_nom, mode_acces in result.all():
         configs.append({
             "id": str(config.id),
             "fonds_id": str(config.fonds_id),
             "intermediaire_id": str(config.intermediaire_id) if config.intermediaire_id else None,
             "fonds_nom": fonds_nom,
+            "mode_acces": mode_acces,
             "url_patterns": config.url_patterns,
             "steps": config.steps,
             "required_docs": config.required_docs,
@@ -117,7 +118,7 @@ async def create_application(
             select(FundApplication).where(
                 FundApplication.entreprise_id == entreprise.id,
                 FundApplication.fonds_id == data.fonds_id,
-                FundApplication.status.in_(["brouillon", "en_cours"]),
+                FundApplication.status.in_(["brouillon", "en_cours", "en_attente_intermediaire"]),
             )
         )
         existing_app = existing.scalar_one_or_none()
