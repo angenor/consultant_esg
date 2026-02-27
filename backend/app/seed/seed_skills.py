@@ -462,6 +462,114 @@ BUILTIN_SKILLS = [
             "required": ["entreprise_id", "document_type"],
         },
     },
+    {
+        "nom": "get_intermediaires",
+        "description": (
+            "Liste les intermédiaires disponibles pour un fonds vert donné, "
+            "filtrés par pays et type. Retourne les contacts, URLs de formulaires, "
+            "et instructions de soumission pour chaque intermédiaire."
+        ),
+        "category": "finance",
+        "handler_key": "builtin.get_intermediaires",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "fonds_id": {"type": "string", "description": "ID du fonds vert"},
+                "pays": {"type": "string", "description": "Filtrer par pays (nom ou code ISO)"},
+                "type": {
+                    "type": "string",
+                    "enum": ["banque_partenaire", "entite_accreditee", "agence_nationale", "bmd"],
+                    "description": "Filtrer par type d'intermédiaire",
+                },
+            },
+            "required": ["fonds_id"],
+        },
+    },
+    {
+        "nom": "guide_candidature",
+        "description": (
+            "Guide l'utilisateur dans le processus de candidature à un fonds vert. "
+            "Analyse le mode d'accès, identifie les intermédiaires adaptés au pays de l'entreprise, "
+            "et propose les prochaines étapes (préparation de dossier, formulaire en ligne, etc.). "
+            "4 actions possibles : 'analyser' (défaut, analyse complète), "
+            "'lister_intermediaires' (liste les intermédiaires du fonds), "
+            "'preparer_dossier' (identifie les documents à préparer), "
+            "'lancer_soumission' (URL ou instructions pour soumettre)."
+        ),
+        "category": "finance",
+        "handler_key": "builtin.guide_candidature",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "entreprise_id": {"type": "string", "description": "ID de l'entreprise"},
+                "fonds_id": {"type": "string", "description": "ID du fonds vert ciblé"},
+                "fonds_nom": {
+                    "type": "string",
+                    "description": "Nom du fonds (si ID inconnu, recherche par nom)",
+                },
+                "action": {
+                    "type": "string",
+                    "enum": ["analyser", "lister_intermediaires", "preparer_dossier", "lancer_soumission"],
+                    "default": "analyser",
+                    "description": "Action à effectuer",
+                },
+                "intermediaire_id": {
+                    "type": "string",
+                    "description": "ID de l'intermédiaire choisi (pour preparer_dossier et lancer_soumission)",
+                },
+            },
+            "required": ["entreprise_id"],
+        },
+    },
+    {
+        "nom": "generate_dossier_candidature",
+        "description": (
+            "Génère un dossier complet de candidature pour un fonds vert. "
+            "Produit les documents nécessaires (lettre de motivation, plan d'affaires, "
+            "budget prévisionnel, engagement ESG, rapport ESG, bilan carbone) en Word et/ou PDF, "
+            "adaptés au fonds et à l'intermédiaire. Crée un fichier ZIP regroupant tous les documents. "
+            "Le paramètre 'documents' permet de ne générer qu'une partie du dossier."
+        ),
+        "category": "document",
+        "handler_key": "builtin.generate_dossier_candidature",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "entreprise_id": {"type": "string", "description": "ID de l'entreprise"},
+                "fonds_id": {"type": "string", "description": "ID du fonds vert ciblé"},
+                "intermediaire_id": {
+                    "type": "string",
+                    "description": "ID de l'intermédiaire (optionnel, pour adapter les documents)",
+                },
+                "format": {
+                    "type": "string",
+                    "enum": ["word", "pdf", "both"],
+                    "default": "both",
+                    "description": "Format de sortie des documents",
+                },
+                "type_dossier": {
+                    "type": "string",
+                    "enum": ["complet", "template_vierge"],
+                    "default": "complet",
+                    "description": "complet = pré-rempli avec données entreprise, template_vierge = structure à remplir",
+                },
+                "documents": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": (
+                        "Liste des documents à générer. Si vide, génère le dossier complet. "
+                        "Types possibles : lettre_motivation, plan_affaires, budget_previsionnel, "
+                        "engagement_esg, note_presentation, rapport_esg_complet, bilan_carbone"
+                    ),
+                },
+                "instructions": {
+                    "type": "string",
+                    "description": "Instructions spécifiques pour personnaliser la génération",
+                },
+            },
+            "required": ["entreprise_id", "fonds_id"],
+        },
+    },
 ]
 
 

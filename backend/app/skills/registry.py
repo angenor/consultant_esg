@@ -37,7 +37,10 @@ class SkillRegistry:
             calculate_credit_score,
             calculate_esg_score,
             generate_document,
+            generate_dossier_candidature,
             generate_reduction_plan,
+            get_intermediaires,
+            guide_candidature,
             generate_report_section,
             get_action_plans,
             get_company_profile,
@@ -69,6 +72,9 @@ class SkillRegistry:
             "builtin.generate_report_section": generate_report_section,
             "builtin.assemble_pdf": assemble_pdf,
             "builtin.generate_document": generate_document,
+            "builtin.generate_dossier_candidature": generate_dossier_candidature,
+            "builtin.get_intermediaires": get_intermediaires,
+            "builtin.guide_candidature": guide_candidature,
         }
 
     async def get_active_tools(self) -> list[dict]:

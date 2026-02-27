@@ -4,7 +4,7 @@ import logging
 from datetime import date, datetime, timezone
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.carbon_footprint import CarbonFootprint
@@ -12,6 +12,7 @@ from app.models.entreprise import Entreprise
 from app.models.esg_score import ESGScore
 from app.models.fonds_vert import FondsVert
 from app.models.action_plan import ActionPlan
+from app.models.intermediaire import Intermediaire
 
 logger = logging.getLogger(__name__)
 
@@ -356,7 +357,42 @@ async def simulate_funding(params: dict, context: dict) -> dict:
         "date_limite": str(fonds.date_limite) if fonds.date_limite else None,
         "recommandations": _generer_recommandations(criteres_manquants, eligible),
         "prochaines_etapes": _generer_etapes(criteres, eligible),
+        "intermediaires_recommandes": await _load_intermediaires_recommandes(
+            db, fonds.id, entreprise.pays
+        ),
+        "prochaine_action": "guide_candidature" if eligible else "manage_action_plan",
     }
+
+
+async def _load_intermediaires_recommandes(
+    db: AsyncSession, fonds_id, pays_entreprise: str | None
+) -> list[dict]:
+    """Charge les 3 meilleurs intermédiaires pour un fonds, filtrés par pays."""
+    query = (
+        select(Intermediaire)
+        .where(
+            Intermediaire.fonds_id == fonds_id,
+            Intermediaire.is_active.is_(True),
+        )
+        .order_by(Intermediaire.est_recommande.desc(), Intermediaire.nom)
+        .limit(3)
+    )
+    if pays_entreprise:
+        query = query.where(
+            or_(Intermediaire.pays == pays_entreprise, Intermediaire.pays.is_(None))
+        )
+    result = await db.execute(query)
+    rows = result.scalars().all()
+    return [
+        {
+            "id": str(i.id),
+            "nom": i.nom,
+            "type": i.type,
+            "delai": i.delai_traitement,
+            "est_recommande": i.est_recommande,
+        }
+        for i in rows
+    ]
 
 
 def _generer_recommandations(criteres_manquants: list[dict], eligible: bool) -> list[str]:

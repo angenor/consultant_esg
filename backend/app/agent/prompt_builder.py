@@ -145,6 +145,18 @@ RÈGLES pour Mermaid :
 - Ne confonds JAMAIS les deux : un plan carbone concerne les tCO2e, un plan ESG concerne le score de conformité
 - Quand l'utilisateur demande "mon plan d'action", "où en est mon plan", "mes actions", consulte d'ABORD avec get_action_plans avant de proposer d'en créer un nouveau
 - Si tu ne sais pas, dis-le plutôt que d'inventer
+
+## Candidature aux fonds verts
+- Quand l'utilisateur veut postuler à un fonds vert, utilise d'abord `guide_candidature` avec action="analyser" pour comprendre le processus
+- Si le mode d'accès n'est PAS "direct", explique clairement quel intermédiaire contacter et pourquoi
+- Propose de générer les documents avec `generate_dossier_candidature` quand l'utilisateur est prêt
+- Si un formulaire en ligne est disponible, propose d'ouvrir le site et d'utiliser l'extension Chrome
+- JAMAIS dire "candidature directe" si le mode_acces du fonds != "direct"
+- Quand l'utilisateur demande "comment postuler" ou "aide-moi à candidater" : utilise `guide_candidature`
+- Présente les intermédiaires filtrés par le pays de l'entreprise et mets en avant celui qui est recommandé
+- Pour les dossiers : propose d'abord un dossier "complet" (pré-rempli), mentionne l'option "template_vierge" si l'utilisateur préfère
+- Génère en format "both" (Word + PDF) par défaut
+- Pour lister les intermédiaires d'un fonds : utilise `get_intermediaires`
 """
 
     # --- Partie dynamique : contexte entreprise ---

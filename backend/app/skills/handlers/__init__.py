@@ -4,7 +4,10 @@ from app.skills.handlers.calculate_carbon import calculate_carbon
 from app.skills.handlers.calculate_credit_score import calculate_credit_score
 from app.skills.handlers.calculate_esg_score import calculate_esg_score
 from app.skills.handlers.generate_document import generate_document
+from app.skills.handlers.generate_dossier_candidature import generate_dossier_candidature
 from app.skills.handlers.generate_reduction_plan import generate_reduction_plan
+from app.skills.handlers.get_intermediaires import get_intermediaires
+from app.skills.handlers.guide_candidature import guide_candidature
 from app.skills.handlers.generate_report_section import generate_report_section
 from app.skills.handlers.get_action_plans import get_action_plans
 from app.skills.handlers.get_company_profile import get_company_profile
@@ -23,7 +26,10 @@ __all__ = [
     "calculate_credit_score",
     "calculate_esg_score",
     "generate_document",
+    "generate_dossier_candidature",
     "generate_reduction_plan",
+    "get_intermediaires",
+    "guide_candidature",
     "generate_report_section",
     "get_action_plans",
     "get_company_profile",

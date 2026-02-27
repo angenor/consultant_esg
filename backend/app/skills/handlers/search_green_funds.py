@@ -6,6 +6,7 @@ from sqlalchemy import select, text, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.fonds_vert import FondsVert, FondsChunk
+from app.models.intermediaire import Intermediaire
 from app.models.referentiel_esg import ReferentielESG
 
 logger = logging.getLogger(__name__)
@@ -146,6 +147,19 @@ async def search_green_funds(params: dict, context: dict) -> dict:
         else:
             montant_range = "Non spécifié"
 
+        # Compter les intermédiaires pour ce fonds
+        nb_intermediaires = 0
+        try:
+            inter_result = await db.execute(
+                select(func.count(Intermediaire.id)).where(
+                    Intermediaire.fonds_id == fonds.id,
+                    Intermediaire.is_active.is_(True),
+                )
+            )
+            nb_intermediaires = inter_result.scalar() or 0
+        except Exception:
+            pass
+
         resultats.append({
             "fonds_id": str(fonds.id),
             "nom": fonds.nom,
@@ -166,6 +180,8 @@ async def search_green_funds(params: dict, context: dict) -> dict:
             "mode_acces": fonds.mode_acces,
             "mode_acces_label": _MODE_ACCES_LABELS.get(fonds.mode_acces or "", "Non spécifié"),
             "acces_details": fonds.criteres_json.get("acces_details") if fonds.criteres_json else None,
+            "nb_intermediaires": nb_intermediaires,
+            "candidature_directe": fonds.mode_acces == "direct",
         })
 
     # Trier par compatibilité décroissante
