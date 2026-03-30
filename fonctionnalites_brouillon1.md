@@ -11,9 +11,9 @@
 ## Architecture Technique
 
 ### Stack Technologique
-- **Frontend :** Vue.js 3 + Composition API + Pinia (state management) + TailwindCSS
+- **Frontend :** Nuxt 4 + Composition API + Pinia (state management) + TailwindCSS
 - **Backend :** FastAPI (Python)
-- **LLM :** Claude API (Anthropic)
+- **LLM :** Claude API (Anthropic) via OpenRouter(afin de pouvoir changer facilement)
 - **Base de données :** PostgreSQL + pgvector (embeddings)
 - **Stockage documents :** stockage local ( MinIO / S3 plus tard)
 - **File d'attente :** traitement synchrone ( Redis + Celery  plus tard)
@@ -23,7 +23,7 @@
 ## Module 1 : Agent Conversationnel Principal
 
 ### 1.1 Interface de Chat Multimodale
-- Chat en langage naturel en français (et langues locales : nouchi, wolof simplifié)
+- Chat en langage naturel en français (et langues locales plus tard)
 - Support vocal (speech-to-text) pour les utilisateurs moins à l'aise avec l'écrit
 - Historique des conversations persistant
 - Mode guidé pour les nouveaux utilisateurs
@@ -102,20 +102,24 @@
   - Fonds Vert pour le Climat (GCF)
   - Fonds pour l'Environnement Mondial (FEM)
   - Fonds d'Adaptation
+  - etc (évolutif)
 
 - **Institutions régionales :**
   - BOAD (Banque Ouest-Africaine de Développement)
   - BAD (Banque Africaine de Développement)
   - BIDC (Banque d'Investissement CEDEAO)
+  - etc (évolutif)
 
 - **Programmes nationaux :**
   - Fonds National pour l'Environnement (Côte d'Ivoire)
   - Lignes de crédit vert des banques locales
+  - etc (évolutif)
 
 - **Marchés carbone :**
   - Crédits carbone volontaires
   - Programmes REDD+
   - Gold Standard, Verra
+  - etc (évolutif)
 
 ### 3.2 Matching Intelligent Projet-Financement
 - Analyse de l'éligibilité automatique
@@ -249,7 +253,7 @@
 ### Innovation 2 : Contextualisation Africaine Profonde
 - Critères ESG adaptés aux réalités locales
 - Prise en compte du secteur informel
-- Langues et expressions locales
+- Langues francaise
 - Références aux réglementations UEMOA/CEDEAO
 
 ### Innovation 3 : Scoring de Crédit Vert Inclusif

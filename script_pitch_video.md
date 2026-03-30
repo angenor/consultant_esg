@@ -212,75 +212,41 @@ Le coaching sur l'IA responsable nous intéresse particulièrement pour assurer 
 ---
 ---
 
-# Script Vidéo de Présentation — ESG Mefali (1 minute, haute qualité)
+# Vidéo de Présentation — Phase 2 (1 minute)
 
-## Consignes techniques
-
-- **Durée** : 60 secondes max
-- **Format** : Paysage (16:9), 1080p minimum
-- **Cadrage** : Face caméra, buste visible, fond neutre ou professionnel
-- **Audio** : Micro-cravate ou pièce calme, pas de musique pendant la parole
-- **Ton** : Confiant, naturel, engagé — pas de lecture monotone
+> Contexte : projet retenu parmi les 10 finalistes. Cette vidéo est différente du pitch de 2 min déjà soumis. Elle doit couvrir : présentation personnelle/équipe, pays, nom du projet, description, groupe cible, problématique.
 
 ---
 
-## Script à dire
+## Ce que tu dis (texte prêt à lire)
 
-### 1. PRÉSENTATION PERSONNELLE (0:00 – 0:10)
-
-> « Bonjour, je suis **[TON PRÉNOM NOM]**, développeur et entrepreneur, créateur d'ESG Mefali. Je suis basé en **Côte d'Ivoire**. »
-
-*[Face caméra, sourire, regard direct]*
-
----
-
-### 2. NOM ET DESCRIPTION DU PROJET (0:10 – 0:25)
-
-> « **ESG Mefali**, c'est un conseiller ESG virtuel propulsé par l'intelligence artificielle. Une plateforme conversationnelle qui accompagne les PME francophones africaines pour accéder à la finance verte — du diagnostic ESG jusqu'au montage complet du dossier de financement. »
-
-*[Possibilité d'insérer 2-3 secondes de captures d'écran de la plateforme]*
-
----
-
-### 3. GROUPE CIBLE (0:25 – 0:35)
-
-> « Notre cible : les **PME de la zone UEMOA** — Côte d'Ivoire, Sénégal, Mali et au-delà. Des entrepreneurs qui veulent verdir leur activité mais qui n'ont ni les moyens de payer un consultant ESG, ni les outils pour naviguer seuls dans la complexité des fonds verts. »
-
----
-
-### 4. PROBLÉMATIQUE ADRESSÉE (0:35 – 0:55)
-
-> « Aujourd'hui, **moins de 10 % des financements climat en Afrique atteignent les PME**, alors qu'elles représentent 80 % de l'emploi. Pourquoi ? Parce que les référentiels ESG sont complexes et en anglais, les consultants coûtent entre 5 000 et 20 000 dollars, et sans historique bancaire, pas de crédit.
+> « Bonjour, je suis [PRÉNOM NOM], développeur et entrepreneur originaire de Côte d'Ivoire. Je porte le projet ESG Mefali.
 >
-> ESG Mefali brise ces barrières : l'entrepreneur dialogue en français avec l'IA, obtient son score ESG, trouve les fonds compatibles, et génère ses dossiers — **gratuitement, en quelques minutes**. »
+> ESG Mefali est une plateforme d'intelligence artificielle conversationnelle dédiée à la finance verte. Concrètement, c'est un agent IA en français qui aide les petites et moyennes entreprises africaines à comprendre les critères ESG, évaluer leur conformité, et monter leurs dossiers pour accéder aux fonds verts.
+>
+> On s'adresse aux PME de l'Afrique francophone, en priorité la zone UEMOA — Côte d'Ivoire, Sénégal, Mali — des entreprises qui ont la volonté de s'engager dans une démarche durable mais qui sont bloquées par le manque de moyens et d'accompagnement.
+>
+> La problématique est claire : moins de 10 % des financements climat en Afrique parviennent aux PME. Pourtant elles représentent 80 % de l'emploi. Les référentiels ESG sont complexes et en anglais, les consultants coûtent entre 5 000 et 20 000 dollars, et sans historique bancaire formel, pas de crédit. Des millions d'entrepreneurs sont tout simplement exclus de la transition verte.
+>
+> ESG Mefali existe pour changer ça. Merci. »
 
 ---
 
-### 5. CONCLUSION (0:55 – 1:00)
+## Découpage timing
 
-> « ESG Mefali : la finance verte accessible à ceux qui en ont le plus besoin. Merci. »
-
-*[Sourire, regard caméra]*
-
----
-
-## Récapitulatif du timing (1 min)
-
-| Segment | Durée | Cumul | Contenu |
-|---------|-------|-------|---------|
-| Présentation + Pays | 10s | 0:10 | Prénom, rôle, pays |
-| Nom + Description | 15s | 0:25 | Ce que fait ESG Mefali |
-| Groupe cible | 10s | 0:35 | PME UEMOA |
-| Problématique + Solution | 20s | 0:55 | Chiffres clés + proposition de valeur |
-| Conclusion | 5s | 1:00 | Phrase de fermeture |
+| Moment | Durée | Cumul | Ce que tu couvres |
+|--------|-------|-------|-------------------|
+| Présentation + Pays | 8s | 0:08 | Prénom, rôle, Côte d'Ivoire |
+| Nom + Description du projet | 15s | 0:23 | ESG Mefali = agent IA finance verte |
+| Groupe cible | 12s | 0:35 | PME UEMOA francophones |
+| Problématique | 22s | 0:57 | Chiffres + 3 barrières |
+| Fermeture | 3s | 1:00 | Phrase de conclusion |
 
 ---
 
-## Conseils pour la haute qualité
+## Conseils
 
-- **Éclairage** : Face à une fenêtre (lumière naturelle) ou avec une ring light
-- **Stabilité** : Trépied ou téléphone posé sur support fixe — pas de main tremblante
-- **Montage** : Tu peux insérer des captures d'écran de la plateforme entre 0:10 et 0:25 pour dynamiser
-- **Sous-titres** : Ajoute des sous-titres français — ça renforce l'accessibilité et le professionnalisme
-- **Habillage** : Un bandeau titre en bas avec « ESG Mefali — Finance verte accessible » pendant les premières secondes
-- **Répétition** : Répète 3-4 fois avant d'enregistrer pour tenir les 60s naturellement
+- Parle naturellement, pas besoin de tout réciter mot pour mot — l'essentiel c'est de couvrir les 6 points
+- Rythme calme et posé (1 min c'est court, ne pas se presser non plus)
+- Regard caméra direct, fond neutre
+- Répète 3-4 fois à voix haute pour caler le timing
